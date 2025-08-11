@@ -1,0 +1,5 @@
+title: "Mir Hassan's Academic Website"
+email: mir.hassan@unitn.it
+description: "Researcher in Blockchain Technology, Federated Learning, Distributed Systems, and IoT."
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://<username>.github.io" # the base hostname & protocol for your site
