@@ -185,15 +185,11 @@
 
       <h3 class="content_separation" id="publications">Publications</h3>
       <h4>Journal Publications</h4>
-      <ul class="pub-list">
-        <li><strong>FedEdge:</strong> A Practical Framework for Edge-Native Federated Learning — M. Hassan, et al., 2024–2025 (journal manuscript).</li>
-      </ul>
+      <ul id="pub-journals" class="pub-list"></ul>
 
       <h4>Conference (Peer-Reviewed)</h4>
-      <ul class="pub-list">
-        <li><strong>GASPU:</strong> Genetic Algorithm-Based Selective Parameter Updates for Communication-Efficient Federated Learning — M. Hassan, et al., under review, 2025.</li>
-        <li><strong>TinyML at the Wireless Edge:</strong> Architectures, Deployment Modes, and 6G Integration — Survey (manuscript), 2025.</li>
-      </ul>
+      <ul id="pub-confs" class="pub-list"></ul>
+
       <p>Full list on <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>.</p>
 
       <h3 class="content_separation" id="education">Education</h3>
@@ -263,6 +259,118 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ------------------------
+       Minimal BibTeX parser (no external libs)
+       Supports fields: author, title, journal/booktitle, year, url, doi
+       Maps:
+         @article        -> Journal
+         @inproceedings  -> Conference
+         @conference     -> Conference
+       ------------------------- */
+
+    function parseBibtex(bib) {
+      const chunks = bib.split(/^\s*@/m).filter(Boolean);
+      const entries = [];
+      for (const chunk of chunks) {
+        const headMatch = chunk.match(/^([a-zA-Z]+)\s*\{\s*([^,]+)\s*,/);
+        if (!headMatch) continue;
+        const type = headMatch[1].toLowerCase();
+        const key  = headMatch[2].trim();
+        const body = chunk.slice(headMatch[0].length);
+
+        const fieldRegex = /([a-zA-Z]+)\s*=\s*({([^{}]*|{[^{}]*})*}|\"[^\"]*\"|[^,]+)\s*,?/g;
+        const fields = {};
+        let m;
+        while ((m = fieldRegex.exec(body)) !== null) {
+          const name = m[1].toLowerCase();
+          let val = m[2].trim();
+          if ((val.startsWith('{') && val.endsWith('}')) || (val.startsWith('"') && val.endsWith('"'))) {
+            val = val.slice(1, -1);
+          }
+          fields[name] = val.replace(/\s+/g, ' ').trim();
+        }
+        entries.push({ type, key, fields });
+      }
+      return entries;
+    }
+
+    function bibAuthorsToList(authorStr) {
+      return authorStr.split(/\s+and\s+/i).map(a => a.trim()).filter(Boolean);
+    }
+
+    function decideType(entry) {
+      const t = entry.type;
+      if (t === 'article') return 'journal';
+      if (t === 'inproceedings' || t === 'conference') return 'conference';
+      const v = (entry.fields.journal || entry.fields.booktitle || '').toLowerCase();
+      return /journal|transactions|magazine/.test(v) ? 'journal' : 'conference';
+    }
+
+    function entryToRenderInfo(entry) {
+      const f = entry.fields;
+      const title   = f.title || 'Untitled';
+      const venue   = f.journal || f.booktitle || '';
+      const year    = f.year || '';
+      const url     = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
+      const authors = f.author ? bibAuthorsToList(f.author) : [];
+      return { title, venue, year, url, authors };
+    }
+
+    (async function renderBibtexPublications() {
+      try {
+        const [bibResp, rankResp] = await Promise.all([
+          fetch('assets/publications.bib', { cache: 'no-store' }),
+          fetch('assets/venue_ranks.json', { cache: 'no-store' })
+        ]);
+
+        if (!bibResp.ok) {
+          console.warn('No publications.bib found at assets/publications.bib');
+          return;
+        }
+
+        const [bibText, ranks] = await Promise.all([
+          bibResp.text(),
+          rankResp.ok ? rankResp.json() : Promise.resolve({})
+        ]);
+
+        const entries = parseBibtex(bibText);
+        const journals = [];
+        const confs = [];
+
+        for (const e of entries) {
+          const type = decideType(e);
+          const info = entryToRenderInfo(e);
+          const vr = ranks[info.venue] || null;
+          const rankLabel = vr ? ` <span style="color:#5b6b7b">— ${vr.source}: ${vr.rank}</span>` : '';
+
+          const li = document.createElement('li');
+          const authors = info.authors.length ? info.authors.join(', ') : '';
+          const when = info.year ? `, ${info.year}` : '';
+          const linkStart = info.url ? `<a href="${info.url}" target="_blank" rel="noopener">` : '';
+          const linkEnd = info.url ? `</a>` : '';
+
+          li.innerHTML = `
+            <strong>${linkStart}${info.title}${linkEnd}</strong>
+            ${authors ? `<span> — ${authors}${when}</span>` : when ? `<span>${when}</span>` : ''}
+            <br><em>${info.venue}</em>${rankLabel}
+          `;
+
+          (type === 'journal' ? journals : confs).push({ li, y: info.year });
+        }
+
+        const byYearDesc = (a, b) => (parseInt(b.y) || 0) - (parseInt(a.y) || 0);
+        journals.sort(byYearDesc);
+        confs.sort(byYearDesc);
+
+        const j = document.getElementById('pub-journals');
+        const c = document.getElementById('pub-confs');
+        journals.forEach(x => j.appendChild(x.li));
+        confs.forEach(x => c.appendChild(x.li));
+      } catch (err) {
+        console.warn('Failed to render BibTeX publications:', err);
+      }
+    })();
   </script>
 </body>
 </html>
