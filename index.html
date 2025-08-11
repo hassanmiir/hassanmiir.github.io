@@ -14,40 +14,23 @@
 
   <style>
     :root{
-      --bg:#0b1220;
-      --bg-elev:#0f172a;
-      --panel:#0b1220cc;
-      --ink:#e5ecff;
-      --ink-dim:#b6c2e1;
-      --muted:#8aa0c6;
-      --brand-1:#3b82f6;
-      --brand-2:#22d3ee;
-      --accent:#fef08a;
-      --border:rgba(255,255,255,.08);
-      --ring:rgba(59,130,246,.45);
-      --card:#0f172a;
-      --chip:#111b33;
-      --link:#8ab4ff;
-      --shadow:0 10px 30px rgba(2,6,23,.45);
-      --radius:18px;
-      --radius-sm:12px;
-    }
-    .light{
-      --bg:#f6f8fc;
-      --bg-elev:#ffffff;
-      --panel:#ffffffcc;
-      --ink:#0f172a;
-      --ink-dim:#334155;
-      --muted:#496081;
-      --brand-1:#0ea5e9;
+      /* Single light background + translucent surfaces */
+      --bg:#f7f9fc;               /* page background (solid, single color) */
+      --ink:#0f172a;              /* main text */
+      --ink-dim:#324156;          /* secondary text */
+      --muted:#5c6f86;           /* muted text */
+      --brand-1:#0e9ae6;         /* accents */
       --brand-2:#6366f1;
       --accent:#fde68a;
+      --panel:rgba(255,255,255,.75);   /* translucent topbar/notice */
+      --panel-strong:rgba(255,255,255,.82);
+      --elev:rgba(255,255,255,.9);     /* translucent cards/sections */
       --border:rgba(15,23,42,.08);
-      --ring:rgba(14,165,233,.35);
-      --card:#ffffff;
-      --chip:#eef2ff;
+      --ring:rgba(14,165,233,.25);
       --link:#0f4cc9;
-      --shadow:0 16px 30px rgba(2,6,23,.08);
+      --shadow:0 14px 30px rgba(2,10,32,.08);
+      --radius:16px;
+      --radius-sm:12px;
     }
 
     *{box-sizing:border-box}
@@ -56,11 +39,8 @@
       margin:0;
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--ink);
-      background:
-        radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,.14), transparent 60%),
-        radial-gradient(900px 500px at 100% 0%, rgba(59,130,246,.17), transparent 55%),
-        linear-gradient(180deg, var(--bg) 0%, #0b1220 100%);
-      line-height:1.55;
+      background:var(--bg); /* single light color */
+      line-height:1.6;
     }
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
@@ -68,7 +48,7 @@
     /* Layout */
     .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
 
-    /* Topbar */
+    /* Topbar (glassy) */
     .topbar{
       position:sticky;top:0;z-index:60;
       backdrop-filter: blur(10px);
@@ -78,7 +58,7 @@
     .topbar__in{
       display:flex;align-items:center;gap:18px;justify-content:space-between;height:64px;
     }
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
     .brand__logo{
       width:36px;height:36px;border-radius:10px;
       background:conic-gradient(from 200deg, var(--brand-1), var(--brand-2));
@@ -86,25 +66,20 @@
     }
     .brand__name{font-weight:800;letter-spacing:.35px}
     .nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .nav a{font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid transparent}
-    .nav a:hover{background:var(--chip);border-color:var(--border);text-decoration:none}
+    .nav a{font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid transparent;color:var(--ink)}
+    .nav a:hover{background:var(--panel-strong);border-color:var(--border);text-decoration:none}
     .nav a.active{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff}
-    .toggle{
-      border:1px solid var(--border);background:transparent;color:var(--ink);
-      padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600;
-    }
 
     /* Spotlight (Postdoc call) */
     .spotlight{
       position:sticky;top:64px;z-index:55;
       border-bottom:1px solid var(--border);
-      background:
-        linear-gradient(90deg, rgba(34,211,238,.12), rgba(59,130,246,.12)),
-        var(--panel);
+      background:var(--panel);
+      backdrop-filter: blur(8px);
     }
     .spotlight__in{
       display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
-      padding:10px 14px;font-weight:700;
+      padding:10px 14px;font-weight:700;color:var(--ink);
     }
     .spotlight__badge{
       display:inline-flex;align-items:center;gap:8px;
@@ -112,36 +87,30 @@
       background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;font-size:12px
     }
     .spotlight a{font-weight:800}
-    .pulse{position:relative}
-    .pulse::after{
-      content:"";position:absolute;inset:-2px;border-radius:14px;
-      box-shadow:0 0 0 0 rgba(34,211,238,.55);animation:pulse 2.2s ease-out infinite
-    }
-    @keyframes pulse{to{box-shadow:0 0 0 16px rgba(34,211,238,0)}}
 
     /* Hero */
-    .hero{padding:56px 0 32px}
+    .hero{padding:42px 0 24px}
     .hero__card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      background:var(--elev);
       border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:26px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;
+      padding:24px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;
     }
     .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
     .hero__title{margin:0 0 6px;font-size:28px;font-weight:800}
     .hero__tagline{margin:0;color:var(--ink-dim)}
     .badges{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
     .chip{
-      padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);
+      padding:6px 10px;border-radius:999px;background:var(--panel-strong);border:1px solid var(--border);
       font-size:13px;font-weight:600;color:var(--ink-dim)
     }
     .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--ink)}
-    .btn:hover{filter:brightness(1.05);text-decoration:none}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.04)}
+    .btn:hover{filter:brightness(1.03);text-decoration:none}
     .btn--primary{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;border-color:transparent}
 
     /* Main grid */
     .grid{display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px}
-    .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow)}
+    .card{background:var(--elev);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow)}
     .card__head{padding:16px 16px 0;font-weight:800;color:var(--ink)}
     .card__body{padding:16px}
     .list{margin:0;padding-left:18px;color:var(--ink-dim)}
@@ -150,23 +119,13 @@
     .icon{width:18px;height:18px}
 
     /* Sections */
-    .section{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-elev)}
+    .section{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--elev)}
     .section + .section{margin-top:18px}
     .h3{font-size:20px;margin:0 0 10px;font-weight:800;color:var(--ink);border-bottom:1px dashed var(--border);padding-bottom:8px}
     .h4{font-size:16px;margin:12px 0 6px;color:var(--ink)}
     .prose{color:var(--ink-dim)}
     .pub-list{margin:8px 0 0 18px}.pub-list li{margin:10px 0}
     .news-group{margin:10px 0}.news-group h5{margin:10px 0 6px;color:var(--ink)}
-
-    /* Blog */
-    .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-    .blog-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
-    .blog-card img{width:100%;height:160px;object-fit:cover}
-    .blog-content{padding:14px;display:flex;flex-direction:column;gap:6px}
-    .blog-content h4{margin:0 0 2px;font-weight:800}
-    .meta{font-size:13px;color:var(--muted)}
-    .excerpt{font-size:14px;color:var(--ink-dim)}
-    .read-more{margin-top:auto}
 
     /* Footer */
     footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:14px}
@@ -201,19 +160,17 @@
         <a href="#education">Education</a>
         <a href="#academic-experience">Academic Experience</a>
         <a href="#projects">Projects</a>
-        <a href="#blog">Blog</a>
         <a href="#contact">Contact</a>
       </nav>
-      <button class="toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
     </div>
   </header>
 
-  <!-- Spotlight: Postdoc positions (very visible) -->
+  <!-- Spotlight: Postdoc positions (visible) -->
   <div class="spotlight">
     <div class="wrap spotlight__in">
-      <span class="spotlight__badge pulse">Open</span>
+      <span class="spotlight__badge">Open</span>
       <span>
-        Open to <strong>Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (Europe & Nordics).
+        Open to <strong>Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (<strong>Europe & Nordics</strong>).
       </span>
       <a class="btn btn--primary" href="#contact">Contact me</a>
     </div>
@@ -371,43 +328,6 @@
             </ul>
           </section>
 
-          <!-- BLOG -->
-          <section class="section" id="blog">
-            <h3 class="h3">Blog</h3>
-            <div class="blog-grid" id="blogGrid">
-              <!-- Example post cards (replace with real posts or generate with JS) -->
-              <article class="blog-card">
-                <img src="assets/blog/fl-edge.jpg" alt="Edge devices and FL">
-                <div class="blog-content">
-                  <h4><a href="blog/comm-efficient-fl.html">Practical notes on communication-efficient FL at the edge</a></h4>
-                  <p class="meta">Aug 2025 · Federated Learning</p>
-                  <p class="excerpt">A short checklist I use when moving from simulation to device-level deployments.</p>
-                  <p class="read-more"><a href="blog/comm-efficient-fl.html">Read more →</a></p>
-                </div>
-              </article>
-
-              <article class="blog-card">
-                <img src="assets/blog/tinyml-6g.jpg" alt="TinyML and 6G">
-                <div class="blog-content">
-                  <h4><a href="blog/tinyml-6g-mapping.html">TinyML and 6G: mapping features to design choices</a></h4>
-                  <p class="meta">Jul 2025 · TinyML</p>
-                  <p class="excerpt">A quick framework to keep features, components, and design aspects clean and non-overlapping.</p>
-                  <p class="read-more"><a href="blog/tinyml-6g-mapping.html">Read more →</a></p>
-                </div>
-              </article>
-
-              <article class="blog-card">
-                <img src="assets/blog/research-stack.jpg" alt="Research tooling">
-                <div class="blog-content">
-                  <h4><a href="blog/research-reproducibility-stack.html">My reproducibility stack for FL experiments</a></h4>
-                  <p class="meta">Jun 2025 · Tooling</p>
-                  <p class="excerpt">Configs, logging, and simple rules that saved me weeks in multi-round experiments.</p>
-                  <p class="read-more"><a href="blog/research-reproducibility-stack.html">Read more →</a></p>
-                </div>
-              </article>
-            </div>
-          </section>
-
           <section class="section" id="contact">
             <h3 class="h3">Contact</h3>
             <p class="prose">
@@ -431,17 +351,8 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle
-    const root = document.documentElement;
-    const saved = localStorage.getItem('theme');
-    if(saved === 'light'){ root.classList.add('light'); }
-    document.getElementById('themeToggle').addEventListener('click', ()=>{
-      root.classList.toggle('light');
-      localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
-    });
-
     // Scrollspy for nav
-    const ids = ['about','news','publications','education','academic-experience','projects','blog','contact'];
+    const ids = ['about','news','publications','education','academic-experience','projects','contact'];
     const sections = ids.map(id=>document.getElementById(id));
     const links = Array.from(document.querySelectorAll('#nav a'));
     const linkFor = id => links.find(a=>a.getAttribute('href')==='#'+id);
