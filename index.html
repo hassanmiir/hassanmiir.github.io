@@ -15,36 +15,64 @@
       --brand:#153a73;
       --border:#cfd9e5;
       --link:#153a73;
+      --accent:#fffae6;
+      --accent-border:#ecd372;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-alt);color:var(--ink);}
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
+
+    /* Container */
     #container{max-width:1100px;margin:0 auto;background:var(--bg);box-shadow:0 2px 20px rgba(16,38,62,.06)}
+
+    /* Header (name) */
     #header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:var(--bg-alt);border-bottom:2px solid var(--border);padding:16px 20px}
     #department h1{font-size:22px;margin:0;color:var(--brand);font-weight:800;letter-spacing:0.5px}
     #border_dept_fac{height:32px;border-left:2px solid var(--border)}
+
+    /* Notice bar */
+    #notice{background:var(--accent);border-bottom:1px solid var(--accent-border);padding:10px 20px;color:#6e5a00;font-size:14px}
+    #notice strong{color:#5c4c00}
+
+    /* Bio row */
     .bio{display:grid;grid-template-columns:170px 1fr 1fr;gap:24px;padding:24px 20px;background:#fff;border-bottom:1px solid var(--border)}
     #profile_img{width:170px;height:170px;object-fit:cover;border-radius:8px;border:2px solid var(--border)}
     #affiliation,#external_links{background:#fafcff;border:1px solid var(--border);border-radius:10px;padding:16px}
     #affiliation h3,#external_links h3{margin:0;color:var(--brand)}
     #affiliation ul,#external_links ul{margin:10px 0 0 18px}
+
+    /* Link icons */
+    .icon-link{display:flex;align-items:center;gap:8px;margin:6px 0}
+    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle}
+
+    /* Navigation */
     .navigation{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
     .navigation ul{list-style:none;display:flex;gap:18px;align-items:center;padding:12px 20px;margin:0;flex-wrap:wrap}
     .navigation li a{padding:6px 10px;border-radius:6px;font-weight:600}
     .navigation li.selected a{background:#e6eef8}
     .nav_border{width:1px;height:20px;background:var(--border)}
+
+    /* Content */
     .contents{padding:22px 20px}
     .content_separation{margin:26px 0 10px;font-size:22px;color:var(--brand);border-bottom:2px solid var(--border);padding-bottom:6px}
     .contents p, .contents li{line-height:1.55;color:#2a3a4a}
     .content_separation[id]{scroll-margin-top:80px}
-    #recent_news ul{padding-left:18px;margin:8px 0}
-    #recent_news li{margin:8px 0}
+
+    /* Lists */
+    .pub-list{margin:10px 0 0 18px}
+    .pub-list li{margin:6px 0}
+
+    /* Funded-by grid */
     #funded-by{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
     #funded-by > div{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
     #funded-by img{display:block;max-height:80px;height:auto;border:0}
+
+    /* Footer */
     #footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;background:var(--bg-alt);border-top:2px solid var(--border);padding:16px 20px;color:var(--muted);font-size:14px}
     #footer .quotes{max-width:720px}
+
+    /* Responsive */
     @media (max-width: 900px){
       #header{grid-template-columns:1fr}
       #border_dept_fac{display:none}
@@ -60,15 +88,22 @@
 <body>
   <div id="container">
 
-    <!-- Header strip -->
+    <!-- Header -->
     <div id="header">
       <div id="department"><h1>MIR HASSAN</h1></div>
       <div id="border_dept_fac"></div>
     </div>
 
+    <!-- Notice: open to postdoc roles -->
+    <div id="notice">
+      <strong>Open to Postdoc Positions</strong> in federated learning, TinyML, and trustworthy ML (Europe & Nordics). 
+      <a href="#contact">Contact me</a> for collaboration or opportunities.
+    </div>
+
     <!-- Bio row -->
     <div class="bio">
       <img id="profile_img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
+
       <div id="affiliation">
         <h3>Affiliations</h3>
         <ul>
@@ -77,15 +112,34 @@
           <li>Member, Smart Eco Solutions Initiative (Non-profit)</li>
         </ul>
       </div>
+
       <div id="external_links">
         <h3>Links</h3>
-        <ul>
-          <li>Email: <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a></li>
-          <li><a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a></li>
-          <li><a href="https://github.com/hassanmiir" target="_blank">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank">LinkedIn</a></li>
-          <li><a href="CV_Mir_Hassan.pdf" target="_blank">CV (PDF)</a></li>
-        </ul>
+        <div class="icon-link">
+          <!-- Email -->
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.3l-10 6.7L2 8.3V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M2 9.2V16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2l-9.3 6.2a2 2 0 0 1-2.2 0L2 9.2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+          <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a>
+        </div>
+        <div class="icon-link">
+          <!-- Google Scholar -->
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 9l10 6 6-3.6V17h4V9L12 3Z"/><circle cx="17" cy="17" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>
+        </div>
+        <div class="icon-link">
+          <!-- GitHub -->
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.1c-3.2.7-3.87-1.37-3.87-1.37-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.2 1.18a11.2 11.2 0 0 1 5.83 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.4-2.68 5.36-5.24 5.65.42.36.79 1.07.79 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+          <a href="https://github.com/hassanmiir" target="_blank">GitHub</a>
+        </div>
+        <div class="icon-link">
+          <!-- LinkedIn -->
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 8.98h4v12H3v-12Zm7 0h3.83v1.64h.05c.53-.95 1.83-1.95 3.76-1.95 4.03 0 4.77 2.65 4.77 6.1v6.21h-4v-5.51c0-1.31-.02-3-1.83-3-1.83 0-2.11 1.43-2.11 2.9v5.61h-4v-12Z"/></svg>
+          <a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank">LinkedIn</a>
+        </div>
+        <div class="icon-link">
+          <!-- CV -->
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M15 2v5h5" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12H15M8.5 16H15" stroke="currentColor" stroke-width="1.6"/></svg>
+          <a href="CV_Mir_Hassan.pdf" target="_blank">CV (PDF)</a>
+        </div>
       </div>
     </div>
 
@@ -93,8 +147,6 @@
     <div class="navigation">
       <ul>
         <li class="selected"><a href="#about">About</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#research">Research</a></li>
         <div class="nav_border"></div>
         <li><a href="#news">News</a></li>
         <div class="nav_border"></div>
@@ -115,7 +167,12 @@
     <!-- Main contents -->
     <div class="contents">
       <h3 class="content_separation" id="about">About</h3>
-      <p>I am a final-year PhD candidate in Information Engineering &amp; Computer Science at the University of Trento. I work on <em>communication-efficient and trustworthy federated learning</em> for edge intelligence and TinyML. My focus is aggregation schemes, privacy-aware pipelines, and deployment frameworks for resource-constrained systems.</p>
+      <p>
+        I am a final-year PhD candidate in Information Engineering &amp; Computer Science at the University of Trento. 
+        I work on <em>communication-efficient and trustworthy federated learning</em> for edge intelligence and TinyML. 
+        My focus is aggregation schemes, privacy-aware pipelines, and deployment frameworks for resource-constrained systems.
+      </p>
+      <p><strong>Research Areas:</strong> Federated Learning • Trustworthy ML • Edge AI • TinyML • Wireless/IoT Sensing</p>
 
       <h3 class="content_separation" id="news">Recent News</h3>
       <div id="recent_news">
@@ -126,15 +183,18 @@
         </ul>
       </div>
 
-      <h3 class="content_separation" id="research">Research</h3>
-      <p>Keywords: federated learning, aggregation, privacy, TinyML, edge intelligence, wireless sensing.</p>
-
       <h3 class="content_separation" id="publications">Publications</h3>
-      <ul>
-        <li><strong>GASPU</strong> — M. Hassan, et al., under review, 2025.</li>
-        <li><strong>FedEdge</strong> — M. Hassan, et al., 2024–2025.</li>
-        <li><strong>TinyML at the Wireless Edge</strong> — Survey (manuscript), 2025.</li>
+      <h4>Journal Publications</h4>
+      <ul class="pub-list">
+        <li><strong>FedEdge:</strong> A Practical Framework for Edge-Native Federated Learning — M. Hassan, et al., 2024–2025 (journal manuscript).</li>
       </ul>
+
+      <h4>Conference (Peer-Reviewed)</h4>
+      <ul class="pub-list">
+        <li><strong>GASPU:</strong> Genetic Algorithm-Based Selective Parameter Updates for Communication-Efficient Federated Learning — M. Hassan, et al., under review, 2025.</li>
+        <li><strong>TinyML at the Wireless Edge:</strong> Architectures, Deployment Modes, and 6G Integration — Survey (manuscript), 2025.</li>
+      </ul>
+      <p>Full list on <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>.</p>
 
       <h3 class="content_separation" id="education">Education</h3>
       <ul>
@@ -151,13 +211,13 @@
 
       <h3 class="content_separation" id="service">Service</h3>
       <ul>
-        <li>Reviewer: IEEE IoT Journal, IEEE TMC, FL/TinyML workshops.</li>
-        <li>Organizer: Ibne Adam Education Chapter.</li>
+        <li>Reviewer: IEEE IoT Journal, IEEE TMC (prospective), FL/TinyML workshops.</li>
+        <li>Organizer: Ibne Adam Education Chapter (non-profit ML education).</li>
       </ul>
 
       <h3 class="content_separation" id="students">Students</h3>
       <ul>
-        <li>Supervising MSc/BSc projects in federated learning, TinyML, and wireless sensing.</li>
+        <li><em>Open to supervising motivated MSc/BSc projects</em> in federated learning, TinyML, and wireless sensing.</li>
       </ul>
 
       <h3 class="content_separation" id="contact">Contact</h3>
@@ -172,13 +232,19 @@
     <div class="navigation">
       <ul>
         <li><a href="#about">About</a></li>
-        <li><a href="#research">Research</a></li>
+        <div class="nav_border"></div>
         <li><a href="#news">News</a></li>
+        <div class="nav_border"></div>
         <li><a href="#publications">Publications</a></li>
+        <div class="nav_border"></div>
         <li><a href="#education">Education</a></li>
-        <li><a href="#teaching">Teaching</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
+        <div class="nav_border"></div>
         <li><a href="#service">Service</a></li>
+        <div class="nav_border"></div>
         <li><a href="#students">Students</a></li>
+        <div class="nav_border"></div>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
