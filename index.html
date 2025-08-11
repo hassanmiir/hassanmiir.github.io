@@ -63,6 +63,10 @@
     .pub-list{margin:10px 0 0 18px}
     .pub-list li{margin:10px 0}
 
+    /* News groups */
+    .news-group{margin:12px 0}
+    .news-group h5{margin:10px 0 6px;color:#1f3550;font-size:16px}
+
     /* Footer */
     #footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;background:var(--bg-alt);border-top:2px solid var(--border);padding:16px 20px;color:var(--muted);font-size:14px}
     #footer .quotes{max-width:720px}
@@ -103,8 +107,8 @@
         <h3>Affiliations</h3>
         <ul>
           <li><strong>PhD Candidate</strong>, University of Trento (Supervisor: Prof. Giovanni Iacca)</li>
-          <li>Research interests: Federated Learning, Distributed Systems, Edge Computing, IoT, Blockchain</li>
-          <li>Address: Vicolo Stefano Beato Bellesini 6, Apt 3-4, 38122 Trento, Italy</li>
+          <li><strong>Co-founder</strong> — Ibn e Adam Foundation (Non-Profit Organization)</li>
+          <li>Member, Smart Eco Solutions Initiative (Non-profit)</li>
         </ul>
       </div>
 
@@ -153,8 +157,6 @@
         <div class="nav_border"></div>
         <li><a href="#projects">Projects</a></li>
         <div class="nav_border"></div>
-        <li><a href="#students">Students</a></li>
-        <div class="nav_border"></div>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -163,17 +165,29 @@
     <div class="contents">
       <h3 class="content_separation" id="about">About</h3>
       <p>
-        I work on communication-efficient and trustworthy federated learning with a focus on system-level precision, reproducibility, and practical deployment at the edge. 
+        I work on communication-efficient and trustworthy federated learning with a focus on system-level precision, reproducibility, and practical deployment at the edge.
         I develop methods and frameworks (e.g., GASPU, FedEdge, FedFor, PA-FL) for scalable, real-world intelligent systems.
       </p>
       <p><strong>Research Areas:</strong> Federated Learning • Distributed Systems • Edge Computing • Internet of Things (IoT) • Blockchain</p>
 
       <h3 class="content_separation" id="news">Recent News</h3>
-      <div id="recent_news">
+      <div class="news-group">
+        <h5>July–August 2025</h5>
         <ul>
-          <li>2025 — Best Paper Award, IEEE VTC 2025-Spring, for federated multi-task learning with dual attention (smart buildings).</li>
-          <li>2025 — Multiple VTC 2025 acceptances on TinyML for crop disease classification and FL for HAR (with knowledge distillation).</li>
-          <li>2025 — Proximity-aware FL for vehicular edge intelligence published in <em>IEEE Internet of Things Journal</em>.</li>
+          <li>Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
+          <li>Survey on TinyML and 6G edge integration — final restructuring based on external feedback.</li>
+        </ul>
+      </div>
+      <div class="news-group">
+        <h5>May–June 2025</h5>
+        <ul>
+          <li>Extended evaluation for communication-efficient FL on constrained devices (FedEdge + GA-masking).</li>
+        </ul>
+      </div>
+      <div class="news-group">
+        <h5>March–April 2025</h5>
+        <ul>
+          <li>Large-scale experiments on communication-efficient FL with GA-optimized masks.</li>
         </ul>
       </div>
 
@@ -192,12 +206,23 @@
 
       <h3 class="content_separation" id="education">Education</h3>
       <ul>
-        <li><strong>Ph.D., Information Engineering & Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
+        <li><strong>Ph.D., Information Engineering &amp; Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
         <li><strong>Master of Engineering, Software Engineering</strong>, Wuhan University, China — 2019 <br><span>Thesis: Education Platform Based on Blockchain Technology for Certification Validation (Supervisor: Prof. Xiahoui Cui)</span></li>
         <li><strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014 <br><span>Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span></li>
       </ul>
 
       <h3 class="content_separation" id="academic-experience">Academic Experience</h3>
+
+      <h4>Teaching &amp; Student Supervision</h4>
+      <ul>
+        <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. University of Trento, 2024</li>
+        <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
+          <ul>
+            <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
+            <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers &amp; sensors.</li>
+          </ul>
+        </li>
+      </ul>
 
       <h4>Visiting Research Appointments</h4>
       <ul>
@@ -206,27 +231,11 @@
         <li><strong>Remote Visiting Researcher</strong>, School of Computing Science, University of Glasgow, UK — Jan 2020–Mar 2020</li>
       </ul>
 
-      <h4>Teaching & Student Supervision</h4>
-      <ul>
-        <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. Student: <em>Hafiz Muhammad Bilal</em>, University of Trento, 2024</li>
-        <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
-          <ul>
-            <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
-            <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers & sensors.</li>
-          </ul>
-        </li>
-      </ul>
-
       <h3 class="content_separation" id="projects">Selected Projects</h3>
       <ul>
         <li><strong>SUSTAIN (Horizon EIC Pathfinder)</strong> — Smart Buildings Sensitive to Daily Sentiment, University of Trento, WP3 (Federated Learning + Edge AI), 2023–present</li>
         <li><strong>Blockchain-based Certificate Validation Platform</strong> — Wuhan University, 2019</li>
         <li><strong>Satellite Link Optimization using STK</strong> — with SUPARCO, 2014</li>
-      </ul>
-
-      <h3 class="content_separation" id="students">Students</h3>
-      <ul>
-        <li><strong>Hafiz Muhammad Bilal</strong> — MSc Thesis (co-supervised), University of Trento, 2024</li>
       </ul>
 
       <h3 class="content_separation" id="contact">Contact</h3>
@@ -252,8 +261,6 @@
         <div class="nav_border"></div>
         <li><a href="#projects">Projects</a></li>
         <div class="nav_border"></div>
-        <li><a href="#students">Students</a></li>
-        <div class="nav_border"></div>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -276,7 +283,7 @@
     /* ===== BibTeX + Under Review → HTML with bolded author name ===== */
 
     // Add all variants you want to bold (case-insensitive match)
-    const MY_NAMES = ["Hassan, Mir", "Mir Hassan"];
+    const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
 
     function latexToHTML(s) {
       if (!s) return s;
@@ -395,24 +402,22 @@
         const entries = bibText ? parseBibtex(bibText) : [];
         const bibTitleSet = titleSetFromBib(entries);
 
-        // Render Under Review first, excluding any title that now exists in BibTeX
+        // UNDER REVIEW (render first; hide if title appears in BibTeX)
         const urList = document.getElementById('pub-under-review');
         const filteredUR = underReview.filter(item => !bibTitleSet.has(norm(item.title || '')));
-        // sort by year desc if provided
         filteredUR.sort((a, b) => (parseInt(b.year)||0) - (parseInt(a.year)||0));
         for (const item of filteredUR) {
-          const rankLabel = ''; // usually "Submitted" only; you can store rank inside venue_ranks.json if you want
           urList.appendChild(buildPubLI({
             title: item.title,
             authors: item.authors || [],
             year: item.year || '',
             venue: item.venue || 'Submitted',
             url: item.url || '',
-            rankLabel
+            rankLabel: ''
           }));
         }
 
-        // Split BibTeX into journal / conference and render
+        // JOURNAL / CONFERENCE (from BibTeX)
         const journals = [];
         const confs = [];
         for (const e of entries) {
@@ -428,7 +433,7 @@
             url: info.url,
             rankLabel
           });
-          (type === 'journal' ? journals : confs).push({ li, y: info.year, venueRank: rankLabel });
+          (type === 'journal' ? journals : confs).push({ li, y: info.year });
         }
 
         const byYearDesc = (a, b) => (parseInt(b.y)||0) - (parseInt(a.y)||0);
@@ -439,7 +444,6 @@
         const c = document.getElementById('pub-confs');
         journals.forEach(x => j.appendChild(x.li));
         confs.forEach(x => c.appendChild(x.li));
-
       } catch (err) {
         console.warn('Failed to render publications:', err);
       }
