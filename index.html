@@ -18,8 +18,8 @@
       --bg:#f7f9fc;               /* page background (solid, single color) */
       --ink:#0f172a;              /* main text */
       --ink-dim:#324156;          /* secondary text */
-      --muted:#5c6f86;           /* muted text */
-      --brand-1:#0e9ae6;         /* accents */
+      --muted:#5c6f86;            /* muted text */
+      --brand-1:#0e9ae6;          /* accents */
       --brand-2:#6366f1;
       --accent:#fde68a;
       --panel:rgba(255,255,255,.75);   /* translucent topbar/notice */
@@ -127,6 +127,39 @@
     .pub-list{margin:8px 0 0 18px}.pub-list li{margin:10px 0}
     .news-group{margin:10px 0}.news-group h5{margin:10px 0 6px;color:var(--ink)}
 
+    /* --- Logo strips --- */
+    .logo-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:14px;
+      align-items:center;
+    }
+    .logo-card{
+      background:var(--elev);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:88px;
+      transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    }
+    .logo-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+      background:#fff;
+    }
+    .logo{
+      max-height:56px;
+      max-width:100%;
+      height:auto;
+      width:auto;
+      object-fit:contain;
+      filter:saturate(.9) contrast(1.05);
+    }
+    .logo--mono{ filter:grayscale(1) opacity(.9); }
+
     /* Footer */
     footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:14px}
 
@@ -160,6 +193,8 @@
         <a href="#education">Education</a>
         <a href="#academic-experience">Academic Experience</a>
         <a href="#projects">Projects</a>
+        <a href="#alumni">Universities</a>
+        <a href="#funding">Projects &amp; Funding</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
@@ -170,7 +205,7 @@
     <div class="wrap spotlight__in">
       <span class="spotlight__badge">Open</span>
       <span>
-        Open to <strong>Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (<strong>Europe & Nordics</strong>).
+        Open to <strong>Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (<strong>Europe &amp; Nordics</strong>).
       </span>
       <a class="btn btn--primary" href="#contact">Contact me</a>
     </div>
@@ -297,6 +332,23 @@
             </ul>
           </section>
 
+          <!-- Universities / Alumni logos -->
+          <section class="section" id="alumni">
+            <h3 class="h3">Universities</h3>
+            <div class="logo-grid">
+              <!-- Replace src paths with your actual files in assets/logos/ -->
+              <a class="logo-card" href="https://www.unitn.it/" target="_blank" rel="noopener" aria-label="University of Trento">
+                <img class="logo" src="assets/logos/unitn.svg" alt="University of Trento logo" loading="lazy">
+              </a>
+              <a class="logo-card" href="https://en.whu.edu.cn/" target="_blank" rel="noopener" aria-label="Wuhan University">
+                <img class="logo" src="assets/logos/wuhan.svg" alt="Wuhan University logo" loading="lazy">
+              </a>
+              <a class="logo-card" href="https://usindh.edu.pk/" target="_blank" rel="noopener" aria-label="University of Sindh">
+                <img class="logo" src="assets/logos/sindh.svg" alt="University of Sindh logo" loading="lazy">
+              </a>
+            </div>
+          </section>
+
           <section class="section" id="academic-experience">
             <h3 class="h3">Academic Experience</h3>
 
@@ -328,6 +380,29 @@
             </ul>
           </section>
 
+          <!-- Projects & Funding logos -->
+          <section class="section" id="funding">
+            <h3 class="h3">Projects &amp; Funding</h3>
+            <div class="logo-grid">
+              <!-- Replace src paths with your actual files in assets/logos/ -->
+              <a class="logo-card" href="https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en" target="_blank" rel="noopener" aria-label="EIC Pathfinder">
+                <img class="logo" src="assets/logos/eic-pathfinder.svg" alt="EIC Pathfinder logo" loading="lazy">
+              </a>
+              <a class="logo-card" href="https://research-and-innovation.ec.europa.eu/funding/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener" aria-label="Horizon Europe">
+                <img class="logo" src="assets/logos/eu.svg" alt="European Union emblem" loading="lazy">
+              </a>
+              <a class="logo-card" href="https://www.unitn.it/" target="_blank" rel="noopener" aria-label="University of Trento">
+                <img class="logo" src="assets/logos/unitn.svg" alt="University of Trento logo" loading="lazy">
+              </a>
+              <!-- Example extra partner (remove or replace) -->
+              <!--
+              <a class="logo-card" href="https://example.org" target="_blank" rel="noopener" aria-label="Partner">
+                <img class="logo logo--mono" src="assets/logos/partner.svg" alt="Partner logo" loading="lazy">
+              </a>
+              -->
+            </div>
+          </section>
+
           <section class="section" id="contact">
             <h3 class="h3">Contact</h3>
             <p class="prose">
@@ -352,7 +427,7 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Scrollspy for nav
-    const ids = ['about','news','publications','education','academic-experience','projects','contact'];
+    const ids = ['about','news','publications','education','alumni','academic-experience','projects','funding','contact'];
     const sections = ids.map(id=>document.getElementById(id));
     const links = Array.from(document.querySelectorAll('#nav a'));
     const linkFor = id => links.find(a=>a.getAttribute('href')==='#'+id);
