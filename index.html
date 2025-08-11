@@ -61,12 +61,7 @@
 
     /* Lists */
     .pub-list{margin:10px 0 0 18px}
-    .pub-list li{margin:6px 0}
-
-    /* Funded-by grid (kept if you want it later) */
-    #funded-by{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
-    #funded-by > div{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-    #funded-by img{display:block;max-height:80px;height:auto;border:0}
+    .pub-list li{margin:10px 0}
 
     /* Footer */
     #footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;background:var(--bg-alt);border-top:2px solid var(--border);padding:16px 20px;color:var(--muted);font-size:14px}
@@ -354,10 +349,10 @@
       const f = entry.fields;
       const title   = f.title || 'Untitled';
       const venue   = f.journal || f.booktitle || '';
-      theYear = f.year || '';
+      const year    = f.year || '';
       const url     = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
       const authors = f.author ? bibAuthorsToList(f.author) : [];
-      return { title, venue, year: theYear, url, authors };
+      return { title, venue, year, url, authors };
     }
 
     (async function renderBibtexPublications() {
@@ -385,26 +380,29 @@
           const type = decideType(e);
           const info = entryToRenderInfo(e);
           const vr = ranks[info.venue] || null;
-          const rankLabel = vr ? ` <span style="color:#5b6b7b">— ${vr.source}: ${vr.rank}</span>` : '';
+          const rankLabel = vr ? ` — ${vr.source}: ${vr.rank}` : '';
 
+          // Build authors line with your name bolded
           const authorsHTML = info.authors.length
             ? info.authors.map(boldifyAuthor).join(', ')
             : '';
 
-          const when = info.year ? `, ${info.year}` : '';
+          // Build list item with the requested layout:
+          // Title (bold) / Authors / Venue + ranking
           const linkStart = info.url ? `<a href="${info.url}" target="_blank" rel="noopener">` : '';
           const linkEnd = info.url ? `</a>` : '';
 
           const li = document.createElement('li');
           li.innerHTML = `
-            <strong>${linkStart}${info.title}${linkEnd}</strong>
-            ${authorsHTML ? `<span> — ${authorsHTML}${when}</span>` : when ? `<span>${when}</span>` : ''}
-            <br><em>${info.venue}</em>${rankLabel}
+            <strong>${linkStart}${info.title}${linkEnd}</strong><br>
+            ${authorsHTML}${info.year ? `, ${info.year}` : ''}<br>
+            <em>${info.venue}</em>${rankLabel}
           `;
 
           (type === 'journal' ? journals : confs).push({ li, y: info.year });
         }
 
+        // Sort by year desc
         const byYearDesc = (a, b) => (parseInt(b.y) || 0) - (parseInt(a.y) || 0);
         journals.sort(byYearDesc);
         confs.sort(byYearDesc);
