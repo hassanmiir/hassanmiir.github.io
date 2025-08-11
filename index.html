@@ -260,14 +260,39 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* ------------------------
-       Minimal BibTeX parser (no external libs)
-       Supports fields: author, title, journal/booktitle, year, url, doi
-       Maps:
-         @article        -> Journal
-         @inproceedings  -> Conference
-         @conference     -> Conference
-       ------------------------- */
+    /* ===== BibTeX → HTML with bolded author name ===== */
+
+    // Add all variants you want to bold (case-insensitive match)
+    const MY_NAMES = ["Hassan, Mir", "Mir Hassan"];
+
+    function latexToHTML(s) {
+      if (!s) return s;
+      return s
+        .replace(/\\textbf\{([^}]*)\}/g, "<strong>$1</strong>")
+        .replace(/\\emph\{([^}]*)\}/g, "<em>$1</em>");
+    }
+
+    function norm(s) {
+      return s
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // strip accents
+        .replace(/[^a-z0-9]+/g, " ") // remove punctuation
+        .trim();
+    }
+
+    const MY_NAMES_NORM = MY_NAMES.map(norm);
+
+    function boldifyAuthor(author) {
+      const ahtml = latexToHTML(author);
+      const aplain = ahtml.replace(/<[^>]+>/g, ""); // strip html for matching
+      const na = norm(aplain);
+      for (const me of MY_NAMES_NORM) {
+        if (na === me || na.includes(me)) {
+          return `<strong>${ahtml}</strong>`;
+        }
+      }
+      return ahtml;
+    }
 
     function parseBibtex(bib) {
       const chunks = bib.split(/^\s*@/m).filter(Boolean);
@@ -288,7 +313,9 @@
           if ((val.startsWith('{') && val.endsWith('}')) || (val.startsWith('"') && val.endsWith('"'))) {
             val = val.slice(1, -1);
           }
-          fields[name] = val.replace(/\s+/g, ' ').trim();
+          // Collapse whitespace then convert LaTeX formatting
+          val = val.replace(/\s+/g, ' ').trim();
+          fields[name] = latexToHTML(val);
         }
         entries.push({ type, key, fields });
       }
@@ -341,18 +368,23 @@
         for (const e of entries) {
           const type = decideType(e);
           const info = entryToRenderInfo(e);
+
           const vr = ranks[info.venue] || null;
           const rankLabel = vr ? ` <span style="color:#5b6b7b">— ${vr.source}: ${vr.rank}</span>` : '';
 
-          const li = document.createElement('li');
-          const authors = info.authors.length ? info.authors.join(', ') : '';
+          // boldify authors (handles both \textbf in .bib and name matching)
+          const authorsHTML = info.authors.length
+            ? info.authors.map(boldifyAuthor).join(', ')
+            : '';
+
           const when = info.year ? `, ${info.year}` : '';
           const linkStart = info.url ? `<a href="${info.url}" target="_blank" rel="noopener">` : '';
           const linkEnd = info.url ? `</a>` : '';
 
+          const li = document.createElement('li');
           li.innerHTML = `
             <strong>${linkStart}${info.title}${linkEnd}</strong>
-            ${authors ? `<span> — ${authors}${when}</span>` : when ? `<span>${when}</span>` : ''}
+            ${authorsHTML ? `<span> — ${authorsHTML}${when}</span>` : when ? `<span>${when}</span>` : ''}
             <br><em>${info.venue}</em>${rankLabel}
           `;
 
