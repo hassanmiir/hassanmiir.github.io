@@ -2,220 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>Mir Hassan | Academic Home Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mir Hassan — Academic Home Page</title>
-  <meta name="description" content="Academic homepage of Mir Hassan — Federated Learning, Edge AI, TinyML, Trustworthy ML" />
-  <link rel="canonical" href="https://hassanmiir.github.io/" />
-  <meta property="og:title" content="Mir Hassan — Academic Home Page" />
-  <meta property="og:description" content="Academic homepage of Mir Hassan — Federated Learning, Edge AI, TinyML, Trustworthy ML" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://hassanmiir.github.io/" />
-  <meta property="og:image" content="https://hassanmiir.github.io/assets/mir_hassan.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <meta name="description" content="Mir Hassan - Academic homepage, University of Trento" />
   <style>
-    :root{
-      --bg:#ffffff; --text:#111827; --muted:#4b5563; --accent:#0b7; --line:#e5e7eb; --link:#0ea5e9;
-      --card:#f8fafc; --chip:#eef2ff;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f8f8f8;
+      color: #222;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"; color:var(--text); background:var(--bg); line-height:1.6}
-    a{color:var(--link); text-decoration:none}
-    a:hover{text-decoration:underline}
-    header{border-bottom:1px solid var(--line); background:#fff; position:sticky; top:0; z-index:50}
-    .wrap{max-width:1000px; margin:0 auto; padding:0 20px}
-    .topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; align-items:center; gap:14px}
-    .avatar{width:128px; height:128px; border-radius:50%; object-fit:cover; border:1px solid var(--line); background:#ddd}
-    .title h1{font-size:20px; margin:0; font-weight:700}
-    .title p{margin:0; color:var(--muted); font-size:14px}
-    nav ul{display:flex; gap:14px; margin:0; padding:0; list-style:none; flex-wrap:wrap}
-    nav a{padding:6px 10px; border-radius:8px}
-    nav a:hover{background:var(--card)}
-    main{padding:26px 0 64px}
-    section{padding:22px 0; border-bottom:1px solid var(--line)}
-    h2{font-family:"Source Serif 4", serif; font-weight:600; font-size:26px; margin:4px 0 14px}
-    .lead{font-size:17px; color:var(--muted)}
-    .grid{display:grid; grid-template-columns:1.2fr 2fr; gap:26px}
-    .chips{display:flex; flex-wrap:wrap; gap:8px}
-    .chip{background:var(--chip); color:#3730a3; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid #e0e7ff}
-    .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
-    .list{margin:0; padding-left:18px}
-    .list li{margin:6px 0}
-    .pub{margin:12px 0}
-    .pub-title{font-weight:600}
-    .meta{color:var(--muted); font-size:13px}
-    .cta{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; background:#0ea5e9; color:#fff; font-weight:600}
-    .cta svg{width:16px; height:16px}
-    .cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px}
-    footer{padding:30px 0; color:var(--muted); font-size:14px}
-    .muted{color:var(--muted)}
-    @media (max-width:800px){ .grid{grid-template-columns:1fr} .topbar{gap:10px} }
+    #container {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #header {
+      background: #e0e7ef;
+      padding: 24px 32px 12px 32px;
+      border-bottom: 2px solid #b6c6d6;
+    }
+    #header h1 {
+      margin: 0 0 8px 0;
+      font-size: 2.2em;
+      color: #1a3a5e;
+    }
+    #header h2 {
+      margin: 0 0 8px 0;
+      font-size: 1.2em;
+      color: #3a4a5e;
+      font-weight: normal;
+    }
+    #profile {
+      display: flex;
+      align-items: flex-start;
+      padding: 32px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    #profile_img {
+      width: 150px;
+      height: 150px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 32px;
+      border: 2px solid #b6c6d6;
+      background: #eee;
+    }
+    #bio {
+      flex: 1;
+    }
+    #bio h3 {
+      margin-top: 0;
+      color: #1a3a5e;
+    }
+    .nav {
+      background: #e0e7ef;
+      padding: 10px 32px;
+      border-bottom: 1px solid #b6c6d6;
+    }
+    .nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    .nav li {
+      display: inline;
+    }
+    .nav a {
+      color: #1a3a5e;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .nav a:hover {
+      background: #d0d8e0;
+    }
+    .section {
+      padding: 32px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .section h3 {
+      color: #1a3a5e;
+      margin-top: 0;
+    }
+    .links img {
+      width: 28px;
+      height: 28px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .links a {
+      margin-right: 12px;
+    }
+    #footer {
+      padding: 24px 32px;
+      background: #e0e7ef;
+      color: #555;
+      font-size: 0.95em;
+      text-align: left;
+      border-top: 2px solid #b6c6d6;
+    }
+    @media (max-width: 700px) {
+      #profile { flex-direction: column; align-items: center; padding: 16px; }
+      #profile_img { margin: 0 0 16px 0; }
+      .section, #header, .nav, #footer { padding: 12px; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap topbar">
-      <div class="brand">
-        <img class="avatar" src="assets/mir_hassan.jpg" alt="Portrait of Mir Hassan" />
-        <div class="title">
-          <h1>Mir Hassan</h1>
-          <p>PhD Candidate, University of Trento — Federated Learning • Edge AI • TinyML • Trustworthy ML</p>
-        </div>
-      </div>
-      <nav aria-label="Primary">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#interests">Research</a></li>
-          <li><a href="#news">News</a></li>
-          <li><a href="#publications">Publications</a></li>
-          <li><a href="#teaching">Teaching</a></li>
-          <li><a href="#service">Service</a></li>
-          <li><a href="#students">Students</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+  <div id="container">
+    <div id="header">
+      <h1>Mir Hassan</h1>
+      <h2>PhD Candidate, University of Trento<br>
+        Federated Learning · Edge AI · TinyML · Trustworthy ML
+      </h2>
     </div>
-  </header>
-
-  <main class="wrap">
-    <section id="about">
-      <div class="grid">
-        <div>
-          <h2>About</h2>
-          <p class="lead">I am a final‑year PhD candidate in Information Engineering & Computer Science at the University of Trento, Italy. My research focuses on <strong>communication‑efficient and trustworthy federated learning</strong>, with applications to <strong>edge intelligence</strong>, <strong>TinyML</strong>, and smart environments. I design aggregation schemes, privacy‑aware pipelines, and deployment frameworks for resource‑constrained, real‑world systems.</p>
-          <div class="chips" aria-label="Key topics">
-            <span class="chip">Federated Learning</span>
-            <span class="chip">Edge Intelligence</span>
-            <span class="chip">TinyML</span>
-            <span class="chip">Trustworthy ML</span>
-            <span class="chip">Communication Efficiency</span>
-            <span class="chip">Distributed Systems</span>
-          </div>
-          <p style="margin-top:12px">
-            <a class="cta" href="cv/Mir_Hassan_CV.pdf" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download CV (PDF)
-            </a>
-          </p>
-        </div>
-        <div>
-          <div class="card">
-            <strong>Affiliation</strong>
-            <p class="muted">Department of Information Engineering & Computer Science (DISI), University of Trento</p>
-            <strong>Email</strong>
-            <p><a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a></p>
-            <strong>Phone</strong>
-            <p>+39 346 3566216</p>
-            <strong>Profiles</strong>
-            <p>
-              <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank" rel="noopener">Google Scholar</a> ·
-              <a href="https://github.com/hassanmiir" target="_blank" rel="noopener">GitHub</a> ·
-              <a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">LinkedIn</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="interests">
-      <h2>Research Interests</h2>
-      <ul class="list">
-        <li>Communication‑efficient federated learning: selective updates, GA‑based parameter selection, sign‑based aggregation.</li>
-        <li>Trustworthy ML at the edge: privacy, robustness, fairness, and monitoring in decentralized settings.</li>
-        <li>TinyML deployments: energy‑aware training/inference on microcontrollers and embedded devices.</li>
-        <li>Edge–cloud orchestration and hierarchical FL for smart buildings, IoT, and cyber‑physical systems.</li>
+    <div class="nav">
+      <ul>
+        <li><a href="#bio">Bio</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#teaching">Teaching</a></li>
+        <li><a href="#service">Service</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="CV_Mir_Hassan (2).pdf" target="_blank">CV (PDF)</a></li>
       </ul>
-    </section>
-
-    <section id="news">
-      <h2>News</h2>
-      <ul class="list">
-        <li><strong>Aug 2025</strong> — Preparing postdoctoral applications in federated learning & trustworthy AI (EU & Nordics).</li>
-        <li><strong>Jul 2025</strong> — Finalizing survey on TinyML and 6G edge integration; restructuring per external feedback.</li>
-        <li><strong>Spring 2025</strong> — Ran large‑scale experiments on communication‑efficient FL with GA‑optimized masks.</li>
+    </div>
+    <div id="profile">
+      <img id="profile_img" src="assets/mir_hassan.jpg" alt="Mir Hassan">
+      <div id="bio">
+        <h3 id="bio">Bio</h3>
+        <p>
+          I am a final-year PhD candidate in Information Engineering & Computer Science at the University of Trento, Italy. My research focuses on <b>communication-efficient and trustworthy federated learning</b>, with applications to <b>edge intelligence</b>, <b>TinyML</b>, and smart environments. I design aggregation schemes, privacy-aware pipelines, and deployment frameworks for resource-constrained, real-world systems.
+        </p>
+        <div class="links">
+          <a href="mailto:mir.hassan@unitn.it">Email</a>
+          <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>
+          <a href="https://github.com/hassanmiir" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="section" id="news">
+      <h3>Recent News</h3>
+      <ul>
+        <li><b>Aug 2025</b> — Preparing postdoctoral applications in federated learning & trustworthy AI (EU & Nordics).</li>
+        <li><b>Jul 2025</b> — Finalizing survey on TinyML and 6G edge integration; restructuring per external feedback.</li>
+        <li><b>Spring 2025</b> — Ran large-scale experiments on communication-efficient FL with GA-optimized masks.</li>
       </ul>
-    </section>
-
-    <section id="publications">
-      <h2>Selected Publications</h2>
-      <div class="pub">
-        <div class="pub-title">GASPU: Genetic Algorithm‑Based Selective Parameter Updates for Communication‑Efficient Federated Learning</div>
-        <div class="meta">M. Hassan, et al., under review, 2025. <span>Keywords: federated learning, GA, communication overhead</span></div>
-      </div>
-      <div class="pub">
-        <div class="pub-title">FedEdge: A Practical Framework for Edge‑Native Federated Learning</div>
-        <div class="meta">M. Hassan, et al., 2024–2025. <span>Keywords: edge intelligence, orchestration, deployment</span></div>
-      </div>
-      <div class="pub">
-        <div class="pub-title">TinyML at the Wireless Edge: Architectures, Deployment Modes, and 6G Integration</div>
-        <div class="meta">Survey (manuscript), 2025. <span>Keywords: TinyML, 6G, cross‑layer design</span></div>
-      </div>
-      <p class="muted">Full list available on <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank" rel="noopener">Google Scholar</a>.</p>
-    </section>
-
-    <section id="teaching">
-      <h2>Teaching & Mentorship</h2>
-      <div class="cols">
-        <div class="card">
-          <strong>Short Course: Foundations of Machine Learning (8 hours)</strong>
-          <p class="muted">Intro course covering core ML concepts, activation functions, and edge‑focused case studies.</p>
-        </div>
-        <div class="card">
-          <strong>Student Supervision</strong>
-          <p class="muted">Mentored projects on communication‑efficient FL and federated sensing (Wi‑Fi/RF‑based HAR).</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="service">
-      <h2>Service & Community</h2>
-      <ul class="list">
+    </div>
+    <div class="section" id="publications">
+      <h3>Selected Publications</h3>
+      <ul>
+        <li>
+          <b>GASPU: Genetic Algorithm-Based Selective Parameter Updates for Communication-Efficient Federated Learning</b><br>
+          M. Hassan, et al., under review, 2025. <i>Keywords: federated learning, GA, communication overhead</i>
+        </li>
+        <li>
+          <b>FedEdge: A Practical Framework for Edge-Native Federated Learning</b><br>
+          M. Hassan, et al., 2024–2025. <i>Keywords: edge intelligence, orchestration, deployment</i>
+        </li>
+        <li>
+          <b>TinyML at the Wireless Edge: Architectures, Deployment Modes, and 6G Integration</b><br>
+          Survey (manuscript), 2025. <i>Keywords: TinyML, 6G, cross-layer design</i>
+        </li>
+      </ul>
+      <p>Full list available on <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>.</p>
+    </div>
+    <div class="section" id="teaching">
+      <h3>Teaching & Mentorship</h3>
+      <ul>
+        <li>Short Course: Foundations of Machine Learning (8 hours) — Intro course covering core ML concepts, activation functions, and edge-focused case studies.</li>
+        <li>Student Supervision — Mentored projects on communication-efficient FL and federated sensing (Wi-Fi/RF-based HAR).</li>
+      </ul>
+    </div>
+    <div class="section" id="service">
+      <h3>Service & Community</h3>
+      <ul>
         <li>Reviewer: IEEE IoT Journal, IEEE TMC (prospective), workshops on FL/TinyML.</li>
-        <li>Organizer: Non‑profit education initiatives (Ibne Adam Education Chapter) for ML fundamentals.</li>
+        <li>Organizer: Non-profit education initiatives (Ibne Adam Education Chapter) for ML fundamentals.</li>
       </ul>
-    </section>
-
-    <section id="students">
-      <h2>Openings</h2>
-      <p class="muted">I’m happy to co‑advise motivated students on projects in federated learning, TinyML, or edge intelligence. Reach out with a short project idea and your background.</p>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <div class="grid">
-        <div>
-          <p><strong>Email:</strong> <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a><br/>
-             <strong>Phone:</strong> +39 346 3566216<br/>
-             <strong>Location:</strong> Trento, Italy</p>
-          <p>
-            <a href="mailto:mir.hassan@unitn.it?subject=Prospective%20collaboration">Email me</a> ·
-            <a href="#about">Back to top</a>
-          </p>
-        </div>
-        <div>
-          <div class="card">
-            <strong>Quick Links</strong>
-            <ul class="list">
-              <li><a href="cv/Mir_Hassan_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a></li>
-              <li><a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank" rel="noopener">Google Scholar</a></li>
-              <li><a href="https://github.com/hassanmiir" target="_blank" rel="noopener">GitHub</a></li>
-              <li><a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="muted">
-      © <span id="y"></span> Mir Hassan · All rights reserved.
-    </footer>
-  </main>
-
+    </div>
+    <div class="section" id="contact">
+      <h3>Contact</h3>
+      <p>
+        <b>Email:</b> <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a><br>
+        <b>Phone:</b> +39 346 3566216<br>
+        <b>Location:</b> Trento, Italy
+      </p>
+      <p>
+        <a href="CV_Mir_Hassan (2).pdf" target="_blank">Download Full CV (PDF)</a>
+      </p>
+    </div>
+    <div id="footer">
+      &copy; <span id="year"></span> Mir Hassan · All rights reserved.
+    </div>
+  </div>
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
