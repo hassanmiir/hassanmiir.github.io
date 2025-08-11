@@ -7,16 +7,16 @@
   <meta name="description" content="Mir Hassan — PhD Candidate, University of Trento. Federated Learning, Edge Computing, Distributed Systems, IoT, Blockchain." />
   <link rel="icon" href="assets/favicon.ico" />
 
-  <!-- Fonts (safe fallbacks if blocked) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#0b1220;
       --bg-elev:#0f172a;
-      --panel:#0b1220ee;
+      --panel:#0b1220cc;
       --ink:#e5ecff;
       --ink-dim:#b6c2e1;
       --muted:#8aa0c6;
@@ -32,14 +32,13 @@
       --radius:18px;
       --radius-sm:12px;
     }
-    /* Light mode (auto toggled) */
     .light{
       --bg:#f6f8fc;
       --bg-elev:#ffffff;
       --panel:#ffffffcc;
       --ink:#0f172a;
       --ink-dim:#334155;
-      --muted:#48607c;
+      --muted:#496081;
       --brand-1:#0ea5e9;
       --brand-2:#6366f1;
       --accent:#fde68a;
@@ -48,7 +47,7 @@
       --card:#ffffff;
       --chip:#eef2ff;
       --link:#0f4cc9;
-      --shadow:0 14px 30px rgba(2,6,23,.08);
+      --shadow:0 16px 30px rgba(2,6,23,.08);
     }
 
     *{box-sizing:border-box}
@@ -58,20 +57,20 @@
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,.15), transparent 60%),
-        radial-gradient(900px 500px at 100% 0%, rgba(59,130,246,.18), transparent 55%),
+        radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,.14), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(59,130,246,.17), transparent 55%),
         linear-gradient(180deg, var(--bg) 0%, #0b1220 100%);
-      line-height:1.5;
+      line-height:1.55;
     }
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
 
-    /* Container */
+    /* Layout */
     .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
 
     /* Topbar */
     .topbar{
-      position:sticky;top:0;z-index:50;
+      position:sticky;top:0;z-index:60;
       backdrop-filter: blur(10px);
       background:var(--panel);
       border-bottom:1px solid var(--border);
@@ -79,124 +78,109 @@
     .topbar__in{
       display:flex;align-items:center;gap:18px;justify-content:space-between;height:64px;
     }
-    .brand{
-      display:flex;align-items:center;gap:14px;text-decoration:none;
-    }
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
     .brand__logo{
-      width:38px;height:38px;border-radius:10px;
+      width:36px;height:36px;border-radius:10px;
       background:conic-gradient(from 200deg, var(--brand-1), var(--brand-2));
-      box-shadow:0 6px 20px var(--ring);
+      box-shadow:0 6px 18px var(--ring);
     }
-    .brand__name{font-weight:800;letter-spacing:.4px}
-    .nav{
-      display:flex;gap:8px;flex-wrap:wrap;align-items:center;
-    }
-    .nav a{
-      font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid transparent;
-    }
+    .brand__name{font-weight:800;letter-spacing:.35px}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .nav a{font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid transparent}
     .nav a:hover{background:var(--chip);border-color:var(--border);text-decoration:none}
     .nav a.active{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff}
-
     .toggle{
       border:1px solid var(--border);background:transparent;color:var(--ink);
       padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600;
     }
 
-    /* Hero */
-    .hero{
-      position:relative;
-      padding:56px 0 32px;
-      overflow:hidden;
+    /* Spotlight (Postdoc call) */
+    .spotlight{
+      position:sticky;top:64px;z-index:55;
+      border-bottom:1px solid var(--border);
+      background:
+        linear-gradient(90deg, rgba(34,211,238,.12), rgba(59,130,246,.12)),
+        var(--panel);
     }
+    .spotlight__in{
+      display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;
+      padding:10px 14px;font-weight:700;
+    }
+    .spotlight__badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 10px;border-radius:999px;
+      background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;font-size:12px
+    }
+    .spotlight a{font-weight:800}
+    .pulse{position:relative}
+    .pulse::after{
+      content:"";position:absolute;inset:-2px;border-radius:14px;
+      box-shadow:0 0 0 0 rgba(34,211,238,.55);animation:pulse 2.2s ease-out infinite
+    }
+    @keyframes pulse{to{box-shadow:0 0 0 16px rgba(34,211,238,0)}}
+
+    /* Hero */
+    .hero{padding:56px 0 32px}
     .hero__card{
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:26px;
-      display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;
+      border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:26px;display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;
     }
-    .hero__img{
-      width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)
-    }
-    .hero__title{
-      margin:0 0 6px;font-size:28px;font-weight:800;letter-spacing:.3px
-    }
-    .hero__tagline{
-      margin:0;color:var(--ink-dim)
-    }
+    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
+    .hero__title{margin:0 0 6px;font-size:28px;font-weight:800}
+    .hero__tagline{margin:0;color:var(--ink-dim)}
     .badges{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
     .chip{
       padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);
       font-size:13px;font-weight:600;color:var(--ink-dim)
     }
-    .cta{
-      margin-top:14px;display:flex;gap:10px;flex-wrap:wrap
-    }
-    .btn{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--ink)
-    }
+    .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--ink)}
     .btn:hover{filter:brightness(1.05);text-decoration:none}
-    .btn--primary{
-      background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;border-color:transparent
-    }
+    .btn--primary{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;border-color:transparent}
 
-    /* Grid: left profile cards + right content */
-    .grid{
-      display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px
-    }
-    .card{
-      background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow)
-    }
-    .card__head{
-      padding:16px 16px 0;font-weight:800;color:var(--ink);letter-spacing:.3px
-    }
+    /* Main grid */
+    .grid{display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px}
+    .card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow)}
+    .card__head{padding:16px 16px 0;font-weight:800;color:var(--ink)}
     .card__body{padding:16px}
     .list{margin:0;padding-left:18px;color:var(--ink-dim)}
     .list li{margin:8px 0}
     .links .icon-link{display:flex;align-items:center;gap:10px;margin:10px 0}
     .icon{width:18px;height:18px}
 
-    /* Section content */
+    /* Sections */
     .section{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-elev)}
     .section + .section{margin-top:18px}
-    .h3{
-      font-size:20px;margin:0 0 10px;font-weight:800;color:var(--ink);
-      border-bottom:1px dashed var(--border);padding-bottom:8px
-    }
+    .h3{font-size:20px;margin:0 0 10px;font-weight:800;color:var(--ink);border-bottom:1px dashed var(--border);padding-bottom:8px}
     .h4{font-size:16px;margin:12px 0 6px;color:var(--ink)}
     .prose{color:var(--ink-dim)}
-    .pub-list{margin:8px 0 0 18px}
-    .pub-list li{margin:10px 0}
-    .news-group{margin:10px 0}
-    .news-group h5{margin:10px 0 6px;color:var(--ink)}
+    .pub-list{margin:8px 0 0 18px}.pub-list li{margin:10px 0}
+    .news-group{margin:10px 0}.news-group h5{margin:10px 0 6px;color:var(--ink)}
 
-    /* Notice */
-    .notice{
-      margin-top:18px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);
-      background:linear-gradient(180deg, rgba(234,179,8,.12), rgba(234,179,8,.06));
-      color:#412b00
-    }
-    .light .notice{color:#5b4400}
+    /* Blog */
+    .blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .blog-card{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .blog-card img{width:100%;height:160px;object-fit:cover}
+    .blog-content{padding:14px;display:flex;flex-direction:column;gap:6px}
+    .blog-content h4{margin:0 0 2px;font-weight:800}
+    .meta{font-size:13px;color:var(--muted)}
+    .excerpt{font-size:14px;color:var(--ink-dim)}
+    .read-more{margin-top:auto}
 
     /* Footer */
-    footer{
-      margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:14px
-    }
+    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:14px}
 
     /* Responsive */
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-    }
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
     @media (max-width: 640px){
       .hero__card{grid-template-columns:1fr;text-align:center}
       .hero__img{margin:0 auto}
-      .topbar__in{gap:8px}
       .nav{display:none}
+      .spotlight{top:64px}
     }
 
-    /* Small animation */
+    /* Anim */
     .fadeUp{opacity:0;transform:translateY(8px);animation:fadeUp .6s ease forwards}
     @keyframes fadeUp{to{opacity:1;transform:none}}
   </style>
@@ -217,11 +201,23 @@
         <a href="#education">Education</a>
         <a href="#academic-experience">Academic Experience</a>
         <a href="#projects">Projects</a>
+        <a href="#blog">Blog</a>
         <a href="#contact">Contact</a>
       </nav>
       <button class="toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
     </div>
   </header>
+
+  <!-- Spotlight: Postdoc positions (very visible) -->
+  <div class="spotlight">
+    <div class="wrap spotlight__in">
+      <span class="spotlight__badge pulse">Open</span>
+      <span>
+        Open to <strong>Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (Europe & Nordics).
+      </span>
+      <a class="btn btn--primary" href="#contact">Contact me</a>
+    </div>
+  </div>
 
   <!-- Hero -->
   <section class="hero" id="top">
@@ -233,7 +229,7 @@
           <p class="hero__tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
           <div class="badges" aria-label="expertise tags">
             <span class="chip">Communication-efficient FL</span>
-            <span class="chip">TinyML @ Edge</span>
+            <span class="chip">TinyML at Edge</span>
             <span class="chip">System-level evaluation</span>
             <span class="chip">Reproducible pipelines</span>
           </div>
@@ -242,14 +238,11 @@
             <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
             <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
           </div>
-          <div class="notice" style="margin-top:14px">
-            <strong>Open to Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (Europe & Nordics). <a href="#contact">Contact me</a>.
-          </div>
         </div>
       </div>
 
       <div class="grid">
-        <!-- Left column: profile cards -->
+        <!-- Left column -->
         <aside>
           <div class="card fadeUp" style="animation-delay:.05s">
             <div class="card__head">Affiliations</div>
@@ -266,7 +259,7 @@
             <div class="card__head">Links</div>
             <div class="card__body">
               <div class="icon-link">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.3l-10 6.7L2 8.3V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M2 9.2V16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2l-9.3 6.2a2 2 0 0 1-2.2 0L2 9.2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.3l-10 6.7L2 8.3V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M2 9.2V16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2l-9.3 6.2a 2 2 0 0 1-2.2 0L2 9.2Z" stroke="currentColor" stroke-width="1.6"/></svg>
                 <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a>
               </div>
               <div class="icon-link">
@@ -289,7 +282,7 @@
           </div>
         </aside>
 
-        <!-- Right column: main content -->
+        <!-- Right column -->
         <main style="min-width:0">
           <section class="section" id="about">
             <h3 class="h3">About</h3>
@@ -305,7 +298,7 @@
             <div class="news-group">
               <h5>July–August 2025</h5>
               <ul class="list">
-                <li>Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
+                <li>Preparing postdoc applications in federated learning and trustworthy AI (EU and Nordics).</li>
                 <li>Survey on TinyML and 6G edge integration — final restructuring based on external feedback.</li>
               </ul>
             </div>
@@ -341,7 +334,7 @@
           <section class="section" id="education">
             <h3 class="h3">Education</h3>
             <ul class="list">
-              <li><strong>Ph.D., Information Engineering &amp; Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
+              <li><strong>Ph.D., Information Engineering and Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
               <li><strong>Master of Engineering, Software Engineering</strong>, Wuhan University, China — 2019 <br><span class="prose">Thesis: Education Platform Based on Blockchain Technology for Certification Validation (Supervisor: Prof. Xiahoui Cui)</span></li>
               <li><strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014 <br><span class="prose">Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span></li>
             </ul>
@@ -350,13 +343,13 @@
           <section class="section" id="academic-experience">
             <h3 class="h3">Academic Experience</h3>
 
-            <h4 class="h4">Teaching &amp; Student Supervision</h4>
+            <h4 class="h4">Teaching and Student Supervision</h4>
             <ul class="list">
               <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. University of Trento, 2024</li>
               <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
                 <ul class="list">
                   <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
-                  <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers &amp; sensors.</li>
+                  <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers and sensors.</li>
                 </ul>
               </li>
             </ul>
@@ -376,6 +369,43 @@
               <li><strong>Blockchain-based Certificate Validation Platform</strong> — Wuhan University, 2019</li>
               <li><strong>Satellite Link Optimization using STK</strong> — with SUPARCO, 2014</li>
             </ul>
+          </section>
+
+          <!-- BLOG -->
+          <section class="section" id="blog">
+            <h3 class="h3">Blog</h3>
+            <div class="blog-grid" id="blogGrid">
+              <!-- Example post cards (replace with real posts or generate with JS) -->
+              <article class="blog-card">
+                <img src="assets/blog/fl-edge.jpg" alt="Edge devices and FL">
+                <div class="blog-content">
+                  <h4><a href="blog/comm-efficient-fl.html">Practical notes on communication-efficient FL at the edge</a></h4>
+                  <p class="meta">Aug 2025 · Federated Learning</p>
+                  <p class="excerpt">A short checklist I use when moving from simulation to device-level deployments.</p>
+                  <p class="read-more"><a href="blog/comm-efficient-fl.html">Read more →</a></p>
+                </div>
+              </article>
+
+              <article class="blog-card">
+                <img src="assets/blog/tinyml-6g.jpg" alt="TinyML and 6G">
+                <div class="blog-content">
+                  <h4><a href="blog/tinyml-6g-mapping.html">TinyML and 6G: mapping features to design choices</a></h4>
+                  <p class="meta">Jul 2025 · TinyML</p>
+                  <p class="excerpt">A quick framework to keep features, components, and design aspects clean and non-overlapping.</p>
+                  <p class="read-more"><a href="blog/tinyml-6g-mapping.html">Read more →</a></p>
+                </div>
+              </article>
+
+              <article class="blog-card">
+                <img src="assets/blog/research-stack.jpg" alt="Research tooling">
+                <div class="blog-content">
+                  <h4><a href="blog/research-reproducibility-stack.html">My reproducibility stack for FL experiments</a></h4>
+                  <p class="meta">Jun 2025 · Tooling</p>
+                  <p class="excerpt">Configs, logging, and simple rules that saved me weeks in multi-round experiments.</p>
+                  <p class="read-more"><a href="blog/research-reproducibility-stack.html">Read more →</a></p>
+                </div>
+              </article>
+            </div>
           </section>
 
           <section class="section" id="contact">
@@ -401,34 +431,33 @@
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Theme toggle (persisted)
+    // Theme toggle
     const root = document.documentElement;
     const saved = localStorage.getItem('theme');
     if(saved === 'light'){ root.classList.add('light'); }
-    const btn = document.getElementById('themeToggle');
-    btn.addEventListener('click', ()=>{
+    document.getElementById('themeToggle').addEventListener('click', ()=>{
       root.classList.toggle('light');
       localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
     });
 
-    // Simple scrollspy for nav
-    const sections = ['about','news','publications','education','academic-experience','projects','contact']
-      .map(id=>document.getElementById(id));
+    // Scrollspy for nav
+    const ids = ['about','news','publications','education','academic-experience','projects','blog','contact'];
+    const sections = ids.map(id=>document.getElementById(id));
     const links = Array.from(document.querySelectorAll('#nav a'));
-    const byId = id => links.find(a=>a.getAttribute('href')==='#'+id);
+    const linkFor = id => links.find(a=>a.getAttribute('href')==='#'+id);
 
     const obs = new IntersectionObserver(entries=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
           links.forEach(a=>a.classList.remove('active'));
-          const l = byId(e.target.id);
+          const l = linkFor(e.target.id);
           if(l) l.classList.add('active');
         }
       });
     },{rootMargin:'-40% 0px -55% 0px', threshold:[0,1]});
-    sections.forEach(s=>obs.observe(s));
+    sections.forEach(s=>s && obs.observe(s));
 
-    /* ===== BibTeX + Under Review → HTML with bolded author name ===== */
+    /* ===== Publications rendering (BibTeX + Under Review) ===== */
     const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
 
     function latexToHTML(s) {
