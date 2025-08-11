@@ -1,0 +1,8 @@
+# Quick Git publish
+git init
+git add .
+git commit -m "Initial commit: academic homepage"
+git branch -M main
+# Replace with your repo URL
+git remote add origin https://github.com/<your-username>/<your-repo>.git
+git push -u origin main
