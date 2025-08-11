@@ -6,283 +6,429 @@
   <title>Mir Hassan | Academic Home Page</title>
   <meta name="description" content="Mir Hassan — PhD Candidate, University of Trento. Federated Learning, Edge Computing, Distributed Systems, IoT, Blockchain." />
   <link rel="icon" href="assets/favicon.ico" />
+
+  <!-- Fonts (safe fallbacks if blocked) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#ffffff;
-      --bg-alt:#eef3f9;
-      --ink:#1a2a3a;
-      --muted:#5b6b7b;
-      --brand:#153a73;
-      --border:#cfd9e5;
-      --link:#153a73;
-      --accent:#fffae6;
-      --accent-border:#ecd372;
+      --bg:#0b1220;
+      --bg-elev:#0f172a;
+      --panel:#0b1220ee;
+      --ink:#e5ecff;
+      --ink-dim:#b6c2e1;
+      --muted:#8aa0c6;
+      --brand-1:#3b82f6;
+      --brand-2:#22d3ee;
+      --accent:#fef08a;
+      --border:rgba(255,255,255,.08);
+      --ring:rgba(59,130,246,.45);
+      --card:#0f172a;
+      --chip:#111b33;
+      --link:#8ab4ff;
+      --shadow:0 10px 30px rgba(2,6,23,.45);
+      --radius:18px;
+      --radius-sm:12px;
     }
+    /* Light mode (auto toggled) */
+    .light{
+      --bg:#f6f8fc;
+      --bg-elev:#ffffff;
+      --panel:#ffffffcc;
+      --ink:#0f172a;
+      --ink-dim:#334155;
+      --muted:#48607c;
+      --brand-1:#0ea5e9;
+      --brand-2:#6366f1;
+      --accent:#fde68a;
+      --border:rgba(15,23,42,.08);
+      --ring:rgba(14,165,233,.35);
+      --card:#ffffff;
+      --chip:#eef2ff;
+      --link:#0f4cc9;
+      --shadow:0 14px 30px rgba(2,6,23,.08);
+    }
+
     *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-alt);color:var(--ink);}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,.15), transparent 60%),
+        radial-gradient(900px 500px at 100% 0%, rgba(59,130,246,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, #0b1220 100%);
+      line-height:1.5;
+    }
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
 
     /* Container */
-    #container{max-width:1100px;margin:0 auto;background:var(--bg);box-shadow:0 2px 20px rgba(16,38,62,.06)}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
 
-    /* Header (name) */
-    #header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:var(--bg-alt);border-bottom:2px solid var(--border);padding:16px 20px}
-    #department h1{font-size:22px;margin:0;color:var(--brand);font-weight:800;letter-spacing:0.5px}
-    #border_dept_fac{height:32px;border-left:2px solid var(--border)}
+    /* Topbar */
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(10px);
+      background:var(--panel);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar__in{
+      display:flex;align-items:center;gap:18px;justify-content:space-between;height:64px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:14px;text-decoration:none;
+    }
+    .brand__logo{
+      width:38px;height:38px;border-radius:10px;
+      background:conic-gradient(from 200deg, var(--brand-1), var(--brand-2));
+      box-shadow:0 6px 20px var(--ring);
+    }
+    .brand__name{font-weight:800;letter-spacing:.4px}
+    .nav{
+      display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    }
+    .nav a{
+      font-weight:600;padding:8px 12px;border-radius:10px;border:1px solid transparent;
+    }
+    .nav a:hover{background:var(--chip);border-color:var(--border);text-decoration:none}
+    .nav a.active{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff}
 
-    /* Notice bar */
-    #notice{background:var(--accent);border-bottom:1px solid var(--accent-border);padding:10px 20px;color:#6e5a00;font-size:14px}
-    #notice strong{color:#5c4c00}
+    .toggle{
+      border:1px solid var(--border);background:transparent;color:var(--ink);
+      padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600;
+    }
 
-    /* Bio row */
-    .bio{display:grid;grid-template-columns:170px 1fr 1fr;gap:24px;padding:24px 20px;background:#fff;border-bottom:1px solid var(--border)}
-    #profile_img{width:170px;height:170px;object-fit:cover;border-radius:8px;border:2px solid var(--border)}
-    #affiliation,#external_links{background:#fafcff;border:1px solid var(--border);border-radius:10px;padding:16px}
-    #affiliation h3,#external_links h3{margin:0;color:var(--brand)}
-    #affiliation ul,#external_links ul{margin:10px 0 0 18px}
+    /* Hero */
+    .hero{
+      position:relative;
+      padding:56px 0 32px;
+      overflow:hidden;
+    }
+    .hero__card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:26px;
+      display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;
+    }
+    .hero__img{
+      width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)
+    }
+    .hero__title{
+      margin:0 0 6px;font-size:28px;font-weight:800;letter-spacing:.3px
+    }
+    .hero__tagline{
+      margin:0;color:var(--ink-dim)
+    }
+    .badges{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+    .chip{
+      padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--border);
+      font-size:13px;font-weight:600;color:var(--ink-dim)
+    }
+    .cta{
+      margin-top:14px;display:flex;gap:10px;flex-wrap:wrap
+    }
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:var(--card);color:var(--ink)
+    }
+    .btn:hover{filter:brightness(1.05);text-decoration:none}
+    .btn--primary{
+      background:linear-gradient(90deg,var(--brand-1),var(--brand-2));color:#fff;border-color:transparent
+    }
 
-    /* Link icons */
-    .icon-link{display:flex;align-items:center;gap:8px;margin:6px 0}
-    .icon{width:18px;height:18px;display:inline-block;vertical-align:middle}
+    /* Grid: left profile cards + right content */
+    .grid{
+      display:grid;grid-template-columns:300px 1fr;gap:22px;margin-top:22px
+    }
+    .card{
+      background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);box-shadow:var(--shadow)
+    }
+    .card__head{
+      padding:16px 16px 0;font-weight:800;color:var(--ink);letter-spacing:.3px
+    }
+    .card__body{padding:16px}
+    .list{margin:0;padding-left:18px;color:var(--ink-dim)}
+    .list li{margin:8px 0}
+    .links .icon-link{display:flex;align-items:center;gap:10px;margin:10px 0}
+    .icon{width:18px;height:18px}
 
-    /* Navigation */
-    .navigation{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-    .navigation ul{list-style:none;display:flex;gap:18px;align-items:center;padding:12px 20px;margin:0;flex-wrap:wrap}
-    .navigation li a{padding:6px 10px;border-radius:6px;font-weight:600}
-    .navigation li.selected a{background:#e6eef8}
-    .nav_border{width:1px;height:20px;background:var(--border)}
-
-    /* Content */
-    .contents{padding:22px 20px}
-    .content_separation{margin:26px 0 10px;font-size:22px;color:var(--brand);border-bottom:2px solid var(--border);padding-bottom:6px}
-    .contents p, .contents li{line-height:1.55;color:#2a3a4a}
-    .content_separation[id]{scroll-margin-top:80px}
-
-    /* Lists */
-    .pub-list{margin:10px 0 0 18px}
+    /* Section content */
+    .section{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-elev)}
+    .section + .section{margin-top:18px}
+    .h3{
+      font-size:20px;margin:0 0 10px;font-weight:800;color:var(--ink);
+      border-bottom:1px dashed var(--border);padding-bottom:8px
+    }
+    .h4{font-size:16px;margin:12px 0 6px;color:var(--ink)}
+    .prose{color:var(--ink-dim)}
+    .pub-list{margin:8px 0 0 18px}
     .pub-list li{margin:10px 0}
+    .news-group{margin:10px 0}
+    .news-group h5{margin:10px 0 6px;color:var(--ink)}
 
-    /* News groups */
-    .news-group{margin:12px 0}
-    .news-group h5{margin:10px 0 6px;color:#1f3550;font-size:16px}
+    /* Notice */
+    .notice{
+      margin-top:18px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(234,179,8,.12), rgba(234,179,8,.06));
+      color:#412b00
+    }
+    .light .notice{color:#5b4400}
 
     /* Footer */
-    #footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;background:var(--bg-alt);border-top:2px solid var(--border);padding:16px 20px;color:var(--muted);font-size:14px}
-    #footer .quotes{max-width:720px}
+    footer{
+      margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:var(--muted);font-size:14px
+    }
 
     /* Responsive */
-    @media (max-width: 900px){
-      #header{grid-template-columns:1fr}
-      #border_dept_fac{display:none}
-      .bio{grid-template-columns:140px 1fr;}
-      #external_links{grid-column:1/ -1}
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
     }
-    @media (max-width: 560px){
-      .bio{grid-template-columns:1fr}
-      #profile_img{width:100%;height:260px}
+    @media (max-width: 640px){
+      .hero__card{grid-template-columns:1fr;text-align:center}
+      .hero__img{margin:0 auto}
+      .topbar__in{gap:8px}
+      .nav{display:none}
     }
+
+    /* Small animation */
+    .fadeUp{opacity:0;transform:translateY(8px);animation:fadeUp .6s ease forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
   </style>
 </head>
+
 <body>
-  <div id="container">
-
-    <!-- Header -->
-    <div id="header">
-      <div id="department"><h1>MIR HASSAN</h1></div>
-      <div id="border_dept_fac"></div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="wrap topbar__in">
+      <a class="brand" href="#top" aria-label="Home">
+        <div class="brand__logo"></div>
+        <div class="brand__name">MIR HASSAN</div>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#about" class="active">About</a>
+        <a href="#news">News</a>
+        <a href="#publications">Publications</a>
+        <a href="#education">Education</a>
+        <a href="#academic-experience">Academic Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="toggle" id="themeToggle" aria-label="Toggle theme">🌓</button>
     </div>
+  </header>
 
-    <!-- Notice: open to postdoc roles -->
-    <div id="notice">
-      <strong>Open to Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (Europe & Nordics).
-      <a href="#contact">Contact me</a> for collaboration or opportunities.
-    </div>
-
-    <!-- Bio row -->
-    <div class="bio">
-      <img id="profile_img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
-
-      <div id="affiliation">
-        <h3>Affiliations</h3>
-        <ul>
-          <li><strong>PhD Candidate</strong>, University of Trento (Supervisor: Prof. Giovanni Iacca)</li>
-          <li><strong>Co-founder</strong> — Ibn e Adam Foundation (Non-Profit Organization)</li>
-          <li>Member, Smart Eco Solutions Initiative (Non-profit)</li>
-        </ul>
-      </div>
-
-      <div id="external_links">
-        <h3>Links</h3>
-        <div class="icon-link">
-          <!-- Email -->
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.3l-10 6.7L2 8.3V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M2 9.2V16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2l-9.3 6.2a2 2 0 0 1-2.2 0L2 9.2Z" stroke="currentColor" stroke-width="1.6"/></svg>
-          <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a>
-        </div>
-        <div class="icon-link">
-          <!-- Google Scholar -->
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 9l10 6 6-3.6V17h4V9L12 3Z"/><circle cx="17" cy="17" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-        </div>
-        <div class="icon-link">
-          <!-- GitHub -->
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.1c-3.2.7-3.87-1.37-3.87-1.37-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.2 1.18a11.2 11.2 0 0 1 5.83 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.4-2.68 5.36-5.24 5.65.42.36.79 1.07.79 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
-          <a href="https://github.com/hassanmiir" target="_blank" rel="noopener">GitHub</a>
-        </div>
-        <div class="icon-link">
-          <!-- ORCID -->
-          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.6 7.3h1.3v9.4H9.6zM12.6 12a4 4 0 1 1 8e-3 0z" fill="#fff"/></svg>
-          <a href="https://orcid.org/0000-0001-9733-2885" target="_blank" rel="noopener">ORCID</a>
-        </div>
-        <div class="icon-link">
-          <!-- CV -->
-          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M15 2v5h5" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12H15M8.5 16H15" stroke="currentColor" stroke-width="1.6"/></svg>
-          <a href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">CV (PDF)</a>
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero__card fadeUp">
+        <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
+        <div>
+          <h1 class="hero__title">PhD Candidate, University of Trento</h1>
+          <p class="hero__tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+          <div class="badges" aria-label="expertise tags">
+            <span class="chip">Communication-efficient FL</span>
+            <span class="chip">TinyML @ Edge</span>
+            <span class="chip">System-level evaluation</span>
+            <span class="chip">Reproducible pipelines</span>
+          </div>
+          <div class="cta">
+            <a class="btn btn--primary" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
+            <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+            <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+          </div>
+          <div class="notice" style="margin-top:14px">
+            <strong>Open to Postdoc Positions</strong> in federated learning, TinyML, distributed systems, and trustworthy ML (Europe & Nordics). <a href="#contact">Contact me</a>.
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Navigation -->
-    <div class="navigation">
-      <ul>
-        <li class="selected"><a href="#about">About</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#news">News</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#publications">Publications</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#education">Education</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#academic-experience">Academic Experience</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#projects">Projects</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
+      <div class="grid">
+        <!-- Left column: profile cards -->
+        <aside>
+          <div class="card fadeUp" style="animation-delay:.05s">
+            <div class="card__head">Affiliations</div>
+            <div class="card__body">
+              <ul class="list">
+                <li><strong>PhD Candidate</strong>, University of Trento (Supervisor: Prof. Giovanni Iacca)</li>
+                <li><strong>Co-founder</strong> — Ibn e Adam Foundation (Non-Profit)</li>
+                <li>Member, Smart Eco Solutions Initiative (Non-profit)</li>
+              </ul>
+            </div>
+          </div>
 
-    <!-- Main contents -->
-    <div class="contents">
-      <h3 class="content_separation" id="about">About</h3>
-      <p>
-        I work on communication-efficient and trustworthy federated learning with a focus on system-level precision, reproducibility, and practical deployment at the edge.
-        I develop methods and frameworks (e.g., GASPU, FedEdge, FedFor, PA-FL) for scalable, real-world intelligent systems.
-      </p>
-      <p><strong>Research Areas:</strong> Federated Learning • Distributed Systems • Edge Computing • Internet of Things (IoT) • Blockchain</p>
+          <div class="card links fadeUp" style="animation-delay:.1s">
+            <div class="card__head">Links</div>
+            <div class="card__body">
+              <div class="icon-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.3l-10 6.7L2 8.3V8a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M2 9.2V16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9.2l-9.3 6.2a2 2 0 0 1-2.2 0L2 9.2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+                <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a>
+              </div>
+              <div class="icon-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 9l10 6 6-3.6V17h4V9L12 3Z"/><circle cx="17" cy="17" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+              </div>
+              <div class="icon-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.1c-3.2.7-3.87-1.37-3.87-1.37-.53-1.35-1.3-1.71-1.3-1.71-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.2 1.18a11.2 11.2 0 0 1 5.83 0c2.22-1.49 3.2-1.18 3.2-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.4-2.68 5.36-5.24 5.65.42.36.79 1.07.79 2.17v3.22c0 .3.21.66.8.55A11.51 11.51 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+                <a href="https://github.com/hassanmiir" target="_blank" rel="noopener">GitHub</a>
+              </div>
+              <div class="icon-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.6 7.3h1.3v9.4H9.6zM12.6 12a4 4 0 1 1 8e-3 0z" fill="#fff"/></svg>
+                <a href="https://orcid.org/0000-0001-9733-2885" target="_blank" rel="noopener">ORCID</a>
+              </div>
+              <div class="icon-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/><path d="M15 2v5h5" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12H15M8.5 16H15" stroke="currentColor" stroke-width="1.6"/></svg>
+                <a href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">CV (PDF)</a>
+              </div>
+            </div>
+          </div>
+        </aside>
 
-      <h3 class="content_separation" id="news">Recent News</h3>
-      <div class="news-group">
-        <h5>July–August 2025</h5>
-        <ul>
-          <li>Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
-          <li>Survey on TinyML and 6G edge integration — final restructuring based on external feedback.</li>
-        </ul>
+        <!-- Right column: main content -->
+        <main style="min-width:0">
+          <section class="section" id="about">
+            <h3 class="h3">About</h3>
+            <p class="prose">
+              I work on communication-efficient and trustworthy federated learning with a focus on system-level precision, reproducibility, and practical deployment at the edge.
+              I develop methods and frameworks (e.g., GASPU, FedEdge, FedFor, PA-FL) for scalable, real-world intelligent systems.
+            </p>
+            <p class="prose"><strong>Research Areas:</strong> Federated Learning • Distributed Systems • Edge Computing • Internet of Things (IoT) • Blockchain</p>
+          </section>
+
+          <section class="section" id="news">
+            <h3 class="h3">Recent News</h3>
+            <div class="news-group">
+              <h5>July–August 2025</h5>
+              <ul class="list">
+                <li>Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
+                <li>Survey on TinyML and 6G edge integration — final restructuring based on external feedback.</li>
+              </ul>
+            </div>
+            <div class="news-group">
+              <h5>May–June 2025</h5>
+              <ul class="list">
+                <li>Extended evaluation for communication-efficient FL on constrained devices (FedEdge + GA-masking).</li>
+              </ul>
+            </div>
+            <div class="news-group">
+              <h5>March–April 2025</h5>
+              <ul class="list">
+                <li>Large-scale experiments on communication-efficient FL with GA-optimized masks.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="publications">
+            <h3 class="h3">Publications</h3>
+
+            <h4 class="h4">Under Review</h4>
+            <ul id="pub-under-review" class="pub-list"></ul>
+
+            <h4 class="h4">Journal Publications</h4>
+            <ul id="pub-journals" class="pub-list"></ul>
+
+            <h4 class="h4">Conference (Peer-Reviewed)</h4>
+            <ul id="pub-confs" class="pub-list"></ul>
+
+            <p class="prose">Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+          </section>
+
+          <section class="section" id="education">
+            <h3 class="h3">Education</h3>
+            <ul class="list">
+              <li><strong>Ph.D., Information Engineering &amp; Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
+              <li><strong>Master of Engineering, Software Engineering</strong>, Wuhan University, China — 2019 <br><span class="prose">Thesis: Education Platform Based on Blockchain Technology for Certification Validation (Supervisor: Prof. Xiahoui Cui)</span></li>
+              <li><strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014 <br><span class="prose">Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span></li>
+            </ul>
+          </section>
+
+          <section class="section" id="academic-experience">
+            <h3 class="h3">Academic Experience</h3>
+
+            <h4 class="h4">Teaching &amp; Student Supervision</h4>
+            <ul class="list">
+              <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. University of Trento, 2024</li>
+              <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
+                <ul class="list">
+                  <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
+                  <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers &amp; sensors.</li>
+                </ul>
+              </li>
+            </ul>
+
+            <h4 class="h4">Visiting Research Appointments</h4>
+            <ul class="list">
+              <li><strong>Visiting Researcher</strong>, Yildiz Technical University, Turkey — Apr 2024–Sep 2024; Oct 2023 (Host: Prof. Nihan Kahraman)</li>
+              <li><strong>Specialist (Part-Time)</strong>, Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania — May 2022–Aug 2023</li>
+              <li><strong>Remote Visiting Researcher</strong>, School of Computing Science, University of Glasgow, UK — Jan 2020–Mar 2020</li>
+            </ul>
+          </section>
+
+          <section class="section" id="projects">
+            <h3 class="h3">Selected Projects</h3>
+            <ul class="list">
+              <li><strong>SUSTAIN (Horizon EIC Pathfinder)</strong> — Smart Buildings Sensitive to Daily Sentiment, University of Trento, WP3 (Federated Learning + Edge AI), 2023–present</li>
+              <li><strong>Blockchain-based Certificate Validation Platform</strong> — Wuhan University, 2019</li>
+              <li><strong>Satellite Link Optimization using STK</strong> — with SUPARCO, 2014</li>
+            </ul>
+          </section>
+
+          <section class="section" id="contact">
+            <h3 class="h3">Contact</h3>
+            <p class="prose">
+              <strong>Email:</strong> <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a><br />
+              <strong>Phone:</strong> +39 346 3566216<br />
+              <strong>Location:</strong> Trento, Italy
+            </p>
+          </section>
+
+          <footer>
+            <div class="prose">“Failure is success in progress” — Albert Einstein</div>
+            <div class="prose" style="margin-top:8px">“If four things are followed — having a great aim, acquiring knowledge, hard work, and perseverance — then anything can be achieved” — A. P. J. Abdul Kalam</div>
+            <div style="margin-top:10px">&copy; <span id="year"></span> Mir Hassan</div>
+          </footer>
+        </main>
       </div>
-      <div class="news-group">
-        <h5>May–June 2025</h5>
-        <ul>
-          <li>Extended evaluation for communication-efficient FL on constrained devices (FedEdge + GA-masking).</li>
-        </ul>
-      </div>
-      <div class="news-group">
-        <h5>March–April 2025</h5>
-        <ul>
-          <li>Large-scale experiments on communication-efficient FL with GA-optimized masks.</li>
-        </ul>
-      </div>
-
-      <h3 class="content_separation" id="publications">Publications</h3>
-
-      <h4>Under Review</h4>
-      <ul id="pub-under-review" class="pub-list"></ul>
-
-      <h4>Journal Publications</h4>
-      <ul id="pub-journals" class="pub-list"></ul>
-
-      <h4>Conference (Peer-Reviewed)</h4>
-      <ul id="pub-confs" class="pub-list"></ul>
-
-      <p>Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
-
-      <h3 class="content_separation" id="education">Education</h3>
-      <ul>
-        <li><strong>Ph.D., Information Engineering &amp; Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)</li>
-        <li><strong>Master of Engineering, Software Engineering</strong>, Wuhan University, China — 2019 <br><span>Thesis: Education Platform Based on Blockchain Technology for Certification Validation (Supervisor: Prof. Xiahoui Cui)</span></li>
-        <li><strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014 <br><span>Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span></li>
-      </ul>
-
-      <h3 class="content_separation" id="academic-experience">Academic Experience</h3>
-
-      <h4>Teaching &amp; Student Supervision</h4>
-      <ul>
-        <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. University of Trento, 2024</li>
-        <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
-          <ul>
-            <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
-            <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers &amp; sensors.</li>
-          </ul>
-        </li>
-      </ul>
-
-      <h4>Visiting Research Appointments</h4>
-      <ul>
-        <li><strong>Visiting Researcher</strong>, Yildiz Technical University, Turkey — Apr 2024–Sep 2024; Oct 2023 (Host: Prof. Nihan Kahraman)</li>
-        <li><strong>Specialist (Part-Time)</strong>, Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania — May 2022–Aug 2023</li>
-        <li><strong>Remote Visiting Researcher</strong>, School of Computing Science, University of Glasgow, UK — Jan 2020–Mar 2020</li>
-      </ul>
-
-      <h3 class="content_separation" id="projects">Selected Projects</h3>
-      <ul>
-        <li><strong>SUSTAIN (Horizon EIC Pathfinder)</strong> — Smart Buildings Sensitive to Daily Sentiment, University of Trento, WP3 (Federated Learning + Edge AI), 2023–present</li>
-        <li><strong>Blockchain-based Certificate Validation Platform</strong> — Wuhan University, 2019</li>
-        <li><strong>Satellite Link Optimization using STK</strong> — with SUPARCO, 2014</li>
-      </ul>
-
-      <h3 class="content_separation" id="contact">Contact</h3>
-      <p>
-        <strong>Email:</strong> <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a><br />
-        <strong>Phone:</strong> +39 346 3566216<br />
-        <strong>Location:</strong> Trento, Italy
-      </p>
     </div>
-
-    <!-- Bottom nav -->
-    <div class="navigation">
-      <ul>
-        <li><a href="#about">About</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#news">News</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#publications">Publications</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#education">Education</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#academic-experience">Academic Experience</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#projects">Projects</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-
-    <!-- Footer -->
-    <div id="footer">
-      <div class="quotes">
-        <div>“Failure is success in progress” — Albert Einstein</div>
-        <br />
-        <div>“If four things are followed — having a great aim, acquiring knowledge, hard work, and perseverance — then anything can be achieved” — A. P. J. Abdul Kalam</div>
-      </div>
-      <div>&copy; <span id="year"></span> Mir Hassan</div>
-    </div>
-
-  </div>
+  </section>
 
   <script>
+    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* ===== BibTeX + Under Review → HTML with bolded author name ===== */
+    // Theme toggle (persisted)
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if(saved === 'light'){ root.classList.add('light'); }
+    const btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', ()=>{
+      root.classList.toggle('light');
+      localStorage.setItem('theme', root.classList.contains('light') ? 'light' : 'dark');
+    });
 
-    // Add all variants you want to bold (case-insensitive match)
+    // Simple scrollspy for nav
+    const sections = ['about','news','publications','education','academic-experience','projects','contact']
+      .map(id=>document.getElementById(id));
+    const links = Array.from(document.querySelectorAll('#nav a'));
+    const byId = id => links.find(a=>a.getAttribute('href')==='#'+id);
+
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          links.forEach(a=>a.classList.remove('active'));
+          const l = byId(e.target.id);
+          if(l) l.classList.add('active');
+        }
+      });
+    },{rootMargin:'-40% 0px -55% 0px', threshold:[0,1]});
+    sections.forEach(s=>obs.observe(s));
+
+    /* ===== BibTeX + Under Review → HTML with bolded author name ===== */
     const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
 
     function latexToHTML(s) {
@@ -291,7 +437,6 @@
         .replace(/\\textbf\{([^}]*)\}/g, "<strong>$1</strong>")
         .replace(/\\emph\{([^}]*)\}/g, "<em>$1</em>");
     }
-
     function norm(s) {
       return (s || "")
         .toLowerCase()
@@ -299,7 +444,6 @@
         .replace(/[^a-z0-9]+/g, " ")
         .trim();
     }
-
     const MY_NAMES_NORM = MY_NAMES.map(norm);
 
     function boldifyAuthor(author) {
@@ -307,9 +451,7 @@
       const aplain = ahtml.replace(/<[^>]+>/g, "");
       const na = norm(aplain);
       for (const me of MY_NAMES_NORM) {
-        if (na === me || na.includes(me)) {
-          return `<strong>${ahtml}</strong>`;
-        }
+        if (na === me || na.includes(me)) return `<strong>${ahtml}</strong>`;
       }
       return ahtml;
     }
@@ -344,7 +486,6 @@
     function bibAuthorsToList(authorStr) {
       return authorStr.split(/\s+and\s+/i).map(a => a.trim()).filter(Boolean);
     }
-
     function decideType(entry) {
       const t = entry.type;
       if (t === 'article') return 'journal';
@@ -352,7 +493,6 @@
       const v = (entry.fields.journal || entry.fields.booktitle || '').toLowerCase();
       return /journal|transactions|magazine/.test(v) ? 'journal' : 'conference';
     }
-
     function entryToRenderInfo(entry) {
       const f = entry.fields;
       const title   = f.title || 'Untitled';
@@ -362,7 +502,6 @@
       const authors = f.author ? bibAuthorsToList(f.author) : [];
       return { title, venue, year, url, authors };
     }
-
     function titleSetFromBib(entries) {
       const set = new Set();
       for (const e of entries) {
@@ -371,7 +510,6 @@
       }
       return set;
     }
-
     function buildPubLI({title, authors, year, venue, url, rankLabel}) {
       const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
       const linkEnd = url ? `</a>` : '';
@@ -402,7 +540,7 @@
         const entries = bibText ? parseBibtex(bibText) : [];
         const bibTitleSet = titleSetFromBib(entries);
 
-        // UNDER REVIEW (render first; hide if title appears in BibTeX)
+        // UNDER REVIEW (skip if already in BibTeX)
         const urList = document.getElementById('pub-under-review');
         const filteredUR = underReview.filter(item => !bibTitleSet.has(norm(item.title || '')));
         filteredUR.sort((a, b) => (parseInt(b.year)||0) - (parseInt(a.year)||0));
