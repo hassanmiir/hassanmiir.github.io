@@ -1,0 +1,26 @@
+name: Build and deploy to public pages repo
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Copy everything to ./build (ignore .git, node_modules, etc. via .gitignore)
+      - name: Prepare build directory
+        run: |
+          mkdir -p build
+          shopt -s dotglob
+          cp -r * build || true
+
+      - name: Deploy to external repo
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: hassanmiir/hassanmiir.github.io
+          publish_branch: main
+          publish_dir: ./build
+          personal_token: ${{ secrets.PAGES_DEPLOY_TOKEN }}
+          enable_jekyll: false
