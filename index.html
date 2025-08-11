@@ -149,9 +149,7 @@
         <div class="nav_border"></div>
         <li><a href="#education">Education</a></li>
         <div class="nav_border"></div>
-        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#experience">Experience</a></li>
+        <li><a href="#academic-experience">Academic Experience</a></li>
         <div class="nav_border"></div>
         <li><a href="#projects">Projects</a></li>
         <div class="nav_border"></div>
@@ -180,6 +178,10 @@
       </div>
 
       <h3 class="content_separation" id="publications">Publications</h3>
+
+      <h4>Under Review</h4>
+      <ul id="pub-under-review" class="pub-list"></ul>
+
       <h4>Journal Publications</h4>
       <ul id="pub-journals" class="pub-list"></ul>
 
@@ -195,23 +197,24 @@
         <li><strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014 <br><span>Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span></li>
       </ul>
 
-      <h3 class="content_separation" id="teaching">Teaching &amp; Mentorship</h3>
-      <ul>
-        <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
-          <ul>
-            <li>Computer Architectures (UG) — labs, tutorials, graded with detailed feedback.</li>
-            <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers & sensors, Arduino/Raspberry Pi support.</li>
-          </ul>
-        </li>
-      </ul>
+      <h3 class="content_separation" id="academic-experience">Academic Experience</h3>
 
-      <h3 class="content_separation" id="experience">Experience</h3>
+      <h4>Visiting Research Appointments</h4>
       <ul>
         <li><strong>Visiting Researcher</strong>, Yildiz Technical University, Turkey — Apr 2024–Sep 2024; Oct 2023 (Host: Prof. Nihan Kahraman)</li>
         <li><strong>Specialist (Part-Time)</strong>, Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania — May 2022–Aug 2023</li>
         <li><strong>Remote Visiting Researcher</strong>, School of Computing Science, University of Glasgow, UK — Jan 2020–Mar 2020</li>
-        <li><strong>Software Engineer</strong>, Gamestoodio, Pakistan — Apr 2016–Jul 2017</li>
-        <li><strong>Assistant Manager</strong>, Al Safina Operations, Pakistan — Jun 2015–Mar 2016</li>
+      </ul>
+
+      <h4>Teaching & Student Supervision</h4>
+      <ul>
+        <li><strong>Co-supervisor</strong> — MSc Thesis: Communication-Efficient FL using Compressed Models. Student: <em>Hafiz Muhammad Bilal</em>, University of Trento, 2024</li>
+        <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
+          <ul>
+            <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
+            <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers & sensors.</li>
+          </ul>
+        </li>
       </ul>
 
       <h3 class="content_separation" id="projects">Selected Projects</h3>
@@ -223,7 +226,7 @@
 
       <h3 class="content_separation" id="students">Students</h3>
       <ul>
-        <li><strong>Hafiz Muhammad Bilal</strong> (2024), MSc Thesis: Communication-Efficient FL using Compressed Models, University of Trento</li>
+        <li><strong>Hafiz Muhammad Bilal</strong> — MSc Thesis (co-supervised), University of Trento, 2024</li>
       </ul>
 
       <h3 class="content_separation" id="contact">Contact</h3>
@@ -245,9 +248,7 @@
         <div class="nav_border"></div>
         <li><a href="#education">Education</a></li>
         <div class="nav_border"></div>
-        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#experience">Experience</a></li>
+        <li><a href="#academic-experience">Academic Experience</a></li>
         <div class="nav_border"></div>
         <li><a href="#projects">Projects</a></li>
         <div class="nav_border"></div>
@@ -272,7 +273,7 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    /* ===== BibTeX → HTML with bolded author name ===== */
+    /* ===== BibTeX + Under Review → HTML with bolded author name ===== */
 
     // Add all variants you want to bold (case-insensitive match)
     const MY_NAMES = ["Hassan, Mir", "Mir Hassan"];
@@ -285,7 +286,7 @@
     }
 
     function norm(s) {
-      return s
+      return (s || "")
         .toLowerCase()
         .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .replace(/[^a-z0-9]+/g, " ")
@@ -355,55 +356,82 @@
       return { title, venue, year, url, authors };
     }
 
-    (async function renderBibtexPublications() {
+    function titleSetFromBib(entries) {
+      const set = new Set();
+      for (const e of entries) {
+        const info = entryToRenderInfo(e);
+        set.add(norm(info.title));
+      }
+      return set;
+    }
+
+    function buildPubLI({title, authors, year, venue, url, rankLabel}) {
+      const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
+      const linkEnd = url ? `</a>` : '';
+      const authorsHTML = (authors || []).map(boldifyAuthor).join(', ');
+      const yearStr = year ? `, ${year}` : '';
+      const rankStr = rankLabel ? ` ${rankLabel}` : '';
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <strong>${linkStart}${latexToHTML(title)}${linkEnd}</strong><br>
+        ${authorsHTML}${yearStr}<br>
+        <em>${latexToHTML(venue || '')}</em>${rankStr}
+      `;
+      return li;
+    }
+
+    (async function renderPublications() {
       try {
-        const [bibResp, rankResp] = await Promise.all([
+        const [bibResp, rankResp, urResp] = await Promise.all([
           fetch('assets/publications.bib', { cache: 'no-store' }),
-          fetch('assets/venue_ranks.json', { cache: 'no-store' })
+          fetch('assets/venue_ranks.json', { cache: 'no-store' }),
+          fetch('assets/under_review.json', { cache: 'no-store' })
         ]);
 
-        if (!bibResp.ok) {
-          console.warn('No publications.bib found at assets/publications.bib');
-          return;
+        const ranks = rankResp.ok ? await rankResp.json() : {};
+        const bibText = bibResp.ok ? await bibResp.text() : '';
+        const underReview = urResp.ok ? await urResp.json() : [];
+
+        const entries = bibText ? parseBibtex(bibText) : [];
+        const bibTitleSet = titleSetFromBib(entries);
+
+        // Render Under Review first, excluding any title that now exists in BibTeX
+        const urList = document.getElementById('pub-under-review');
+        const filteredUR = underReview.filter(item => !bibTitleSet.has(norm(item.title || '')));
+        // sort by year desc if provided
+        filteredUR.sort((a, b) => (parseInt(b.year)||0) - (parseInt(a.year)||0));
+        for (const item of filteredUR) {
+          const rankLabel = ''; // usually "Submitted" only; you can store rank inside venue_ranks.json if you want
+          urList.appendChild(buildPubLI({
+            title: item.title,
+            authors: item.authors || [],
+            year: item.year || '',
+            venue: item.venue || 'Submitted',
+            url: item.url || '',
+            rankLabel
+          }));
         }
 
-        const [bibText, ranks] = await Promise.all([
-          bibResp.text(),
-          rankResp.ok ? rankResp.json() : Promise.resolve({})
-        ]);
-
-        const entries = parseBibtex(bibText);
+        // Split BibTeX into journal / conference and render
         const journals = [];
         const confs = [];
-
         for (const e of entries) {
           const type = decideType(e);
           const info = entryToRenderInfo(e);
           const vr = ranks[info.venue] || null;
-          const rankLabel = vr ? ` — ${vr.source}: ${vr.rank}` : '';
-
-          // Build authors line with your name bolded
-          const authorsHTML = info.authors.length
-            ? info.authors.map(boldifyAuthor).join(', ')
-            : '';
-
-          // Build list item with the requested layout:
-          // Title (bold) / Authors / Venue + ranking
-          const linkStart = info.url ? `<a href="${info.url}" target="_blank" rel="noopener">` : '';
-          const linkEnd = info.url ? `</a>` : '';
-
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <strong>${linkStart}${info.title}${linkEnd}</strong><br>
-            ${authorsHTML}${info.year ? `, ${info.year}` : ''}<br>
-            <em>${info.venue}</em>${rankLabel}
-          `;
-
-          (type === 'journal' ? journals : confs).push({ li, y: info.year });
+          const rankLabel = vr ? `— ${vr.source}: ${vr.rank}` : '';
+          const li = buildPubLI({
+            title: info.title,
+            authors: info.authors,
+            year: info.year,
+            venue: info.venue,
+            url: info.url,
+            rankLabel
+          });
+          (type === 'journal' ? journals : confs).push({ li, y: info.year, venueRank: rankLabel });
         }
 
-        // Sort by year desc
-        const byYearDesc = (a, b) => (parseInt(b.y) || 0) - (parseInt(a.y) || 0);
+        const byYearDesc = (a, b) => (parseInt(b.y)||0) - (parseInt(a.y)||0);
         journals.sort(byYearDesc);
         confs.sort(byYearDesc);
 
@@ -411,8 +439,9 @@
         const c = document.getElementById('pub-confs');
         journals.forEach(x => j.appendChild(x.li));
         confs.forEach(x => c.appendChild(x.li));
+
       } catch (err) {
-        console.warn('Failed to render BibTeX publications:', err);
+        console.warn('Failed to render publications:', err);
       }
     })();
   </script>
