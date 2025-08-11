@@ -24,10 +24,9 @@
     /* Container */
     #container{max-width:1100px;margin:0 auto;background:var(--bg);box-shadow:0 2px 20px rgba(16,38,62,.06)}
 
-    /* Header strip with institution lines (mirrors sample layout) */
-    #header{display:grid;grid-template-columns:120px 1fr 1fr;gap:16px;align-items:center;background:var(--bg-alt);border-bottom:2px solid var(--border);padding:16px 20px}
-    #main_logo img{width:100%;height:auto}
-    #department h1,#faculty h1{font-size:18px;margin:0;color:var(--brand);font-weight:700}
+    /* Header strip (name) */
+    #header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:var(--bg-alt);border-bottom:2px solid var(--border);padding:16px 20px}
+    #department h1{font-size:22px;margin:0;color:var(--brand);font-weight:800;letter-spacing:0.5px}
     #border_dept_fac{height:32px;border-left:2px solid var(--border)}
 
     /* Bio row (photo + two side boxes) */
@@ -49,6 +48,9 @@
     .content_separation{margin:26px 0 10px;font-size:22px;color:var(--brand);border-bottom:2px solid var(--border);padding-bottom:6px}
     .contents p, .contents li{line-height:1.55;color:#2a3a4a}
 
+    /* Smooth anchor target spacing (if you later make nav sticky) */
+    .content_separation[id]{scroll-margin-top:80px}
+
     /* Recent news */
     #recent_news ul{padding-left:18px;margin:8px 0}
     #recent_news li{margin:8px 0}
@@ -64,9 +66,8 @@
 
     /* Responsive */
     @media (max-width: 900px){
-      #header{grid-template-columns:80px 1fr;grid-auto-rows:auto}
+      #header{grid-template-columns:1fr}
       #border_dept_fac{display:none}
-      #faculty{grid-column:1/ -1}
       .bio{grid-template-columns:140px 1fr;}
       #external_links{grid-column:1/ -1}
     }
@@ -83,7 +84,7 @@
     <div id="header">
       <div id="department"><h1>MIR HASSAN</h1></div>
       <div id="border_dept_fac"></div>
-     </div>
+    </div>
 
     <!-- Bio row: photo + affiliations + external links -->
     <div class="bio">
@@ -110,28 +111,35 @@
       </div>
     </div>
 
-    <!-- Navigation (mirrors sample with separators) -->
+    <!-- Navigation (top) -->
     <div class="navigation">
       <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#interests">Research</a></li>
-          <li><a href="#news">News</a></li>
-          <li><a href="#publications">Publications</a></li>
-          <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
-          <li><a href="#service">Service</a></li>
-          <li><a href="#students">Students</a></li>
-          <li><a href="#contact">Contact</a></li>
+        <li class="selected"><a href="#about">About</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#research">Research</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#news">News</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#publications">Publications</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#service">Service</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#students">Students</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
 
     <!-- Main contents -->
-    <div class="contents" id="home">
-      <h3 class="content_separation">About</h3>
+    <div class="contents">
+      <h3 class="content_separation" id="about">About</h3>
       <div>
         I am a final‑year PhD candidate in Information Engineering &amp; Computer Science at the University of Trento. I work on <em>communication‑efficient and trustworthy federated learning</em> for edge intelligence and TinyML. My focus is aggregation schemes, privacy‑aware pipelines, and deployment frameworks for resource‑constrained systems.
       </div>
 
-      <h3 class="content_separation">Recent News <img src="assets/new.gif" alt="new" style="vertical-align:middle;height:18px" onerror="this.style.display='none'"/></h3>
+      <h3 class="content_separation" id="news">Recent News <img src="assets/new.gif" alt="new" style="vertical-align:middle;height:18px" onerror="this.style.display='none'"/></h3>
       <div id="recent_news">
         <ul>
           <li>08/2025 — Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
@@ -163,20 +171,11 @@
         <li>Organizer: Ibne Adam Education Chapter (non‑profit ML education).</li>
       </ul>
 
-      <h3 class="content_separation">Funded by</h3>
-      <div>We gratefully acknowledge support from the agencies below.</div>
-      <div id="funded-by">
-        <div>
-          <a href="https://www.stint.se/en/" target="_blank"><img src="assets/stint_se.jpeg" alt="STINT" /></a>
-          <a href="https://wasp-sweden.org/" target="_blank"><img src="assets/wasp_se.jpeg" alt="WASP" /></a>
-          <a href="https://www.kempe.com/" target="_blank"><img src="assets/kempe.png" alt="Kempe" style="max-height:40px"/></a>
-        </div>
-        <div>
-          <a href="https://www.nict.go.jp/en/" target="_blank"><img src="assets/nict_jp.png" alt="NICT" /></a>
-          <a href="https://marie-sklodowska-curie-actions.ec.europa.eu/actions/doctoral-networks" target="_blank"><img src="assets/msca-doctoral-network.jpeg" alt="MSCA" style="max-height:120px"/></a>
-          <a href="https://ec.europa.eu/info/funding-tenders/opportunities/portal/screen/home" target="_blank"><img src="assets/eu.jpg" alt="EU" style="max-height:120px"/></a>
-        </div>
-      </div>
+      <h3 class="content_separation" id="students">Students</h3>
+      <ul>
+        <li><em>Open to supervising motivated MSc/BSc projects</em> in federated learning, TinyML, and wireless sensing.</li>
+        <!-- Add named students/projects here when ready -->
+      </ul>
 
       <h3 class="content_separation" id="contact">Contact</h3>
       <p>
@@ -186,30 +185,28 @@
       </p>
     </div>
 
-    <!-- Bottom nav repeat (like sample) -->
+    <!-- Bottom nav (same links as top) -->
     <div class="navigation">
       <ul>
-        <li class="selected"><a href="#home">Home</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#profile">Profile</a></li>
+        <li class="selected"><a href="#about">About</a></li>
         <div class="nav_border"></div>
         <li><a href="#research">Research</a></li>
         <div class="nav_border"></div>
-        <li><a href="#teaching">Teaching</a></li>
+        <li><a href="#news">News</a></li>
         <div class="nav_border"></div>
         <li><a href="#publications">Publications</a></li>
         <div class="nav_border"></div>
-        <li><a href="#talks">Talks</a></li>
+        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
         <div class="nav_border"></div>
-        <li><a href="#service">Community Services</a></li>
+        <li><a href="#service">Service</a></li>
         <div class="nav_border"></div>
-        <li><a href="#misc">Misc</a></li>
+        <li><a href="#students">Students</a></li>
         <div class="nav_border"></div>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
 
-    <!-- Footer with quotes -->
+    <!-- Footer -->
     <div id="footer">
       <div class="quotes">
         <div>“Failure is success in progress” — Albert Einstein</div>
