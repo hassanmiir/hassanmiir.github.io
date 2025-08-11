@@ -8,63 +8,43 @@
   <link rel="icon" href="assets/favicon.ico" />
   <style>
     :root{
-      --bg:#ffffff;           /* main content bg */
-      --bg-alt:#eef3f9;       /* header/nav/footer bg */
-      --ink:#1a2a3a;          /* primary text */
-      --muted:#5b6b7b;        /* secondary text */
-      --brand:#153a73;        /* accents */
-      --border:#cfd9e5;       /* borders */
-      --link:#153a73;         /* links */
+      --bg:#ffffff;
+      --bg-alt:#eef3f9;
+      --ink:#1a2a3a;
+      --muted:#5b6b7b;
+      --brand:#153a73;
+      --border:#cfd9e5;
+      --link:#153a73;
     }
     *{box-sizing:border-box}
     body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg-alt);color:var(--ink);}
     a{color:var(--link);text-decoration:none}
     a:hover{text-decoration:underline}
-
-    /* Container */
     #container{max-width:1100px;margin:0 auto;background:var(--bg);box-shadow:0 2px 20px rgba(16,38,62,.06)}
-
-    /* Header strip (name) */
     #header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:var(--bg-alt);border-bottom:2px solid var(--border);padding:16px 20px}
     #department h1{font-size:22px;margin:0;color:var(--brand);font-weight:800;letter-spacing:0.5px}
     #border_dept_fac{height:32px;border-left:2px solid var(--border)}
-
-    /* Bio row (photo + two side boxes) */
     .bio{display:grid;grid-template-columns:170px 1fr 1fr;gap:24px;padding:24px 20px;background:#fff;border-bottom:1px solid var(--border)}
     #profile_img{width:170px;height:170px;object-fit:cover;border-radius:8px;border:2px solid var(--border)}
     #affiliation,#external_links{background:#fafcff;border:1px solid var(--border);border-radius:10px;padding:16px}
     #affiliation h3,#external_links h3{margin:0;color:var(--brand)}
     #affiliation ul,#external_links ul{margin:10px 0 0 18px}
-
-    /* Navigation bar */
     .navigation{background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
     .navigation ul{list-style:none;display:flex;gap:18px;align-items:center;padding:12px 20px;margin:0;flex-wrap:wrap}
     .navigation li a{padding:6px 10px;border-radius:6px;font-weight:600}
     .navigation li.selected a{background:#e6eef8}
     .nav_border{width:1px;height:20px;background:var(--border)}
-
-    /* Content */
     .contents{padding:22px 20px}
     .content_separation{margin:26px 0 10px;font-size:22px;color:var(--brand);border-bottom:2px solid var(--border);padding-bottom:6px}
     .contents p, .contents li{line-height:1.55;color:#2a3a4a}
-
-    /* Smooth anchor target spacing (if you later make nav sticky) */
     .content_separation[id]{scroll-margin-top:80px}
-
-    /* Recent news */
     #recent_news ul{padding-left:18px;margin:8px 0}
     #recent_news li{margin:8px 0}
-
-    /* Funded-by grid */
     #funded-by{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px}
     #funded-by > div{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
     #funded-by img{display:block;max-height:80px;height:auto;border:0}
-
-    /* Footer */
     #footer{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;background:var(--bg-alt);border-top:2px solid var(--border);padding:16px 20px;color:var(--muted);font-size:14px}
     #footer .quotes{max-width:720px}
-
-    /* Responsive */
     @media (max-width: 900px){
       #header{grid-template-columns:1fr}
       #border_dept_fac{display:none}
@@ -86,19 +66,17 @@
       <div id="border_dept_fac"></div>
     </div>
 
-    <!-- Bio row: photo + affiliations + external links -->
+    <!-- Bio row -->
     <div class="bio">
       <img id="profile_img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
-
       <div id="affiliation">
         <h3>Affiliations</h3>
         <ul>
           <li><strong>PhD Candidate</strong>, University of Trento</li>
           <li>Research areas: Federated Learning, Edge AI, TinyML, Trustworthy ML</li>
-          <li>Member, Smart Eco Solutions Initiative (Non‑profit)</li>
+          <li>Member, Smart Eco Solutions Initiative (Non-profit)</li>
         </ul>
       </div>
-
       <div id="external_links">
         <h3>Links</h3>
         <ul>
@@ -111,7 +89,7 @@
       </div>
     </div>
 
-    <!-- Navigation (top) -->
+    <!-- Navigation -->
     <div class="navigation">
       <ul>
         <li class="selected"><a href="#about">About</a></li>
@@ -121,6 +99,8 @@
         <li><a href="#news">News</a></li>
         <div class="nav_border"></div>
         <li><a href="#publications">Publications</a></li>
+        <div class="nav_border"></div>
+        <li><a href="#education">Education</a></li>
         <div class="nav_border"></div>
         <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
         <div class="nav_border"></div>
@@ -135,16 +115,14 @@
     <!-- Main contents -->
     <div class="contents">
       <h3 class="content_separation" id="about">About</h3>
-      <div>
-        I am a final‑year PhD candidate in Information Engineering &amp; Computer Science at the University of Trento. I work on <em>communication‑efficient and trustworthy federated learning</em> for edge intelligence and TinyML. My focus is aggregation schemes, privacy‑aware pipelines, and deployment frameworks for resource‑constrained systems.
-      </div>
+      <p>I am a final-year PhD candidate in Information Engineering &amp; Computer Science at the University of Trento. I work on <em>communication-efficient and trustworthy federated learning</em> for edge intelligence and TinyML. My focus is aggregation schemes, privacy-aware pipelines, and deployment frameworks for resource-constrained systems.</p>
 
-      <h3 class="content_separation" id="news">Recent News <img src="assets/new.gif" alt="new" style="vertical-align:middle;height:18px" onerror="this.style.display='none'"/></h3>
+      <h3 class="content_separation" id="news">Recent News</h3>
       <div id="recent_news">
         <ul>
           <li>08/2025 — Preparing postdoc applications in federated learning &amp; trustworthy AI (EU &amp; Nordics).</li>
           <li>07/2025 — Finalizing survey on TinyML and 6G edge integration; restructuring per external feedback.</li>
-          <li>Spring 2025 — Large‑scale experiments on communication‑efficient FL with GA‑optimized masks.</li>
+          <li>Spring 2025 — Large-scale experiments on communication-efficient FL with GA-optimized masks.</li>
         </ul>
       </div>
 
@@ -153,28 +131,33 @@
 
       <h3 class="content_separation" id="publications">Publications</h3>
       <ul>
-        <li><strong>GASPU: Genetic Algorithm‑Based Selective Parameter Updates for Communication‑Efficient Federated Learning</strong> — M. Hassan, et al., under review, 2025.</li>
-        <li><strong>FedEdge: A Practical Framework for Edge‑Native Federated Learning</strong> — M. Hassan, et al., 2024–2025.</li>
-        <li><strong>TinyML at the Wireless Edge: Architectures, Deployment Modes, and 6G Integration</strong> — Survey (manuscript), 2025.</li>
+        <li><strong>GASPU</strong> — M. Hassan, et al., under review, 2025.</li>
+        <li><strong>FedEdge</strong> — M. Hassan, et al., 2024–2025.</li>
+        <li><strong>TinyML at the Wireless Edge</strong> — Survey (manuscript), 2025.</li>
       </ul>
-      <p>Full list on <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" target="_blank">Google Scholar</a>.</p>
+
+      <h3 class="content_separation" id="education">Education</h3>
+      <ul>
+        <li><strong>PhD in Information Engineering & Computer Science</strong>, University of Trento, Italy (Expected 2025)</li>
+        <li><strong>MSc in Computer Science</strong>, [Your University], [Year]</li>
+        <li><strong>BSc in Computer Science</strong>, [Your University], [Year]</li>
+      </ul>
 
       <h3 class="content_separation" id="teaching">Teaching &amp; Mentorship</h3>
       <ul>
         <li>Foundations of Machine Learning (8 hours) — Core ML concepts, activation functions, edge case studies.</li>
-        <li>Mentorship — Projects on communication‑efficient FL and Wi‑Fi/RF‑based HAR.</li>
+        <li>Mentorship — Projects on communication-efficient FL and Wi-Fi/RF-based HAR.</li>
       </ul>
 
       <h3 class="content_separation" id="service">Service</h3>
       <ul>
-        <li>Reviewer: IEEE IoT Journal, IEEE TMC (prospective), FL/TinyML workshops.</li>
-        <li>Organizer: Ibne Adam Education Chapter (non‑profit ML education).</li>
+        <li>Reviewer: IEEE IoT Journal, IEEE TMC, FL/TinyML workshops.</li>
+        <li>Organizer: Ibne Adam Education Chapter.</li>
       </ul>
 
       <h3 class="content_separation" id="students">Students</h3>
       <ul>
-        <li><em>Open to supervising motivated MSc/BSc projects</em> in federated learning, TinyML, and wireless sensing.</li>
-        <!-- Add named students/projects here when ready -->
+        <li>Supervising MSc/BSc projects in federated learning, TinyML, and wireless sensing.</li>
       </ul>
 
       <h3 class="content_separation" id="contact">Contact</h3>
@@ -185,23 +168,17 @@
       </p>
     </div>
 
-    <!-- Bottom nav (same links as top) -->
+    <!-- Bottom nav -->
     <div class="navigation">
       <ul>
-        <li class="selected"><a href="#about">About</a></li>
-        <div class="nav_border"></div>
+        <li><a href="#about">About</a></li>
         <li><a href="#research">Research</a></li>
-        <div class="nav_border"></div>
         <li><a href="#news">News</a></li>
-        <div class="nav_border"></div>
         <li><a href="#publications">Publications</a></li>
-        <div class="nav_border"></div>
-        <li><a href="#teaching">Teaching &amp; Mentorship</a></li>
-        <div class="nav_border"></div>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#teaching">Teaching</a></li>
         <li><a href="#service">Service</a></li>
-        <div class="nav_border"></div>
         <li><a href="#students">Students</a></li>
-        <div class="nav_border"></div>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
