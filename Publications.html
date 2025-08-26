@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Publications — Mir Hassan</title>
+  <meta name="description" content="Publications of Mir Hassan." />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
+    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
+    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-top:12px}
+    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
+    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
+    .title{margin:0 0 6px;font-size:28px;font-weight:800}
+    .tagline{margin:0;color:var(--ink-dim)}
+    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
+    .h3{margin:0 0 10px;font-size:20px;font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:8px}
+    .pub-list{margin:8px 0 0 18px}.pub-list li{margin:10px 0}
+    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
+    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <nav>
+      <a href="projects.html">Projects</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Academic Experience</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <!-- Shared HERO -->
+  <section class="hero card">
+    <div class="hero__card">
+      <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
+      <div>
+        <h1 class="title">Mir Hassan</h1>
+        <p class="tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+        <div class="cta">
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h1>Publications</h1>
+  <section class="section">
+    <h3 class="h3">Under Review</h3>
+    <ul id="pub-under-review" class="pub-list"></ul>
+  </section>
+  <section class="section">
+    <h3 class="h3">Journal Publications</h3>
+    <ul id="pub-journals" class="pub-list"></ul>
+  </section>
+  <section class="section">
+    <h3 class="h3">Conference (Peer‑Reviewed)</h3>
+    <ul id="pub-confs" class="pub-list"></ul>
+    <p>Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+  </section>
+
+  <footer class="site-footer">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <div>
+        © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
+      </div>
+      <div style="min-width:280px;flex:1">
+        <div style="font-weight:700;color:var(--ink)">Top countries</div>
+        <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
+      </div>
+    </div>
+    <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
+  </footer>
+</main>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="assets/js/analytics.js" defer></script>
+<script>
+  const MY_NAMES=["Hassan, Mir","Mir Hassan","Hassan, M."];function latexToHTML(s){return(s||"").replace(/\\textbf\{([^}]*)\}/g,"<strong>$1<\/strong>").replace(/\\emph\{([^}]*)\}/g,"<em>$1<\/em>")}
+  function norm(s){return(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}const MY_NAMES_NORM=MY_NAMES.map(norm);
+  function boldifyAuthor(a){const h=latexToHTML(a);const p=h.replace(/<[^>]+>/g,"");const n=norm(p);for(const me of MY_NAMES_NORM){if(n===me||n.includes(me))return`<strong>${h}<\/strong>`}return h}
+  function parseBibtex(b){const chunks=b.split(/^\s*@/m).filter(Boolean);const entries=[];for(const c of chunks){const m=c.match(/^([a-zA-Z]+)\s*\{\s*([^,]+)\s*,/);if(!m)continue;const type=m[1].toLowerCase();const key=m[2].trim();const body=c.slice(m[0].length);const re=/([a-zA-Z]+)\s*=\s*({([^{}]*|{[^{}]*})*}|\"[^\"]*\"|[^,]+)\s*,?/g;const f={};let x;while((x=re.exec(body))!==null){const name=x[1].toLowerCase();let val=x[2].trim();if((val.startsWith('{')&&val.endsWith('}'))||(val.startsWith('"')&&val.endsWith('"'))){val=val.slice(1,-1)}val=val.replace(/\s+/g,' ').trim();f[name]=latexToHTML(val)}entries.push({type,key,fields:f})}return entries}
+  function listAuthors(s){return s.split(/\s+and\s+/i).map(a=>a.trim()).filter(Boolean)}
+  function decideType(e){const t=e.type;if(t==='article')return'journal';if(t==='inproceedings'||t==='conference')return'conference';const v=(e.fields.journal||e.fields.booktitle||'').toLowerCase();return /journal|transactions|magazine/.test(v)?'journal':'conference'}
+  function entryInfo(e){const f=e.fields;const title=f.title||'Untitled';const venue=f.journal||f.booktitle||'';const year=f.year||'';const url=f.url||(f.doi?`https://doi.org/${f.doi}`:'');const authors=f.author?listAuthors(f.author):[];return{title,venue,year,url,authors}}
+  function buildLI({title,authors,year,venue,url}){const linkStart=url?`<a href=\"${url}\" target=\"_blank\" rel=\"noopener\">`:'';const linkEnd=url?`</a>`:'';const authorsHTML=(authors||[]).map(boldifyAuthor).join(', ');const yearStr=year?`, ${year}`:'';const li=document.createElement('li');li.innerHTML=`<strong>${linkStart}${latexToHTML(title)}${linkEnd}</strong><br>${authorsHTML}${yearStr}<br><em>${latexToHTML(venue||'')}</em>`;return li}
+  (async function(){try{const [bibResp,rankResp,urResp]=await Promise.all([fetch('assets/publications.bib',{cache:'no-store'}),fetch('assets/venue_ranks.json',{cache:'no-store'}),fetch('assets/under_review.json',{cache:'no-store'})]);const ranks=rankResp.ok?await rankResp.json():{};const bibText=bibResp.ok?await bibResp.text():'';const underReview=urResp.ok?await urResp.json():[];const entries=bibText?parseBibtex(bibText):[];const j=[],c=[];const urList=document.getElementById('pub-under-review');
+    underReview.sort((a,b)=>(parseInt(b.year)||0)-(parseInt(a.year)||0));for(const item of underReview){urList.appendChild(buildLI({title:item.title,authors:item.authors||[],year:item.year||'',venue:item.venue||'Submitted',url:item.url||''}))}
+    for(const e of entries){const type=decideType(e);const info=entryInfo(e);const li=buildLI(info);(type==='journal'?j:c).push({li,y:info.year})}
+    const byYear=(a,b)=>(parseInt(b.y)||0)-(parseInt(a.y)||0);j.sort(byYear);c.sort(byYear);const J=document.getElementById('pub-journals');const C=document.getElementById('pub-confs');j.forEach(x=>J.appendChild(x.li));c.forEach(x=>C.appendChild(x.li));}catch(err){console.warn('Failed to render publications:',err)}})();
+</script>
+</body>
+</html>
