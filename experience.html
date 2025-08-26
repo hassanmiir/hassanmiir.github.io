@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Academic Experience — Mir Hassan</title>
+  <meta name="description" content="Academic Experience of Mir Hassan." />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
+    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
+    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-top:12px}
+    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
+    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
+    .title{margin:0 0 6px;font-size:28px;font-weight:800}
+    .tagline{margin:0;color:var(--ink-dim)}
+    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
+    .list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:8px 0}
+    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
+    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <nav>
+      <a href="publications.html">Publications</a>
+      <a href="projects.html">Projects</a>
+      <a href="education.html">Education</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <!-- Shared HERO -->
+  <section class="hero card">
+    <div class="hero__card">
+      <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
+      <div>
+        <h1 class="title">Mir Hassan</h1>
+                <!-- Research areas -->
+            <p class="tagline">
+            Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
+            </p>
+
+            <!-- Current affiliations -->
+            <p class="tagline" style="font-weight:600; margin-top:6px;">
+            PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
+            </p>
+            <p class="tagline" style="font-weight:600; margin-top:2px;">
+            Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
+            </p>
+
+            <!-- Location -->
+            <p class="tagline" style="margin-top:2px;">
+            📍 Currently based in <strong>Trento, Italy</strong>
+            </p>
+        <div class="cta">
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h1>Academic Experience</h1>
+  <section class="section">
+    <h2>Teaching & Student Supervision</h2>
+    <ul class="list">
+      <li><strong>Co‑supervisor</strong> — MSc Thesis: Communication‑Efficient FL using Compressed Models. University of Trento, 2024</li>
+      <li><strong>Teaching Assistant</strong>, University of Trento (2023–2024)
+        <ul class="list">
+          <li>Computer Architectures (UG) — labs, tutorials, grading.</li>
+          <li>Embedded Software for the Internet of Things (Grad) — projects on microcontrollers and sensors.</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+  <section class="section">
+    <h2>Visiting Research Appointments</h2>
+    <ul class="list">
+      <li><strong>Visiting Researcher</strong>, Yildiz Technical University, Turkey — Apr 2024–Sep 2024; Oct 2023 (Host: Prof. Nihan Kahraman)</li>
+      <li><strong>Specialist (Part‑Time)</strong>, Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania — May 2022–Aug 2023</li>
+      <li><strong>Remote Visiting Researcher</strong>, School of Computing Science, University of Glasgow, UK — Jan 2020–Mar 2020</li>
+    </ul>
+  </section>
+
+  <footer class="site-footer">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <div>
+        © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
+      </div>
+      <div style="min-width:280px;flex:1">
+        <div style="font-weight:700;color:var(--ink)">Top countries</div>
+        <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
+      </div>
+    </div>
+    <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
+  </footer>
+</main>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="assets/js/analytics.js" defer></script>
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact — Mir Hassan</title>
-  <meta name="description" content="Contact Mir Hassan." />
+  <title>Education — Mir Hassan</title>
+  <meta name="description" content="Education of Mir Hassan." />
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,10 +27,8 @@
     .title{margin:0 0 6px;font-size:28px;font-weight:800}
     .tagline{margin:0;color:var(--ink-dim)}
     .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
-    .prose{color:var(--ink-dim)}
-    form{display:grid;gap:12px;margin-top:12px}
-    input,textarea{font:inherit;border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}
-    button{border:1px solid var(--border);background:#fff;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
+    .list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:10px 0}
+    .edu-logo{width:28px;height:28px;object-fit:contain;vertical-align:middle;margin-right:8px;border-radius:4px;background:#fff;border:1px solid var(--border);padding:2px}
     footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
     @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
   </style>
@@ -42,9 +40,9 @@
     <nav>
       <a href="publications.html">Publications</a>
       <a href="projects.html">Projects</a>
-      <a href="education.html">Education</a>
       <a href="experience.html">Academic Experience</a>
       <a href="teaching.html">Teaching</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -55,7 +53,23 @@
       <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
       <div>
         <h1 class="title">Mir Hassan</h1>
-        <p class="tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+                <!-- Research areas -->
+        <p class="tagline">
+          Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
+        </p>
+
+        <!-- Current affiliations -->
+        <p class="tagline" style="font-weight:600; margin-top:6px;">
+          PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
+        </p>
+        <p class="tagline" style="font-weight:600; margin-top:2px;">
+          Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
+        </p>
+
+        <!-- Location -->
+        <p class="tagline" style="margin-top:2px;">
+          📍 Currently based in <strong>Trento, Italy</strong>
+        </p>
         <div class="cta">
           <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
           <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
@@ -65,18 +79,24 @@
     </div>
   </section>
 
-  <h1>Contact</h1>
+  <h1>Education</h1>
   <section class="section">
-    <p class="prose"><strong>Email:</strong> <a href="mailto:mir.hassan@unitn.it">mir.hassan@unitn.it</a><br>
-    <strong>Phone:</strong> +39 346 3566216<br>
-    <strong>Location:</strong> Trento, Italy</p>
-    <hr style="border:0;border-top:1px solid var(--border)">
-    <form action="mailto:mir.hassan@unitn.it" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your name" required>
-      <input type="email" name="email" placeholder="Your email" required>
-      <textarea name="message" rows="6" placeholder="Your message" required></textarea>
-      <button type="submit">Send email</button>
-    </form>
+    <ul class="list">
+      <li>
+        <img class="edu-logo" src="assets/logos/images.png" alt="University of Trento logo" />
+        <strong>Ph.D., Information Engineering and Computer Science</strong>, University of Trento, Italy — <em>Expected Dec 2025</em> (Supervisor: Prof. Giovanni Iacca)
+      </li>
+      <li>
+        <img class="edu-logo" src="assets/logos/Wuhan_University_Logo.png" alt="Wuhan University logo" />
+        <strong>Master of Engineering, Software Engineering</strong>, Wuhan University, China — 2019
+        <br><span>Thesis: Education Platform Based on Blockchain Technology for Certification Validation (Supervisor: Prof. Xiahoui Cui)</span>
+      </li>
+      <li>
+        <img class="edu-logo" src="assets/logos/University_of_Sindh_(logo).png" alt="University of Sindh logo" />
+        <strong>B.S., Telecommunication</strong>, University of Sindh, Pakistan — 2014
+        <br><span>Thesis: Optimization of Satellite Link to Earth Station using STK (in collaboration with SUPARCO)</span>
+      </li>
+    </ul>
   </section>
 
   <footer class="site-footer">
