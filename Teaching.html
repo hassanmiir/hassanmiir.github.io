@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teaching — Mir Hassan</title>
+  <meta name="description" content="Teaching highlight: EMAI4EU modules by Mir Hassan." />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
+    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
+    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
+    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:24px;margin-top:12px}
+    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
+    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
+    .title{margin:0 0 6px;font-size:28px;font-weight:800}
+    .tagline{margin:0;color:var(--ink-dim)}
+    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
+    .h3{margin:0 0 10px;font-size:20px;font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:8px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .kpi{padding:16px;border:1px dashed var(--border);border-radius:12px;background:#fafcff;text-align:center}
+    .kpi strong{font-size:22px}
+    .list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:8px 0}
+    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
+    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <nav>
+      <a href="publications.html">Publications</a>
+      <a href="projects.html">Projects</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Academic Experience</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <!-- Shared HERO -->
+  <section class="hero card">
+    <div class="hero__card">
+      <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
+      <div>
+        <h1 class="title">Mir Hassan</h1>
+        <p class="tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+        <div class="cta">
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h1>Teaching Highlight — EMAI4EU</h1>
+  <section class="section">
+    <p>Starting 2025/26, I am teaching short modules in the <a href="https://www.emai4eu.eu/" target="_blank" rel="noopener">EMAI4EU</a> program (EIT Digital):</p>
+    <ul class="list">
+      <li><strong>Ethics for Trustworthy AI (short version)</strong> — foundations of trustworthy AI, EU AI Act landscape, risk management, and practical checklists for research and deployment.</li>
+      <li><strong>Introduction to Emotion AI (short version)</strong> — signals and sensing (speech, vision, physiology), model evaluation pitfalls, and privacy‑aware deployment at the edge.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <h3 class="h3">At a glance</h3>
+    <div class="grid">
+      <div class="kpi"><div>Weeks</div><strong>2 × 1‑week sprints</strong></div>
+      <div class="kpi"><div>Format</div><strong>Lectures + labs</strong></div>
+      <div class="kpi"><div>Focus</div><strong>Applied & systems</strong></div>
+      <div class="kpi"><div>Assessment</div><strong>Mini project</strong></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="h3">Mini syllabi (outline)</h3>
+    <div class="grid">
+      <div class="card" style="padding:14px">
+        <h4>Ethics for Trustworthy AI</h4>
+        <ul class="list">
+          <li>Principles & frameworks (OECD, HLEG)</li>
+          <li>EU AI Act: risk tiers, conformity, documentation</li>
+          <li>Bias, robustness, privacy: hands‑on checks</li>
+          <li>Accountability & reproducibility in FL/Edge</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:14px">
+        <h4>Introduction to Emotion AI</h4>
+        <ul class="list">
+          <li>Signals: audio, video, physiological</li>
+          <li>Dataset design, labels, and leakage</li>
+          <li>Modeling at the edge (TinyML, FL)</li>
+          <li>Ethics, consent, and deployment patterns</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3 class="h3">Links</h3>
+    <ul class="list">
+      <li><a href="https://www.emai4eu.eu/" target="_blank" rel="noopener">EMAI4EU (official site)</a></li>
+      <li><a href="https://www.eitdigital.eu/" target="_blank" rel="noopener">EIT Digital</a></li>
+    </ul>
+  </section>
+
+  <footer class="site-footer">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <div>
+        © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
+      </div>
+      <div style="min-width:280px;flex:1">
+        <div style="font-weight:700;color:var(--ink)">Top countries</div>
+        <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
+      </div>
+    </div>
+    <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
+  </footer>
+</main>
+<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="assets/js/analytics.js" defer></script>
+</body>
+</html>
