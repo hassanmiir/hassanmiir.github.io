@@ -3,158 +3,580 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mir Hassan | Home</title>
-  <meta name="description" content="Mir Hassan — Federated Learning, Edge Computing, Trustworthy ML, Distributed Systems." />
+  <title>Mir Hassan | PhD Researcher in Federated Learning & Edge AI</title>
+  <meta name="description" content="Mir Hassan — PhD Candidate specializing in Communication-Efficient Federated Learning, Edge Computing, and Trustworthy AI. Open to Postdoc positions from Jan 2026." />
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:rgba(255,255,255,.82);--elev:#fff;--border:rgba(15,23,42,.08);--brand-1:#0e9ae6;--brand-2:#6366f1;--link:#0f4cc9;--shadow:0 14px 30px rgba(2,10,32,.08);--radius:16px}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
-    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
-    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
-    .topbar{position:sticky;top:0;z-index:50;background:var(--panel);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .topbar__in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
-    .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
-    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,var(--brand-1),var(--brand-2));box-shadow:0 6px 18px rgba(14,165,233,.25)}
-    .nav{display:flex;gap:6px;flex-wrap:wrap}
-    .nav a{padding:8px 12px;border-radius:10px;color:var(--ink)}.nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
-    .card{background:var(--elev);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero{padding:42px 0}
-    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:24px}
-    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
-    .title{margin:0 0 6px;font-size:28px;font-weight:800}
-    .tagline{margin:0;color:var(--ink-dim)}
-    .section{padding:18px;margin-top:16px}
-    .h3{margin:0 0 10px;font-size:20px;font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:8px}
-    .op-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-    .op-card{padding:14px;border:1px dashed var(--border);border-radius:12px;background:#fafcff}
-    .news-group{margin:10px 0}.list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:8px 0}
-    .cta{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:#fff;color:var(--ink)}
-    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px;text-align:left}
-    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+    :root {
+      --bg: #f7f9fc;
+      --ink: #0f172a;
+      --ink-dim: #324156;
+      --panel: rgba(255, 255, 255, .82);
+      --elev: #fff;
+      --border: rgba(15, 23, 42, .08);
+      --brand-1: #0e9ae6;
+      --brand-2: #6366f1;
+      --link: #0f4cc9;
+      --accent: #6366f1;
+      --success: #10b981;
+      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
+      --radius: 16px;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+    
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--panel);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .topbar__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      height: 64px;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: conic-gradient(from 200deg, var(--brand-1), var(--brand-2));
+      box-shadow: 0 6px 18px rgba(14, 165, 233, .25);
+    }
+    
+    .nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .nav a {
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+    }
+    
+    .nav a:hover {
+      background: #fff;
+      border: 1px solid var(--border);
+      text-decoration: none;
+    }
+    
+    .card {
+      background: var(--elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .hero {
+      padding: 42px 0;
+    }
+    
+    .hero__card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 24px;
+    }
+    
+    .hero__img {
+      width: 120px;
+      height: 120px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    
+    .title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    
+    .tagline {
+      margin: 0;
+      color: var(--ink-dim);
+    }
+    
+    .section {
+      padding: 24px;
+      margin-top: 16px;
+    }
+    
+    .h3 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      font-weight: 800;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .badge-hiring {
+      display: inline-block;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+    
+    .op-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    
+    .op-card {
+      padding: 20px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .op-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+    }
+    
+    .op-card h4 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    
+    .highlight-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 24px;
+      border-radius: var(--radius);
+      color: white;
+      margin: 16px 0;
+    }
+    
+    .highlight-box h4 {
+      margin: 0 0 12px 0;
+      font-size: 20px;
+    }
+    
+    .highlight-box p {
+      margin: 8px 0;
+      opacity: 0.95;
+    }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .stat-number {
+      display: block;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: var(--ink-dim);
+      margin-top: 4px;
+    }
+    
+    .news-timeline {
+      position: relative;
+      padding-left: 30px;
+      border-left: 3px solid var(--border);
+    }
+    
+    .news-month {
+      position: relative;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+    }
+    
+    .news-month::before {
+      content: '';
+      position: absolute;
+      left: -36px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    
+    .news-month h4 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .news-item {
+      margin: 8px 0;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    
+    .news-item strong {
+      color: var(--ink);
+    }
+    
+    .list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--ink-dim);
+    }
+    
+    .list li {
+      margin: 8px 0;
+    }
+    
+    .cta {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      transition: all 0.2s;
+    }
+    
+    .btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+      color: white;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+    
+    footer {
+      margin: 30px 0 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      color: #5c6f86;
+      font-size: 14px;
+      text-align: left;
+    }
+    
+    @media(max-width: 768px) {
+      .hero__card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .hero__img {
+        margin: 0 auto;
+      }
+      
+      .op-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar__in">
-      <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+      <a class="brand" href="index.html">
+        <div class="logo"></div>
+        <strong>Mir Hassan</strong>
+      </a>
       <nav class="nav">
         <a href="publications.html">Publications</a>
         <a href="projects.html">Projects</a>
         <a href="education.html">Education</a>
         <a href="experience.html">Academic Experience</a>
-        <a href="teaching.html">Teaching</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- Shared HERO across all pages -->
+    <!-- Hero Section -->
     <section class="hero card">
       <div class="hero__card">
         <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
         <div>
           <h1 class="title">Mir Hassan</h1>
-                   <!-- Research areas -->
           <p class="tagline">
             Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
           </p>
-
-          <!-- Current affiliations -->
           <p class="tagline" style="font-weight:600; margin-top:6px;">
-            PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
+            PhD Candidate, University of Trento (Italy) · Supervisor: <a href="https://disi.unitn.it/~iacca/" target="_blank" rel="noopener">Prof. Giovanni Iacca</a>
           </p>
-          <p class="tagline" style="font-weight:600; margin-top:2px;">
-            Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
-          </p>
-
-          <!-- Location -->
-          <p class="tagline" style="margin-top:2px;">
+          <p class="tagline" style="margin-top:6px;">
             📍 Currently based in <strong>Trento, Italy</strong>
           </p>
           <div class="cta">
-            <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
-            <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-            <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+            <a class="btn btn-primary" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">📄 Download CV</a>
+            <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
+            <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
+            <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Long About -->
+    <!-- Research Impact Stats -->
+    <section class="section card">
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-number" id="publication-count">15+</span>
+          <div class="stat-label">Publications</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="citation-count">200+</span>
+          <div class="stat-label">Citations</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">3</span>
+          <div class="stat-label">Major Projects</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4+</span>
+          <div class="stat-label">Years Teaching</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
     <section class="section card" id="about">
-      <h3 class="h3">About</h3>
-      <p>
-        I work on communication‑efficient and trustworthy federated learning with a focus on system‑level precision, reproducibility, and practical deployment at the edge. I develop methods and frameworks such as GASPU, FedEdge, FedFor, and PA‑FL to make distributed learning robust and usable in the wild. My interests sit at the intersection of distributed systems and machine learning: how to orchestrate resource‑constrained devices, compress and secure the learning signal, and evaluate end‑to‑end behavior with rigorous, reproducible pipelines. I enjoy building things that translate well from paper to production, and I’m keen on collaborations that push evaluation beyond accuracy into reliability, privacy, safety, and sustainability. I’m currently based in Trento, Italy, finishing my PhD at the University of Trento under Prof. Giovanni Iacca. From 2025, I will also contribute short modules within EMAI4EU (EIT Digital) on Trustworthy AI ethics and Emotion AI.
+      <h3 class="h3">🎯 About</h3>
+      <p style="font-size: 16px; line-height: 1.8;">
+        I specialize in <strong>communication-efficient federated learning</strong> for resource-constrained environments, 
+        with a focus on system-level precision, reproducibility, and practical deployment at the edge. My research develops 
+        innovative methods and frameworks including <strong>GASPU, FedEdge, FedFor, and PA-FL</strong> to make distributed 
+        learning robust and production-ready.
+      </p>
+      <p style="font-size: 16px; line-height: 1.8;">
+        My work sits at the intersection of <strong>distributed systems and machine learning</strong>: orchestrating 
+        resource-constrained devices, compressing and securing the learning signal, and evaluating end-to-end behavior 
+        with rigorous, reproducible pipelines. I'm passionate about building solutions that translate from paper to production, 
+        pushing evaluation beyond accuracy into <strong>reliability, privacy, safety, and sustainability</strong>.
+      </p>
+      
+      <div class="highlight-box">
+        <h4>🔬 Current Research Focus</h4>
+        <p>
+          <strong>PhD Thesis:</strong> "Communication-efficient Federated Learning for Resource Constraint Environment"<br>
+          <strong>Key Projects:</strong> SUSTAIN (Horizon EIC Pathfinder), EMAI4EU (EIT Digital)
+        </p>
+      </div>
+    </section>
+
+    <!-- Opportunities Section -->
+    <section class="section card" id="opportunities" style="border: 3px solid #10b981;">
+      <h3 class="h3" style="color: #059669;">
+        💼 Seeking New Opportunities
+        <span class="badge-hiring">Available Jan 2026</span>
+      </h3>
+      
+      <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+        <p style="margin: 0; font-size: 17px; font-weight: 600; color: #065f46;">
+          🎯 I am actively seeking <strong>Postdoctoral Researcher</strong>, <strong>Research Scientist</strong>, 
+          or <strong>Assistant Professor</strong> positions in Federated Learning, Edge AI, and Trustworthy ML. 
+          Open to opportunities across Europe and Nordic countries, with immediate availability from January 2026.
+        </p>
+      </div>
+      
+      <div class="op-grid">
+        <div class="op-card">
+          <h4>🎓 Positions of Interest</h4>
+          <ul class="list">
+            <li><strong>Postdoctoral Researcher</strong> (Federated Learning, Trustworthy ML, TinyML)</li>
+            <li><strong>Research Scientist</strong> / Research Fellow</li>
+            <li><strong>Lecturer</strong> / Assistant Professor (tenure track)</li>
+          </ul>
+        </div>
+        
+        <div class="op-card">
+          <h4>🔑 Research Keywords</h4>
+          <ul class="list">
+            <li>Communication-efficient FL & model compression</li>
+            <li>Federated agentic systems & edge orchestration</li>
+            <li>Reproducible FL pipelines & benchmarks</li>
+            <li>Trustworthy AI & privacy-preserving ML</li>
+          </ul>
+        </div>
+        
+        <div class="op-card">
+          <h4>🌍 Availability</h4>
+          <ul class="list">
+            <li><strong>Start Date:</strong> January 2026 (flexible)</li>
+            <li><strong>Location:</strong> Europe & Nordics preferred</li>
+            <li><strong>Visa Status:</strong> EU resident (Italy)</li>
+            <li><strong>Work Authorization:</strong> EU & Schengen area</li>
+          </ul>
+        </div>
+        
+        <div class="op-card">
+          <h4>📬 Get in Touch</h4>
+          <p style="margin-bottom: 12px;">Interested in collaboration or hiring?</p>
+          <a class="btn btn-primary" href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry" style="width: 100%; justify-content: center;">
+            ✉️ Contact Me
+          </a>
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener" style="width: 100%; justify-content: center; margin-top: 8px;">
+            📄 View CV
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent News & Updates -->
+    <section class="section card" id="news">
+      <h3 class="h3">📰 Recent News & Updates</h3>
+      
+      <div class="news-timeline">
+        <!-- October 2025 -->
+        <div class="news-month">
+          <h4>October 2025</h4>
+          <div class="news-item" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left: 4px solid #10b981;">
+            <strong style="color: #065f46;">💼 JOB MARKET:</strong> Actively applying for postdoc and faculty positions. Interested in collaboration? <a href="mailto:mir.hassan@unitn.it" style="color: #059669; font-weight: 700;">Get in touch!</a>
+          </div>
+          <div class="news-item">
+            <strong>🎓 PhD Defense Preparation:</strong> Finalizing dissertation and preparing for PhD defense in December 2025.
+          </div>
+          <div class="news-item">
+            <strong>📝 Publication:</strong> Submitted journal paper on communication-efficient federated learning with genetic algorithm-based model compression.
+          </div>
+        </div>
+
+        <!-- September 2025 -->
+        <div class="news-month">
+          <h4>September 2025</h4>
+          <div class="news-item">
+            <strong>💼 Job Market:</strong> Actively seeking postdoc positions in Europe and Nordic countries (start: Jan 2026).
+          </div>
+          <div class="news-item">
+            <strong>🤝 Collaboration:</strong> Established new research collaboration on edge AI deployment with industry partner.
+          </div>
+        </div>
+
+        <!-- August 2025 -->
+        <div class="news-month">
+          <h4>August 2025</h4>
+          <div class="news-item">
+            <strong>📊 Research:</strong> Completed large-scale experiments on GA-optimized gradient masking for bandwidth-constrained federated learning.
+          </div>
+          <div class="news-item">
+            <strong>🎯 EMAI4EU:</strong> Preparing course materials for Ethics for Trustworthy AI and Introduction to Emotion AI modules (start: 2025/26).
+          </div>
+        </div>
+
+        <!-- July 2025 -->
+        <div class="news-month">
+          <h4>July 2025</h4>
+          <div class="news-item">
+            <strong>📚 Survey Paper:</strong> Finalized comprehensive survey on "TinyML and 6G Edge Integration" based on reviewer feedback.
+          </div>
+          <div class="news-item">
+            <strong>🔬 Extended Evaluation:</strong> Conducted comprehensive performance analysis of FedEdge framework with GA-based gradient masking on IoT devices.
+          </div>
+        </div>
+      </div>
+      
+      <p style="margin-top: 20px; font-style: italic; color: var(--ink-dim);">
+        💡 <strong>Note:</strong> This news section is updated monthly. Last update: October 2025
       </p>
     </section>
 
-    <!-- Opportunities -->
-    <section class="section card" id="opportunities">
-      <h3 class="h3">Opportunities</h3>
-      <div class="op-grid">
-        <div class="op-card">
-          <h4>What I'm open to</h4>
-          <ul class="list">
-            <li>Postdoctoral Researcher (FL, Trustworthy ML, TinyML, Systems)</li>
-            <li>Research Scientist / Research Fellow</li>
-            <li>Lecturer / Assistant Professor (track)</li>
-          </ul>
-        </div>
-        <div class="op-card">
-          <h4>Keywords</h4>
-          <ul class="list">
-            <li>Communication‑efficient FL, compression, masking</li>
-            <li>Federated agentic systems, edge orchestration</li>
-            <li>Reproducible FL pipelines, benchmarks</li>
-          </ul>
-        </div>
-        <div class="op-card">
-          <h4>Availability</h4>
-          <ul class="list">
-            <li>Start: from Jan 2026 (flexible)</li>
-            <li>Location: Europe & Nordics preferred</li>
-            <li>Visa: EU resident (Italy)</li>
-          </ul>
-        </div>
-        <div class="op-card">
-          <h4>Quick links</h4>
-          <p><a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a></p>
-          <p><a class="btn" href="mailto:mir.hassan@unitn.it?subject=Postdoc/Faculty%20opportunity">Email me</a></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- News -->
-    <section class="section card" id="news">
-      <h3 class="h3">Recent News</h3>
-      <div class="news-group">
-        <h4>July–August 2025</h4>
-        <ul class="list">
-          <li>Preparing postdoc applications in federated learning and trustworthy AI (EU and Nordics).</li>
-          <li>Survey on TinyML and 6G edge integration — final restructuring based on external feedback.</li>
-        </ul>
-      </div>
-      <div class="news-group">
-        <h4>May–June 2025</h4>
-        <ul class="list">
-          <li>Extended evaluation for communication‑efficient FL on constrained devices (FedEdge + GA‑masking).</li>
-        </ul>
-      </div>
-      <div class="news-group">
-        <h4>March–April 2025</h4>
-        <ul class="list">
-          <li>Large‑scale experiments on communication‑efficient FL with GA‑optimized masks.</li>
-        </ul>
-      </div>
-    </section>
-
-   
     <footer class="site-footer">
       <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
         <div>
@@ -169,7 +591,44 @@
     </footer>
   </main>
 
-  <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Fetch Google Scholar stats
+    async function fetchScholarStats() {
+      try {
+        // Using a CORS proxy to fetch Google Scholar data
+        const scholarId = 'mRV4UPwAAAAJ';
+        const proxyUrl = 'https://api.allorigins.win/raw?url=';
+        const scholarUrl = `https://scholar.google.com/citations?user=${scholarId}&hl=en`;
+        
+        const response = await fetch(proxyUrl + encodeURIComponent(scholarUrl));
+        const html = await response.text();
+        
+        // Parse citations
+        const citationMatch = html.match(/Cited by<\/a><\/td><td class="gsc_rsb_std">(\d+)/);
+        if (citationMatch) {
+          const citations = parseInt(citationMatch[1]);
+          document.getElementById('citation-count').textContent = citations.toLocaleString();
+        }
+        
+        // Parse publications count (from table rows)
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const rows = doc.querySelectorAll('.gsc_a_tr');
+        if (rows.length > 0) {
+          document.getElementById('publication-count').textContent = rows.length;
+        }
+      } catch (error) {
+        console.warn('Could not fetch Google Scholar stats:', error);
+        // Keep default values if fetch fails
+      }
+    }
+    
+    // Call the function when page loads
+    fetchScholarStats();
+  </script>
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="assets/js/analytics.js" defer></script>
 </body>

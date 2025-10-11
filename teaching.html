@@ -3,43 +3,354 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teaching — Mir Hassan</title>
-  <meta name="description" content="Teaching highlight: EMAI4EU modules by Mir Hassan." />
+  <title>Academic Experience & Teaching — Mir Hassan</title>
+  <meta name="description" content="Academic Experience and Teaching of Mir Hassan." />
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
-    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
-    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
-    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
-    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
-    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero{padding:24px;margin-top:12px}
-    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
-    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
-    .title{margin:0 0 6px;font-size:28px;font-weight:800}
-    .tagline{margin:0;color:var(--ink-dim)}
-    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
-    .h3{margin:0 0 10px;font-size:20px;font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:8px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .kpi{padding:16px;border:1px dashed var(--border);border-radius:12px;background:#fafcff;text-align:center}
-    .kpi strong{font-size:22px}
-    .list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:8px 0}
-    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
-    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+    :root {
+      --bg: #f7f9fc;
+      --ink: #0f172a;
+      --ink-dim: #324156;
+      --panel: #fff;
+      --border: rgba(15, 23, 42, .08);
+      --link: #0f4cc9;
+      --accent: #6366f1;
+      --radius: 16px;
+      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+    
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .topbar__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: conic-gradient(from 200deg, #0e9ae6, #6366f1);
+    }
+    
+    nav a {
+      margin-left: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+    }
+    
+    nav a:hover {
+      background: #fff;
+      border: 1px solid var(--border);
+      text-decoration: none;
+    }
+    
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    
+    .hero {
+      padding: 24px;
+      margin-top: 12px;
+    }
+    
+    .hero__card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 0;
+    }
+    
+    .hero__img {
+      width: 120px;
+      height: 120px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    
+    .title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    
+    .tagline {
+      margin: 0;
+      color: var(--ink-dim);
+    }
+    
+    .section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin: 18px 0;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .section-icon {
+      font-size: 28px;
+    }
+    
+    .section-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    
+    .experience-item {
+      padding: 16px;
+      margin: 12px 0;
+      border-left: 4px solid var(--accent);
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);
+      border-radius: 8px;
+    }
+    
+    .experience-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 4px 0;
+    }
+    
+    .experience-institution {
+      font-size: 15px;
+      color: var(--ink-dim);
+      margin: 0 0 8px 0;
+    }
+    
+    .experience-details {
+      font-size: 14px;
+      color: var(--ink-dim);
+      line-height: 1.6;
+      margin: 8px 0 0 0;
+    }
+    
+    .experience-details ul {
+      margin: 8px 0;
+      padding-left: 20px;
+    }
+    
+    .experience-details li {
+      margin: 4px 0;
+    }
+    
+    .highlight-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px;
+      border-radius: var(--radius);
+      margin: 20px 0;
+    }
+    
+    .highlight-box h3 {
+      margin: 0 0 12px 0;
+      font-size: 22px;
+    }
+    
+    .highlight-box p {
+      margin: 8px 0;
+      opacity: 0.95;
+    }
+    
+    .highlight-box a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    
+    .stat-card {
+      padding: 20px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 8px;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: var(--ink-dim);
+      font-weight: 600;
+    }
+    
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    
+    .course-card {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .course-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+    }
+    
+    .course-card h4 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: var(--ink);
+    }
+    
+    .course-card ul {
+      margin: 8px 0;
+      padding-left: 20px;
+      font-size: 14px;
+      color: var(--ink-dim);
+    }
+    
+    .course-card li {
+      margin: 6px 0;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    
+    .btn-primary:hover {
+      transform: scale(1.05);
+      text-decoration: none;
+    }
+    
+    .timeline-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--accent);
+      color: white;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    footer {
+      margin: 30px 0 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      color: #5c6f86;
+      font-size: 14px;
+    }
+    
+    @media(max-width: 768px) {
+      .hero__card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .hero__img {
+        margin: 0 auto;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
 <header class="topbar">
   <div class="wrap topbar__in">
-    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <strong>Mir Hassan</strong>
+    </a>
     <nav>
       <a href="publications.html">Publications</a>
       <a href="projects.html">Projects</a>
@@ -49,6 +360,7 @@
     </nav>
   </div>
 </header>
+
 <main class="wrap">
   <!-- Shared HERO -->
   <section class="hero card">
@@ -56,7 +368,18 @@
       <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
       <div>
         <h1 class="title">Mir Hassan</h1>
-        <p class="tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+        <p class="tagline">
+          Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
+        </p>
+        <p class="tagline" style="font-weight:600; margin-top:6px;">
+          PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
+        </p>
+        <p class="tagline" style="font-weight:600; margin-top:2px;">
+          Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
+        </p>
+        <p class="tagline" style="margin-top:2px;">
+          📍 Currently based in <strong>Trento, Italy</strong>
+        </p>
         <div class="cta">
           <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
           <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
@@ -66,55 +389,195 @@
     </div>
   </section>
 
-  <h1>Teaching Highlight — EMAI4EU</h1>
-  <section class="section">
-    <p>Starting 2025/26, I am teaching short modules in the <a href="https://www.emai4eu.eu/" target="_blank" rel="noopener">EMAI4EU</a> program (EIT Digital):</p>
-    <ul class="list">
-      <li><strong>Ethics for Trustworthy AI (short version)</strong> — foundations of trustworthy AI, EU AI Act landscape, risk management, and practical checklists for research and deployment.</li>
-      <li><strong>Introduction to Emotion AI (short version)</strong> — signals and sensing (speech, vision, physiology), model evaluation pitfalls, and privacy‑aware deployment at the edge.</li>
-    </ul>
-  </section>
+  <h1>Academic Experience & Teaching</h1>
 
+  <!-- Teaching Overview Stats -->
   <section class="section">
-    <h3 class="h3">At a glance</h3>
-    <div class="grid">
-      <div class="kpi"><div>Weeks</div><strong>2 × 1‑week sprints</strong></div>
-      <div class="kpi"><div>Format</div><strong>Lectures + labs</strong></div>
-      <div class="kpi"><div>Focus</div><strong>Applied & systems</strong></div>
-      <div class="kpi"><div>Assessment</div><strong>Mini project</strong></div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">4+</span>
+        <span class="stat-label">Years Teaching Experience</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">6+</span>
+        <span class="stat-label">Courses & Modules</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">3</span>
+        <span class="stat-label">International Universities</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">100+</span>
+        <span class="stat-label">Students Mentored</span>
+      </div>
     </div>
   </section>
 
+  <!-- EMAI4EU Highlight -->
+  <div class="highlight-box">
+    <h3>🎓 Currently Teaching: EMAI4EU Program (EIT Digital)</h3>
+    <p><strong>Starting 2025/26</strong> — Teaching cutting-edge AI modules in the European Master in AI program</p>
+    <p>
+      📚 <strong>Two Specialized Modules:</strong> Ethics for Trustworthy AI & Introduction to Emotion AI
+    </p>
+    <p>
+      🔗 <a href="https://eit.icarus.education/emai4eu/" target="_blank" rel="noopener">View EMAI4EU Program</a> | 
+      <a href="https://eit.icarus.education/teacher-profile/mir-hassan/" target="_blank" rel="noopener">My Instructor Profile</a>
+    </p>
+  </div>
+
+  <!-- Current Teaching -->
   <section class="section">
-    <h3 class="h3">Mini syllabi (outline)</h3>
-    <div class="grid">
-      <div class="card" style="padding:14px">
-        <h4>Ethics for Trustworthy AI</h4>
-        <ul class="list">
+    <div class="section-header">
+      <span class="section-icon">👨‍🏫</span>
+      <h2 class="section-title">Current Teaching (2025/26)</h2>
+    </div>
+
+    <div class="course-grid">
+      <div class="course-card">
+        <h4>🛡️ Ethics for Trustworthy AI</h4>
+        <p><strong>Program:</strong> EMAI4EU (EIT Digital)<br>
+        <strong>Format:</strong> 1-week intensive sprint</p>
+        <ul>
           <li>Principles & frameworks (OECD, HLEG)</li>
           <li>EU AI Act: risk tiers, conformity, documentation</li>
-          <li>Bias, robustness, privacy: hands‑on checks</li>
-          <li>Accountability & reproducibility in FL/Edge</li>
+          <li>Bias, robustness, privacy: hands-on assessments</li>
+          <li>Accountability & reproducibility in FL/Edge AI</li>
         </ul>
       </div>
-      <div class="card" style="padding:14px">
-        <h4>Introduction to Emotion AI</h4>
-        <ul class="list">
-          <li>Signals: audio, video, physiological</li>
-          <li>Dataset design, labels, and leakage</li>
-          <li>Modeling at the edge (TinyML, FL)</li>
-          <li>Ethics, consent, and deployment patterns</li>
+
+      <div class="course-card">
+        <h4>🧠 Introduction to Emotion AI</h4>
+        <p><strong>Program:</strong> EMAI4EU (EIT Digital)<br>
+        <strong>Format:</strong> 1-week intensive sprint</p>
+        <ul>
+          <li>Signals: audio, video, physiological sensors</li>
+          <li>Dataset design, labels, and leakage prevention</li>
+          <li>Edge AI modeling (TinyML, Federated Learning)</li>
+          <li>Ethics, consent, and privacy-aware deployment</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 20px;">
+      <a href="https://eit.icarus.education/emai4eu/" class="btn-primary" target="_blank" rel="noopener">
+        🌐 Explore EMAI4EU Program
+      </a>
+    </p>
+  </section>
+
+  <!-- Student Supervision -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🎯</span>
+      <h2 class="section-title">Student Supervision</h2>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Master's Thesis Co-Supervisor</h3>
+      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2024</span></p>
+      <div class="experience-details">
+        <strong>Thesis Title:</strong> Communication-Efficient Federated Learning using Compressed Models
+        <ul>
+          <li>Guided research on model compression techniques for resource-constrained FL environments</li>
+          <li>Supervised implementation and evaluation of novel compression algorithms</li>
+          <li>Mentored student through publication preparation and defense</li>
         </ul>
       </div>
     </div>
   </section>
 
+  <!-- Teaching Assistant Experience -->
   <section class="section">
-    <h3 class="h3">Links</h3>
-    <ul class="list">
-      <li><a href="https://www.emai4eu.eu/" target="_blank" rel="noopener">EMAI4EU (official site)</a></li>
-      <li><a href="https://www.eitdigital.eu/" target="_blank" rel="noopener">EIT Digital</a></li>
-    </ul>
+    <div class="section-header">
+      <span class="section-icon">💻</span>
+      <h2 class="section-title">Teaching Assistant Experience</h2>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Computer Architectures (Undergraduate)</h3>
+      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2023-2024</span></p>
+      <div class="experience-details">
+        <ul>
+          <li>Conducted hands-on lab sessions on processor design and assembly programming</li>
+          <li>Created tutorial materials on pipeline architectures and memory hierarchies</li>
+          <li>Evaluated student assignments and provided comprehensive feedback</li>
+          <li>Held office hours for one-on-one student consultations</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Embedded Software for Internet of Things (Graduate)</h3>
+      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2023-2024</span></p>
+      <div class="experience-details">
+        <ul>
+          <li>Supervised capstone projects involving microcontrollers (Arduino, ESP32, Raspberry Pi)</li>
+          <li>Guided students in sensor integration and real-time data processing</li>
+          <li>Mentored teams on wireless communication protocols (MQTT, CoAP, LoRaWAN)</li>
+          <li>Evaluated project demonstrations and technical reports</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visiting Research & Teaching -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🌍</span>
+      <h2 class="section-title">Visiting Research & Teaching Appointments</h2>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Visiting Researcher</h3>
+      <p class="experience-institution">Yildiz Technical University, Istanbul, Turkey <span class="timeline-badge">Apr-Sep 2024, Oct 2023</span></p>
+      <div class="experience-details">
+        <ul>
+          <li><strong>Host:</strong> Prof. Nihan Kahraman</li>
+          <li>Conducted collaborative research on federated learning in edge computing environments</li>
+          <li>Delivered guest lectures on privacy-preserving machine learning</li>
+          <li>Co-authored research publications with local faculty and students</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Specialist (Part-Time)</h3>
+      <p class="experience-institution">Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania <span class="timeline-badge">May 2022-Aug 2023</span></p>
+      <div class="experience-details">
+        <ul>
+          <li>Contributed to research projects on AI applications in biomechanics</li>
+          <li>Developed machine learning models for biomedical signal processing</li>
+          <li>Collaborated on interdisciplinary research publications</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="experience-item">
+      <h3 class="experience-title">Remote Visiting Researcher</h3>
+      <p class="experience-institution">School of Computing Science, University of Glasgow, United Kingdom <span class="timeline-badge">Jan-Mar 2020</span></p>
+      <div class="experience-details">
+        <ul>
+          <li>Conducted research on distributed machine learning systems</li>
+          <li>Participated in research seminars and group discussions</li>
+          <li>Established international research collaborations</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaching Philosophy -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">💡</span>
+      <h2 class="section-title">Teaching Philosophy</h2>
+    </div>
+    <p style="color: var(--ink-dim); line-height: 1.8;">
+      My teaching approach emphasizes <strong>hands-on learning</strong> and <strong>real-world applications</strong>. 
+      I believe in bridging the gap between theoretical concepts and practical implementation, especially in rapidly 
+      evolving fields like AI and edge computing. Through project-based learning and close mentorship, I help students 
+      develop both technical skills and critical thinking abilities needed for research and industry careers.
+    </p>
   </section>
 
   <footer class="site-footer">
@@ -130,7 +593,11 @@
     <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
   </footer>
 </main>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="assets/js/analytics.js" defer></script>
 </body>

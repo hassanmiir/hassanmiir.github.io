@@ -4,50 +4,438 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projects — Mir Hassan</title>
-  <meta name="description" content="Projects by Mir Hassan." />
+  <meta name="description" content="Research Projects by Mir Hassan." />
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
-    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
-    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
-    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
-    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
-    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero{padding:24px;margin-top:12px}
-    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
-    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
-    .title{margin:0 0 6px;font-size:28px;font-weight:800}
-    .tagline{margin:0;color:var(--ink-dim)}
-    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
-    .list{margin:0;padding-left:18px;color:var(--ink-dim)}.list li{margin:8px 0}
-    .logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;margin-top:12px}
-    .logo-card{height:80px;border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff}
-    .logo-card img{max-height:46px;max-width:100%}
-    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
-    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+    :root {
+      --bg: #f7f9fc;
+      --ink: #0f172a;
+      --ink-dim: #324156;
+      --panel: #fff;
+      --border: rgba(15, 23, 42, .08);
+      --link: #0f4cc9;
+      --accent: #6366f1;
+      --success: #10b981;
+      --radius: 16px;
+      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+      color: var(--accent);
+    }
+    
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+    
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .topbar__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: conic-gradient(from 200deg, #0e9ae6, #6366f1);
+    }
+    
+    nav a {
+      margin-left: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+      transition: all 0.2s ease;
+    }
+    
+    nav a:hover {
+      background: #fff;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    
+    /* Job Seeking Alert Bar */
+    .job-alert-bar {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      padding: 12px 20px;
+      text-align: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      border-bottom: 3px solid #047857;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .job-alert-bar a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+    
+    .job-alert-bar a:hover {
+      color: #d1fae5;
+    }
+    
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
+    }
+    
+    .hero {
+      padding: 24px;
+      margin-top: 12px;
+    }
+    
+    .hero__card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 0;
+    }
+    
+    .hero__img {
+      width: 120px;
+      height: 120px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    
+    .title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    
+    .tagline {
+      margin: 0;
+      color: var(--ink-dim);
+    }
+    
+    .section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin: 18px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
+    }
+    
+    .cta {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+    
+    .project-card {
+      padding: 24px;
+      margin: 20px 0;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(99, 102, 241, 0.2);
+    }
+    
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .project-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 8px 0;
+    }
+    
+    .project-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--accent);
+      color: white;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--ink-dim);
+    }
+    
+    .project-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .project-meta-item strong {
+      color: var(--ink);
+    }
+    
+    .project-description {
+      color: var(--ink-dim);
+      line-height: 1.7;
+      margin: 12px 0;
+    }
+    
+    .project-role {
+      background: #fff;
+      padding: 12px 16px;
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      margin: 16px 0;
+    }
+    
+    .project-role strong {
+      color: var(--accent);
+      font-size: 14px;
+    }
+    
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--link);
+      color: white;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .project-link:hover {
+      background: #0d3ba0;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 76, 201, 0.3);
+    }
+    
+    .logos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .logo-card {
+      height: 90px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      padding: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .logo-card:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+      text-decoration: none;
+    }
+    
+    .logo-card img {
+      max-height: 60px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    
+    .funding-statement {
+      background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 24px 0;
+      border-left: 4px solid var(--accent);
+    }
+    
+    .funding-statement strong {
+      color: var(--accent);
+      font-size: 15px;
+    }
+    
+    .funding-statement p {
+      margin: 8px 0 0 0;
+      color: var(--ink-dim);
+      line-height: 1.6;
+    }
+    
+    footer {
+      margin: 30px 0 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      color: #5c6f86;
+      font-size: 14px;
+    }
+    
+    @media(max-width: 768px) {
+      .hero__card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .hero__img {
+        margin: 0 auto;
+      }
+      
+      .project-header {
+        flex-direction: column;
+      }
+      
+      .project-badge {
+        align-self: flex-start;
+      }
+      
+      .logos {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+    }
   </style>
 </head>
 <body>
+<!-- Job Seeking Alert Bar -->
+<div class="job-alert-bar">
+  🎯 <strong>Actively Seeking Opportunities:</strong> Open to Postdoc & Faculty positions starting January 2026 · 
+  <a href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry">Contact Me</a>
+</div>
+
 <header class="topbar">
   <div class="wrap topbar__in">
-    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <strong>Mir Hassan</strong>
+    </a>
     <nav>
       <a href="publications.html">Publications</a>
       <a href="education.html">Education</a>
       <a href="experience.html">Academic Experience</a>
-      <a href="teaching.html">Teaching</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
+
 <main class="wrap">
   <!-- Shared HERO -->
   <section class="hero card">
@@ -55,27 +443,199 @@
       <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
       <div>
         <h1 class="title">Mir Hassan</h1>
-        <p class="tagline">Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems</p>
+        <p class="tagline">
+          Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
+        </p>
+        <p class="tagline" style="font-weight:600; margin-top:6px;">
+          PhD Candidate, University of Trento (Italy) · Supervisor: <a href="https://disi.unitn.it/~iacca/" target="_blank" rel="noopener">Prof. Giovanni Iacca</a>
+        </p>
+        <p class="tagline" style="margin-top:6px;">
+          📍 Currently based in <strong>Trento, Italy</strong>
+        </p>
         <div class="cta">
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">📄 Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
+          <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
         </div>
       </div>
     </div>
   </section>
 
-  <h1>Projects</h1>
+  <h1>Research Projects</h1>
+
+  <!-- SUSTAIN Project -->
   <section class="section">
-    <ul class="list">
-      <li><strong>SUSTAIN (Horizon EIC Pathfinder)</strong> — Smart Buildings Sensitive to Daily Sentiment, University of Trento, WP3 (Federated Learning + Edge AI), 2023–present</li>
-      <li><strong>Blockchain‑based Certificate Validation Platform</strong> — Wuhan University, 2019</li>
-      <li><strong>Satellite Link Optimization using STK</strong> — with SUPARCO, 2014</li>
-    </ul>
-    <div class="logos" aria-label="Project and funding logos">
-      <a class="logo-card" href="https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en" target="_blank" rel="noopener" aria-label="EIC Pathfinder"><img src="assets/logos/eic-pathfinder.svg" alt="EIC Pathfinder"></a>
-      <a class="logo-card" href="https://research-and-innovation.ec.europa.eu/funding/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener" aria-label="Horizon Europe"><img src="assets/logos/eu.svg" alt="European Union"></a>
-      <a class="logo-card" href="https://www.unitn.it/" target="_blank" rel="noopener" aria-label="University of Trento"><img src="assets/logos/unitn.svg" alt="University of Trento"></a>
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <h2 class="project-title">SUSTAIN — Smart Buildings Sensitive to Daily Sentiment</h2>
+        </div>
+        <span class="project-badge">Current</span>
+      </div>
+      
+      <div class="project-meta">
+        <div class="project-meta-item">
+          <strong>📅 Duration:</strong> 2023–Present
+        </div>
+        <div class="project-meta-item">
+          <strong>🏛️ Institution:</strong> University of Trento, Italy
+        </div>
+        <div class="project-meta-item">
+          <strong>💰 Funding:</strong> Horizon EIC Pathfinder
+        </div>
+      </div>
+      
+      <p class="project-description">
+        SUSTAIN develops innovative technologies for smart buildings that adapt to occupants' daily sentiment and well-being. 
+        The project combines emotion AI, edge computing, and federated learning to create privacy-preserving intelligent 
+        building systems that enhance occupant comfort and energy efficiency.
+      </p>
+      
+      <div class="project-role">
+        <strong>My Contribution:</strong> Leading Work Package 3 (WP3) on Federated Learning and Edge AI. Developing 
+        communication-efficient federated learning algorithms optimized for resource-constrained IoT devices in smart 
+        building environments. This work forms the core of my PhD research on "Communication-efficient Federated Learning 
+        for Resource Constraint Environment."
+      </div>
+      
+      <div class="project-links">
+        <a href="https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en" class="project-link" target="_blank" rel="noopener">
+          🔗 EIC Pathfinder Info
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAI4EU Project -->
+  <section class="section">
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <h2 class="project-title">EMAI4EU — European Master in Artificial Intelligence</h2>
+        </div>
+        <span class="project-badge">Current</span>
+      </div>
+      
+      <div class="project-meta">
+        <div class="project-meta-item">
+          <strong>📅 Duration:</strong> 2025/26–Present
+        </div>
+        <div class="project-meta-item">
+          <strong>🏛️ Program:</strong> EIT Digital
+        </div>
+        <div class="project-meta-item">
+          <strong>💰 Funding:</strong> European Institute of Innovation & Technology (EIT)
+        </div>
+      </div>
+      
+      <p class="project-description">
+        EMAI4EU is a prestigious European Master's program in Artificial Intelligence, bringing together top universities 
+        across Europe to train the next generation of AI experts. The program emphasizes both technical excellence and 
+        ethical considerations in AI development.
+      </p>
+      
+      <div class="project-role">
+        <strong>My Contribution:</strong> Instructor teaching two specialized modules: (1) <em>Ethics for Trustworthy AI</em> 
+        — covering EU AI Act, risk management, and ethical frameworks, and (2) <em>Introduction to Emotion AI</em> — 
+        focusing on multimodal sensing, edge deployment, and privacy-aware AI systems. Delivering intensive 1-week sprint 
+        courses with hands-on labs and project-based assessments.
+      </div>
+      
+      <div class="project-links">
+        <a href="https://eit.icarus.education/emai4eu/" class="project-link" target="_blank" rel="noopener">
+          🔗 EMAI4EU Program
+        </a>
+        <a href="https://eit.icarus.education/teacher-profile/mir-hassan/" class="project-link" target="_blank" rel="noopener">
+          👤 My Instructor Profile
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Previous Projects -->
+  <section class="section">
+    <h2 style="margin-top: 0; font-size: 20px; font-weight: 800; border-bottom: 1px dashed var(--border); padding-bottom: 12px;">
+      Previous Projects
+    </h2>
+    
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <h3 class="project-title" style="font-size: 20px;">Blockchain-based Certificate Validation Platform</h3>
+        </div>
+        <span class="project-badge" style="background: #64748b;">Completed</span>
+      </div>
+      
+      <div class="project-meta">
+        <div class="project-meta-item">
+          <strong>📅 Year:</strong> 2019
+        </div>
+        <div class="project-meta-item">
+          <strong>🏛️ Institution:</strong> Wuhan University, China
+        </div>
+      </div>
+      
+      <p class="project-description">
+        Developed an innovative blockchain-based platform for educational certificate validation, ensuring tamper-proof 
+        credential verification. The system leveraged distributed ledger technology to create a transparent and secure 
+        framework for academic credential management. This work was completed as part of my Master's thesis under 
+        Prof. Xiaohui Cui.
+      </p>
+    </div>
+    
+    <div class="project-card">
+      <div class="project-header">
+        <div>
+          <h3 class="project-title" style="font-size: 20px;">Satellite Link Optimization using STK</h3>
+        </div>
+        <span class="project-badge" style="background: #64748b;">Completed</span>
+      </div>
+      
+      <div class="project-meta">
+        <div class="project-meta-item">
+          <strong>📅 Year:</strong> 2014
+        </div>
+        <div class="project-meta-item">
+          <strong>🏛️ Institution:</strong> University of Sindh, Pakistan
+        </div>
+        <div class="project-meta-item">
+          <strong>🤝 Collaboration:</strong> SUPARCO (Pakistan Space Agency)
+        </div>
+      </div>
+      
+      <p class="project-description">
+        Conducted optimization analysis of satellite-to-earth station communication links using Systems Tool Kit (STK). 
+        Collaborated with SUPARCO (Space & Upper Atmosphere Research Commission) to improve link budget calculations 
+        and signal quality predictions for satellite communications. This work was completed as part of my Bachelor's thesis.
+      </p>
+    </div>
+  </section>
+
+  <!-- Funding & Partners -->
+  <section class="section">
+    <div class="funding-statement">
+      <strong>🎯 Funding & Support</strong>
+      <p>
+        My research projects are supported by prestigious European funding programs including Horizon Europe EIC Pathfinder 
+        and the European Institute of Innovation & Technology (EIT Digital). These collaborations enable cutting-edge 
+        research in federated learning, edge AI, and trustworthy machine learning systems.
+      </p>
+    </div>
+    
+    <div class="logos" aria-label="Project partners and funding organizations">
+      <a class="logo-card" href="https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en" target="_blank" rel="noopener" aria-label="EIC Pathfinder">
+        <img src="assets/logos/eic-pathfinder.svg" alt="EIC Pathfinder Logo" />
+      </a>
+      <a class="logo-card" href="https://research-and-innovation.ec.europa.eu/funding/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener" aria-label="Horizon Europe">
+        <img src="assets/logos/eu.svg" alt="European Union Logo" />
+      </a>
+      <a class="logo-card" href="https://www.eitdigital.eu/" target="_blank" rel="noopener" aria-label="EIT Digital">
+        <img src="assets/logos/eit-digital.svg" alt="EIT Digital Logo" />
+      </a>
+      <a class="logo-card" href="https://www.unitn.it/" target="_blank" rel="noopener" aria-label="University of Trento">
+        <img src="assets/logos/unitn.svg" alt="University of Trento Logo" />
+      </a>
     </div>
   </section>
 
@@ -92,7 +652,11 @@
     <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
   </footer>
 </main>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="assets/js/analytics.js" defer></script>
 </body>

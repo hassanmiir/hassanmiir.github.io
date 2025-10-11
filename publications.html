@@ -11,41 +11,305 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    :root{--bg:#f7f9fc;--ink:#0f172a;--ink-dim:#324156;--panel:#fff;--border:rgba(15,23,42,.08);--link:#0f4cc9;--radius:16px;--shadow:0 14px 30px rgba(2,10,32,.08)}
-    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-    a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}
-    .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
-    .topbar{position:sticky;top:0;z-index:40;background:#ffffffcc;backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-    .topbar__in{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none}
-    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 200deg,#0e9ae6,#6366f1)}
-    nav a{margin-left:8px;padding:8px 12px;border-radius:10px;color:var(--ink)}nav a:hover{background:#fff;border:1px solid var(--border);text-decoration:none}
-    .card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero{padding:24px;margin-top:12px}
-    .hero__card{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:center;padding:0}
-    .hero__img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--border)}
-    .title{margin:0 0 6px;font-size:28px;font-weight:800}
-    .tagline{margin:0;color:var(--ink-dim)}
-    .section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin:18px 0}
-    .h3{margin:0 0 10px;font-size:20px;font-weight:800;border-bottom:1px dashed var(--border);padding-bottom:8px}
-    .pub-list{margin:8px 0 0 18px}.pub-list li{margin:10px 0}
-    footer{margin:30px 0 40px;border-top:1px solid var(--border);padding-top:18px;color:#5c6f86;font-size:14px}
-    @media(max-width:640px){.hero__card{grid-template-columns:1fr;text-align:center}.hero__img{margin:0 auto}}
+    :root {
+      --bg: #f7f9fc;
+      --ink: #0f172a;
+      --ink-dim: #324156;
+      --panel: #fff;
+      --border: rgba(15, 23, 42, .08);
+      --link: #0f4cc9;
+      --accent: #6366f1;
+      --success: #10b981;
+      --radius: 16px;
+      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+      color: var(--accent);
+    }
+    
+    .wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 22px;
+    }
+    
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .topbar__in {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: conic-gradient(from 200deg, #0e9ae6, #6366f1);
+    }
+    
+    nav a {
+      margin-left: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: var(--ink);
+      transition: all 0.2s ease;
+    }
+    
+    nav a:hover {
+      background: #fff;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    
+    /* Job Seeking Alert Bar */
+    .job-alert-bar {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      padding: 12px 20px;
+      text-align: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      border-bottom: 3px solid #047857;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .job-alert-bar a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+    
+    .job-alert-bar a:hover {
+      color: #d1fae5;
+    }
+    
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
+    }
+    
+    .hero {
+      padding: 24px;
+      margin-top: 12px;
+    }
+    
+    .hero__card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 0;
+    }
+    
+    .hero__img {
+      width: 120px;
+      height: 120px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    
+    .title {
+      margin: 0 0 6px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    
+    .tagline {
+      margin: 0;
+      color: var(--ink-dim);
+    }
+    
+    .cta {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+    
+    .section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin: 18px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
+    }
+    
+    .h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 800;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 8px;
+    }
+    
+    /* Updated styles for numbered lists */
+    .pub-list {
+      margin: 8px 0 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: pub-counter;
+    }
+    
+    .pub-list li {
+      margin: 10px 0;
+      padding: 12px;
+      padding-left: 50px;
+      position: relative;
+      counter-increment: pub-counter;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .pub-list li:hover {
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);
+      padding-left: 55px;
+    }
+    
+    .pub-list li::before {
+      content: counter(pub-counter) ".";
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      font-weight: 700;
+      color: var(--link);
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    
+    .pub-list li:hover::before {
+      color: var(--accent);
+      transform: scale(1.1);
+    }
+    
+    footer {
+      margin: 30px 0 40px;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      color: #5c6f86;
+      font-size: 14px;
+    }
+    
+    @media(max-width:640px) {
+      .hero__card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero__img {
+        margin: 0 auto;
+      }
+    }
   </style>
 </head>
 <body>
+<!-- Job Seeking Alert Bar -->
+<div class="job-alert-bar">
+  🎯 <strong>Actively Seeking Opportunities:</strong> Open to Postdoc & Faculty positions starting January 2026 · 
+  <a href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry">Contact Me</a>
+</div>
+
 <header class="topbar">
   <div class="wrap topbar__in">
-    <a class="brand" href="index.html"><div class="logo"></div><strong>Mir Hassan</strong></a>
+    <a class="brand" href="index.html">
+      <div class="logo"></div>
+      <strong>Mir Hassan</strong>
+    </a>
     <nav>
       <a href="projects.html">Projects</a>
       <a href="education.html">Education</a>
       <a href="experience.html">Academic Experience</a>
-      <a href="teaching.html">Teaching</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
+
 <main class="wrap">
   <!-- Shared HERO -->
   <section class="hero card">
@@ -53,41 +317,42 @@
       <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
       <div>
         <h1 class="title">Mir Hassan</h1>
-               <!-- Research areas -->
+        <!-- Research areas -->
         <p class="tagline">
           Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
         </p>
 
         <!-- Current affiliations -->
         <p class="tagline" style="font-weight:600; margin-top:6px;">
-          PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
-        </p>
-        <p class="tagline" style="font-weight:600; margin-top:2px;">
-          Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
+          PhD Candidate, University of Trento (Italy) · Supervisor: <a href="https://disi.unitn.it/~iacca/" target="_blank" rel="noopener">Prof. Giovanni Iacca</a>
         </p>
 
         <!-- Location -->
-        <p class="tagline" style="margin-top:2px;">
+        <p class="tagline" style="margin-top:6px;">
           📍 Currently based in <strong>Trento, Italy</strong>
         </p>
         <div class="cta">
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">📄 Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
+          <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
         </div>
       </div>
     </div>
   </section>
 
   <h1>Publications</h1>
+  
   <section class="section">
     <h3 class="h3">Under Review</h3>
     <ul id="pub-under-review" class="pub-list"></ul>
   </section>
+  
   <section class="section">
     <h3 class="h3">Journal Publications</h3>
     <ul id="pub-journals" class="pub-list"></ul>
   </section>
+  
   <section class="section">
     <h3 class="h3">Conference (Peer‑Reviewed)</h3>
     <ul id="pub-confs" class="pub-list"></ul>
@@ -107,22 +372,171 @@
     <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
   </footer>
 </main>
-<script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="assets/js/analytics.js" defer></script>
+
 <script>
-  const MY_NAMES=["Hassan, Mir","Mir Hassan","Hassan, M."];function latexToHTML(s){return(s||"").replace(/\\textbf\{([^}]*)\}/g,"<strong>$1<\/strong>").replace(/\\emph\{([^}]*)\}/g,"<em>$1<\/em>")}
-  function norm(s){return(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim()}const MY_NAMES_NORM=MY_NAMES.map(norm);
-  function boldifyAuthor(a){const h=latexToHTML(a);const p=h.replace(/<[^>]+>/g,"");const n=norm(p);for(const me of MY_NAMES_NORM){if(n===me||n.includes(me))return`<strong>${h}<\/strong>`}return h}
-  function parseBibtex(b){const chunks=b.split(/^\s*@/m).filter(Boolean);const entries=[];for(const c of chunks){const m=c.match(/^([a-zA-Z]+)\s*\{\s*([^,]+)\s*,/);if(!m)continue;const type=m[1].toLowerCase();const key=m[2].trim();const body=c.slice(m[0].length);const re=/([a-zA-Z]+)\s*=\s*({([^{}]*|{[^{}]*})*}|\"[^\"]*\"|[^,]+)\s*,?/g;const f={};let x;while((x=re.exec(body))!==null){const name=x[1].toLowerCase();let val=x[2].trim();if((val.startsWith('{')&&val.endsWith('}'))||(val.startsWith('"')&&val.endsWith('"'))){val=val.slice(1,-1)}val=val.replace(/\s+/g,' ').trim();f[name]=latexToHTML(val)}entries.push({type,key,fields:f})}return entries}
-  function listAuthors(s){return s.split(/\s+and\s+/i).map(a=>a.trim()).filter(Boolean)}
-  function decideType(e){const t=e.type;if(t==='article')return'journal';if(t==='inproceedings'||t==='conference')return'conference';const v=(e.fields.journal||e.fields.booktitle||'').toLowerCase();return /journal|transactions|magazine/.test(v)?'journal':'conference'}
-  function entryInfo(e){const f=e.fields;const title=f.title||'Untitled';const venue=f.journal||f.booktitle||'';const year=f.year||'';const url=f.url||(f.doi?`https://doi.org/${f.doi}`:'');const authors=f.author?listAuthors(f.author):[];return{title,venue,year,url,authors}}
-  function buildLI({title,authors,year,venue,url}){const linkStart=url?`<a href=\"${url}\" target=\"_blank\" rel=\"noopener\">`:'';const linkEnd=url?`</a>`:'';const authorsHTML=(authors||[]).map(boldifyAuthor).join(', ');const yearStr=year?`, ${year}`:'';const li=document.createElement('li');li.innerHTML=`<strong>${linkStart}${latexToHTML(title)}${linkEnd}</strong><br>${authorsHTML}${yearStr}<br><em>${latexToHTML(venue||'')}</em>`;return li}
-  (async function(){try{const [bibResp,rankResp,urResp]=await Promise.all([fetch('assets/publications.bib',{cache:'no-store'}),fetch('assets/venue_ranks.json',{cache:'no-store'}),fetch('assets/under_review.json',{cache:'no-store'})]);const ranks=rankResp.ok?await rankResp.json():{};const bibText=bibResp.ok?await bibResp.text():'';const underReview=urResp.ok?await urResp.json():[];const entries=bibText?parseBibtex(bibText):[];const j=[],c=[];const urList=document.getElementById('pub-under-review');
-    underReview.sort((a,b)=>(parseInt(b.year)||0)-(parseInt(a.year)||0));for(const item of underReview){urList.appendChild(buildLI({title:item.title,authors:item.authors||[],year:item.year||'',venue:item.venue||'Submitted',url:item.url||''}))}
-    for(const e of entries){const type=decideType(e);const info=entryInfo(e);const li=buildLI(info);(type==='journal'?j:c).push({li,y:info.year})}
-    const byYear=(a,b)=>(parseInt(b.y)||0)-(parseInt(a.y)||0);j.sort(byYear);c.sort(byYear);const J=document.getElementById('pub-journals');const C=document.getElementById('pub-confs');j.forEach(x=>J.appendChild(x.li));c.forEach(x=>C.appendChild(x.li));}catch(err){console.warn('Failed to render publications:',err)}})();
+  // Configuration
+  const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
+  
+  // Utility: Convert LaTeX formatting to HTML
+  function latexToHTML(s) {
+    return (s || "")
+      .replace(/\\textbf\{([^}]*)\}/g, "<strong>$1</strong>")
+      .replace(/\\emph\{([^}]*)\}/g, "<em>$1</em>");
+  }
+  
+  // Utility: Normalize string for comparison
+  function norm(s) {
+    return (s || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  }
+  
+  const MY_NAMES_NORM = MY_NAMES.map(norm);
+  
+  // Boldify author names that match MY_NAMES
+  function boldifyAuthor(a) {
+    const h = latexToHTML(a);
+    const p = h.replace(/<[^>]+>/g, "");
+    const n = norm(p);
+    for (const me of MY_NAMES_NORM) {
+      if (n === me || n.includes(me)) return `<strong>${h}</strong>`;
+    }
+    return h;
+  }
+  
+  // Parse BibTeX format
+  function parseBibtex(b) {
+    const chunks = b.split(/^\s*@/m).filter(Boolean);
+    const entries = [];
+    
+    for (const c of chunks) {
+      const m = c.match(/^([a-zA-Z]+)\s*\{\s*([^,]+)\s*,/);
+      if (!m) continue;
+      
+      const type = m[1].toLowerCase();
+      const key = m[2].trim();
+      const body = c.slice(m[0].length);
+      const re = /([a-zA-Z]+)\s*=\s*({([^{}]*|{[^{}]*})*}|\"[^\"]*\"|[^,]+)\s*,?/g;
+      const f = {};
+      let x;
+      
+      while ((x = re.exec(body)) !== null) {
+        const name = x[1].toLowerCase();
+        let val = x[2].trim();
+        if ((val.startsWith('{') && val.endsWith('}')) || 
+            (val.startsWith('"') && val.endsWith('"'))) {
+          val = val.slice(1, -1);
+        }
+        val = val.replace(/\s+/g, ' ').trim();
+        f[name] = latexToHTML(val);
+      }
+      
+      entries.push({ type, key, fields: f });
+    }
+    
+    return entries;
+  }
+  
+  // Parse author list
+  function listAuthors(s) {
+    return s.split(/\s+and\s+/i).map(a => a.trim()).filter(Boolean);
+  }
+  
+  // Determine publication type
+  function decideType(e) {
+    const t = e.type;
+    if (t === 'article') return 'journal';
+    if (t === 'inproceedings' || t === 'conference') return 'conference';
+    const v = (e.fields.journal || e.fields.booktitle || '').toLowerCase();
+    return /journal|transactions|magazine/.test(v) ? 'journal' : 'conference';
+  }
+  
+  // Extract entry information
+  function entryInfo(e) {
+    const f = e.fields;
+    const title = f.title || 'Untitled';
+    const venue = f.journal || f.booktitle || '';
+    const year = f.year || '';
+    const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
+    const authors = f.author ? listAuthors(f.author) : [];
+    return { title, venue, year, url, authors };
+  }
+  
+  // Build list item for publication
+  function buildLI({ title, authors, year, venue, url }) {
+    const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
+    const linkEnd = url ? `</a>` : '';
+    const authorsHTML = (authors || []).map(boldifyAuthor).join(', ');
+    const venueStr = venue ? `<em>${latexToHTML(venue)}</em>` : '';
+    const yearStr = year ? `, ${year}` : '';
+    
+    const li = document.createElement('li');
+    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
+    return li;
+  }
+  
+  // Main initialization
+  (async function() {
+    try {
+      const [bibResp, rankResp, urResp] = await Promise.all([
+        fetch('assets/publications.bib', { cache: 'no-store' }),
+        fetch('assets/venue_ranks.json', { cache: 'no-store' }),
+        fetch('assets/under_review.json', { cache: 'no-store' })
+      ]);
+      
+      const ranks = rankResp.ok ? await rankResp.json() : {};
+      const bibText = bibResp.ok ? await bibResp.text() : '';
+      const underReview = urResp.ok ? await urResp.json() : [];
+      const entries = bibText ? parseBibtex(bibText) : [];
+      const j = [], c = [];
+      
+      const urList = document.getElementById('pub-under-review');
+      
+      // Sort and display under review publications
+      underReview.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
+      for (const item of underReview) {
+        urList.appendChild(buildLI({
+          title: item.title,
+          authors: item.authors || [],
+          year: item.year || '',
+          venue: item.venue || 'Submitted',
+          url: item.url || ''
+        }));
+      }
+      
+      // Process BibTeX entries
+      for (const e of entries) {
+        const type = decideType(e);
+        const info = entryInfo(e);
+        const li = buildLI(info);
+        (type === 'journal' ? j : c).push({ li, y: info.year });
+      }
+      
+      // Sort by year (most recent first)
+      const byYear = (a, b) => (parseInt(b.y) || 0) - (parseInt(a.y) || 0);
+      j.sort(byYear);
+      c.sort(byYear);
+      
+      // Append to DOM
+      const J = document.getElementById('pub-journals');
+      const C = document.getElementById('pub-confs');
+      j.forEach(x => J.appendChild(x.li));
+      c.forEach(x => C.appendChild(x.li));
+      
+    } catch (err) {
+      console.warn('Failed to render publications:', err);
+    }
+  })();
 </script>
 </body>
 </html>
