@@ -19,6 +19,7 @@
       --border: rgba(15, 23, 42, .08);
       --link: #0f4cc9;
       --accent: #6366f1;
+      --success: #10b981;
       --radius: 16px;
       --shadow: 0 14px 30px rgba(2, 10, 32, .08);
     }
@@ -38,10 +39,12 @@
     a {
       color: var(--link);
       text-decoration: none;
+      transition: color 0.2s ease;
     }
     
     a:hover {
       text-decoration: underline;
+      color: var(--accent);
     }
     
     .wrap {
@@ -86,12 +89,47 @@
       padding: 8px 12px;
       border-radius: 10px;
       color: var(--ink);
+      transition: all 0.2s ease;
     }
     
     nav a:hover {
       background: #fff;
       border: 1px solid var(--border);
       text-decoration: none;
+      transform: translateY(-1px);
+    }
+    
+    /* Job Seeking Alert Bar */
+    .job-alert-bar {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      padding: 12px 20px;
+      text-align: center;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+      border-bottom: 3px solid #047857;
+      animation: slideDown 0.5s ease;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .job-alert-bar a {
+      color: white;
+      text-decoration: underline;
+      font-weight: 700;
+    }
+    
+    .job-alert-bar a:hover {
+      color: #d1fae5;
     }
     
     .card {
@@ -99,6 +137,12 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
     }
     
     .hero {
@@ -140,6 +184,42 @@
       box-shadow: var(--shadow);
       padding: 24px;
       margin: 18px 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
+    }
+    
+    .cta {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--ink);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      text-decoration: none;
     }
     
     .section-header {
@@ -168,6 +248,13 @@
       border-left: 4px solid var(--accent);
       background: linear-gradient(90deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);
       border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .experience-item:hover {
+      padding-left: 20px;
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
     }
     
     .experience-title {
@@ -264,7 +351,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       background: white;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
     .course-card:hover {
@@ -345,6 +432,12 @@
   </style>
 </head>
 <body>
+<!-- Job Seeking Alert Bar -->
+<div class="job-alert-bar">
+  🎯 <strong>Actively Seeking Opportunities:</strong> Open to Postdoc & Faculty positions starting January 2026 · 
+  <a href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry">Contact Me</a>
+</div>
+
 <header class="topbar">
   <div class="wrap topbar__in">
     <a class="brand" href="index.html">
@@ -372,18 +465,16 @@
           Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
         </p>
         <p class="tagline" style="font-weight:600; margin-top:6px;">
-          PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
+          PhD Candidate, University of Trento (Italy) · Supervisor: <a href="https://disi.unitn.it/~iacca/" target="_blank" rel="noopener">Prof. Giovanni Iacca</a>
         </p>
-        <p class="tagline" style="font-weight:600; margin-top:2px;">
-          Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
-        </p>
-        <p class="tagline" style="margin-top:2px;">
+        <p class="tagline" style="margin-top:6px;">
           📍 Currently based in <strong>Trento, Italy</strong>
         </p>
         <div class="cta">
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">📄 Download CV</a>
+          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
+          <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
         </div>
       </div>
     </div>
