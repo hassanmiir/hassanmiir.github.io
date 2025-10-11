@@ -269,6 +269,37 @@
       transform: scale(1.1);
     }
     
+    /* Award badge styles */
+    .award-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #78350f;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+      vertical-align: middle;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+    
+    .pub-list li.has-award {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.08) 0%, transparent 100%);
+      border-left: 3px solid #fbbf24;
+      padding-left: 47px;
+    }
+    
+    .pub-list li.has-award:hover {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.12) 0%, transparent 100%);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
+    }
+    
+    .pub-list li.has-award::before {
+      color: #f59e0b;
+    }
+    
     footer {
       margin: 30px 0 40px;
       border-top: 1px solid var(--border);
@@ -469,19 +500,26 @@
     const year = f.year || '';
     const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
     const authors = f.author ? listAuthors(f.author) : [];
-    return { title, venue, year, url, authors };
+    const award = f.award || f.note || ''; // Check for award in 'award' or 'note' field
+    return { title, venue, year, url, authors, award };
   }
   
   // Build list item for publication
-  function buildLI({ title, authors, year, venue, url }) {
+  function buildLI({ title, authors, year, venue, url, award }) {
     const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
     const linkEnd = url ? `</a>` : '';
     const authorsHTML = (authors || []).map(boldifyAuthor).join(', ');
     const venueStr = venue ? `<em>${latexToHTML(venue)}</em>` : '';
     const yearStr = year ? `, ${year}` : '';
     
+    // Add award badge if present
+    const awardBadge = award ? `<span class="award-badge">🏆 ${award}</span>` : '';
+    
     const li = document.createElement('li');
-    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
+    if (award) {
+      li.classList.add('has-award');
+    }
+    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}${awardBadge}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
     return li;
   }
   
@@ -510,7 +548,8 @@
           authors: item.authors || [],
           year: item.year || '',
           venue: item.venue || 'Submitted',
-          url: item.url || ''
+          url: item.url || '',
+          award: item.award || ''
         }));
       }
       
