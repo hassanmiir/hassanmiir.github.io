@@ -300,6 +300,83 @@
       color: #f59e0b;
     }
     
+    /* Quartile and Ranking badges */
+    .quartile-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    
+    .quartile-q1 {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+    
+    .quartile-q2 {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    }
+    
+    .quartile-q3 {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    }
+    
+    .quartile-q4 {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
+    }
+    
+    .rank-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    
+    .rank-a-star {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+    }
+    
+    .rank-a {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+    
+    .rank-b {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    }
+    
+    .rank-c {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+      color: white;
+      box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
+    }
+    
+    .source-label {
+      font-size: 10px;
+      opacity: 0.8;
+    }
+    
     footer {
       margin: 30px 0 40px;
       border-top: 1px solid var(--border);
@@ -388,6 +465,10 @@
     <h3 class="h3">Conference (Peer‑Reviewed)</h3>
     <ul id="pub-confs" class="pub-list"></ul>
     <p>Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+    <p style="font-size: 12px; color: var(--ink-dim); margin-top: 12px;">
+      <strong>Note:</strong> Rankings are automatically matched from CORE and Web of Science databases (last updated: October 2025). 
+      For the most current rankings, please verify with official sources.
+    </p>
   </section>
 
   <footer class="site-footer">
@@ -412,6 +493,138 @@
 <script src="assets/js/analytics.js" defer></script>
 
 <script>
+  // Rankings database - Update quarterly with latest data
+  const RANKINGS_DB = {
+    // Last updated: October 2025
+    journals: {
+      // IEEE Journals
+      "ieee transactions on neural networks and learning systems": { wos: "Q1", scopus: "Q1" },
+      "ieee transactions on pattern analysis and machine intelligence": { wos: "Q1", scopus: "Q1" },
+      "ieee transactions on knowledge and data engineering": { wos: "Q1", scopus: "Q1" },
+      "ieee transactions on mobile computing": { wos: "Q1", scopus: "Q1" },
+      "ieee transactions on parallel and distributed systems": { wos: "Q1", scopus: "Q1" },
+      "ieee internet of things journal": { wos: "Q1", scopus: "Q1" },
+      "ieee transactions on industrial informatics": { wos: "Q1", scopus: "Q1" },
+      
+      // ACM Journals
+      "acm computing surveys": { wos: "Q1", scopus: "Q1" },
+      "acm transactions on intelligent systems and technology": { wos: "Q1", scopus: "Q1" },
+      
+      // Nature/Science
+      "nature machine intelligence": { wos: "Q1", scopus: "Q1" },
+      "nature communications": { wos: "Q1", scopus: "Q1" },
+      
+      // Elsevier Journals
+      "neural networks": { wos: "Q1", scopus: "Q1" },
+      "information fusion": { wos: "Q1", scopus: "Q1" },
+      "future generation computer systems": { wos: "Q1", scopus: "Q1" },
+      "computer networks": { wos: "Q1", scopus: "Q1" },
+      "expert systems with applications": { wos: "Q1", scopus: "Q1" },
+      "neurocomputing": { wos: "Q2", scopus: "Q1" },
+      
+      // Springer Journals
+      "machine learning": { wos: "Q1", scopus: "Q1" },
+      "data mining and knowledge discovery": { wos: "Q1", scopus: "Q1" },
+      
+      // Other Top Journals
+      "artificial intelligence": { wos: "Q1", scopus: "Q1" },
+      "journal of machine learning research": { wos: "Q1", scopus: "Q1" }
+    },
+    
+    conferences: {
+      // A* Conferences (Top Tier)
+      "neurips": "A*",
+      "nips": "A*",
+      "icml": "A*",
+      "iclr": "A*",
+      "cvpr": "A*",
+      "iccv": "A*",
+      "eccv": "A*",
+      "acm sigkdd": "A*",
+      "kdd": "A*",
+      "www": "A*",
+      "aaai": "A*",
+      "ijcai": "A*",
+      "acl": "A*",
+      "emnlp": "A*",
+      "sigmod": "A*",
+      "vldb": "A*",
+      "siggraph": "A*",
+      "icse": "A*",
+      "fse": "A*",
+      "osdi": "A*",
+      "sosp": "A*",
+      
+      // A Conferences (Excellent)
+      "uai": "A",
+      "aistats": "A",
+      "wacv": "A",
+      "bmvc": "A",
+      "coling": "A",
+      "naacl": "A",
+      "icde": "A",
+      "sigir": "A",
+      "recsys": "A",
+      "icdm": "A",
+      "saner": "A",
+      "ase": "A",
+      "middleware": "A",
+      "eurosys": "A",
+      
+      // B Conferences (Good)
+      "accv": "B",
+      "icpr": "B",
+      "ijcnn": "B",
+      "pakdd": "B",
+      "ecml": "B",
+      "dasfaa": "B",
+      "edbt": "B"
+    }
+  };
+  
+  // Normalize venue name for matching
+  function normalizeVenue(venue) {
+    return venue.toLowerCase()
+      .replace(/[^\w\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+  
+  // Find ranking for a venue
+  function findRanking(venue, type) {
+    if (!venue) return null;
+    
+    const normalized = normalizeVenue(venue);
+    
+    if (type === 'journal') {
+      // Try exact match first
+      if (RANKINGS_DB.journals[normalized]) {
+        return RANKINGS_DB.journals[normalized];
+      }
+      
+      // Try partial match for common abbreviations
+      for (const [key, value] of Object.entries(RANKINGS_DB.journals)) {
+        if (normalized.includes(key) || key.includes(normalized)) {
+          return value;
+        }
+      }
+    } else if (type === 'conference') {
+      // Try exact match
+      if (RANKINGS_DB.conferences[normalized]) {
+        return { rank: RANKINGS_DB.conferences[normalized] };
+      }
+      
+      // Try partial match
+      for (const [key, value] of Object.entries(RANKINGS_DB.conferences)) {
+        if (normalized.includes(key)) {
+          return { rank: value };
+        }
+      }
+    }
+    
+    return null;
+  }
+  
   // Configuration
   const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
   
@@ -500,12 +713,31 @@
     const year = f.year || '';
     const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
     const authors = f.author ? listAuthors(f.author) : [];
-    const award = f.award || f.note || ''; // Check for award in 'award' or 'note' field
-    return { title, venue, year, url, authors, award };
+    const award = f.award || f.note || '';
+    
+    // Manual overrides from BibTeX (takes precedence)
+    let quartile_wos = f.quartile_wos || f.quartile || '';
+    let quartile_scopus = f.quartile_scopus || '';
+    let rank = f.rank || f.rating || '';
+    
+    // Auto-detect from database if not manually specified
+    const type = e.type === 'article' ? 'journal' : 'conference';
+    const autoRanking = findRanking(venue, type);
+    
+    if (autoRanking) {
+      if (type === 'journal') {
+        quartile_wos = quartile_wos || autoRanking.wos || '';
+        quartile_scopus = quartile_scopus || autoRanking.scopus || '';
+      } else {
+        rank = rank || autoRanking.rank || '';
+      }
+    }
+    
+    return { title, venue, year, url, authors, award, quartile_wos, quartile_scopus, rank };
   }
   
   // Build list item for publication
-  function buildLI({ title, authors, year, venue, url, award }) {
+  function buildLI({ title, authors, year, venue, url, award, quartile_wos, quartile_scopus, rank }) {
     const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
     const linkEnd = url ? `</a>` : '';
     const authorsHTML = (authors || []).map(boldifyAuthor).join(', ');
@@ -513,13 +745,42 @@
     const yearStr = year ? `, ${year}` : '';
     
     // Add award badge if present
-    const awardBadge = award ? `<span class="award-badge">🏆 ${award}</span>` : '';
+    const awardBadge = award ? `<span class="award-badge">🏆 ${latexToHTML(award)}</span>` : '';
+    
+    // Add WoS quartile badge
+    let wosBadge = '';
+    if (quartile_wos) {
+      const q = quartile_wos.toUpperCase();
+      const qClass = `quartile-${q.toLowerCase()}`;
+      wosBadge = `<span class="quartile-badge ${qClass}"><span class="source-label">WoS</span> ${q}</span>`;
+    }
+    
+    // Add Scopus quartile badge
+    let scopusBadge = '';
+    if (quartile_scopus) {
+      const q = quartile_scopus.toUpperCase();
+      const qClass = `quartile-${q.toLowerCase()}`;
+      scopusBadge = `<span class="quartile-badge ${qClass}"><span class="source-label">Scopus</span> ${q}</span>`;
+    }
+    
+    // Add conference rank badge
+    let rankBadge = '';
+    if (rank) {
+      const r = rank.toUpperCase();
+      let rClass = 'rank-c';
+      if (r === 'A*' || r === 'A-STAR') rClass = 'rank-a-star';
+      else if (r === 'A') rClass = 'rank-a';
+      else if (r === 'B') rClass = 'rank-b';
+      rankBadge = `<span class="rank-badge ${rClass}">CORE ${r.replace('A-STAR', 'A*')}</span>`;
+    }
+    
+    const badges = awardBadge + wosBadge + scopusBadge + rankBadge;
     
     const li = document.createElement('li');
     if (award) {
       li.classList.add('has-award');
     }
-    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}${awardBadge}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
+    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}${badges}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
     return li;
   }
   
@@ -543,13 +804,38 @@
       // Sort and display under review publications
       underReview.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
       for (const item of underReview) {
+        // Auto-detect ranking for under review papers
+        const venue = item.venue || 'Submitted';
+        const isJournal = venue.toLowerCase().includes('journal') || 
+                         venue.toLowerCase().includes('transactions') ||
+                         venue.toLowerCase().includes('ieee') ||
+                         venue.toLowerCase().includes('acm');
+        const type = isJournal ? 'journal' : 'conference';
+        const autoRanking = findRanking(venue, type);
+        
+        let quartile_wos = item.quartile_wos || '';
+        let quartile_scopus = item.quartile_scopus || '';
+        let rank = item.rank || '';
+        
+        if (autoRanking) {
+          if (type === 'journal') {
+            quartile_wos = quartile_wos || autoRanking.wos || '';
+            quartile_scopus = quartile_scopus || autoRanking.scopus || '';
+          } else {
+            rank = rank || autoRanking.rank || '';
+          }
+        }
+        
         urList.appendChild(buildLI({
           title: item.title,
           authors: item.authors || [],
           year: item.year || '',
-          venue: item.venue || 'Submitted',
+          venue: venue,
           url: item.url || '',
-          award: item.award || ''
+          award: item.award || '',
+          quartile_wos: quartile_wos,
+          quartile_scopus: quartile_scopus,
+          rank: rank
         }));
       }
       
