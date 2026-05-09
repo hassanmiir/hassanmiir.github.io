@@ -52,11 +52,10 @@
     .sec-lbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
     .sec-title{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--navy);margin-bottom:14px;line-height:1.2}
     .prose{color:var(--muted);line-height:1.75;font-size:15px}.prose p+p{margin-top:12px}.prose strong{color:var(--navy);font-weight:600}
-    /* FOCUS GRID */
-    .fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-    .fc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;border-left:3px solid var(--accent)}
-    .fc h4{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:5px}.fc p{font-size:13px;color:var(--muted);line-height:1.6}
-    /* DARK BOX */
+    /* RESEARCH DIRECTIONS LIST */
+    .rd-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+    .rd-list li{font-size:13.5px;font-weight:500;color:var(--navy);background:var(--white);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r);padding:8px 16px}
+    /* RESPONSIVE */
     .dbox{background:var(--navy);border-radius:var(--r);padding:26px;margin-bottom:40px}
     .dbox .sec-lbl{color:var(--accent)}.dbox .sec-title{color:var(--white);font-size:19px;margin-bottom:10px}
     .dbox .prose{color:#8BAABB;font-size:14px;margin-bottom:16px}
@@ -89,7 +88,7 @@
     footer{background:var(--navy);color:#5A7080;padding:26px 32px;text-align:center;font-size:12.5px}
     footer a{color:#7A9AAC;text-decoration:none}.footer a:hover{color:var(--accent2)}
     /* RESPONSIVE */
-    @media(max-width:900px){.grid2,.hero-in,.fg{grid-template-columns:1fr}.hphoto{width:120px;height:120px}.stats-in{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
+    @media(max-width:900px){.grid2,.hero-in{grid-template-columns:1fr}.hphoto{width:120px;height:120px}.stats-in{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
     @media(max-width:600px){.nav-links a{font-size:11px;padding:6px 7px}.wrap{padding:0 16px}.hero{padding:40px 16px}}
   </style>
 </head>
@@ -164,15 +163,17 @@
       </div>
 
       <div class="sec">
-        <p class="sec-lbl">Research Focus</p>
-        <h2 class="sec-title">Current Directions</h2>
-        <p class="prose" style="margin-bottom:6px">PhD Thesis: <strong>"Communication-Efficient Federated Learning for Resource-Constrained Environments"</strong></p>
-        <div class="fg">
-          <div class="fc"><h4>Model Compression &amp; Quantization</h4><p>Sign-based aggregation reducing uplink costs 32× without accuracy loss.</p></div>
-          <div class="fc"><h4>Agentic Federated Systems</h4><p>RL-driven client participation balancing utility, cost, and model quality.</p></div>
-          <div class="fc"><h4>Trustworthy &amp; Privacy-Aware FL</h4><p>Multi-trust frameworks with differential privacy and Byzantine resilience.</p></div>
-          <div class="fc"><h4>Edge AI for IoT &amp; IIoT</h4><p>Drift-aware intrusion detection on industrial edge devices.</p></div>
-        </div>
+        <p class="sec-lbl">Research Directions</p>
+        <h2 class="sec-title">Areas of Interest</h2>
+        <ul class="rd-list">
+          <li>Federated Learning</li>
+          <li>Edge AI &amp; TinyML</li>
+          <li>Trustworthy &amp; Privacy-Aware AI</li>
+          <li>Distributed Systems &amp; IoT</li>
+          <li>Agentic AI</li>
+          <li>Model Compression &amp; Quantization</li>
+          <li>Blockchain Technology</li>
+        </ul>
       </div>
 
       <div class="dbox">
@@ -200,10 +201,10 @@
       <div class="sec">
         <p class="sec-lbl">Updates</p>
         <h2 class="sec-title">Recent News</h2>
-        <div class="ni"><div class="nd">May 2026</div><div class="nt"><strong>Invited Talk:</strong> Guest lecture at ADNSU — Azerbaijan Diplomatic Academy University, Baku.</div></div>
+        <div class="ni"><div class="nd">7 May 2026</div><div class="nt"><strong>Invited Talk:</strong> "Modern AI Systems Beyond Centralized Data" — Azerbaijan State Oil and Industry University (ADNSU), Baku, Azerbaijan.</div></div>
         <div class="ni"><div class="nd">April 2026</div><div class="nt"><strong>Research Collaborator:</strong> Continuing collaboration with DISI, University of Trento, Italy.</div></div>
         <div class="ni"><div class="nd">January 2026</div><div class="nt"><strong>New Position:</strong> Started as Senior Researcher / Associate Professor at MRU, Vilnius, Lithuania.</div></div>
-        <div class="ni"><div class="nd">December 2025</div><div class="nt"><strong>Invited Talk:</strong> Guest lecture at Mehran University of Engineering and Technology (MUET), Pakistan.</div></div>
+        <div class="ni"><div class="nd">8 December 2025</div><div class="nt"><strong>Invited Talk:</strong> "Artificial Intelligence for a Sustainable Environment: AI Innovations for Smart and Green World" — Mehran University of Engineering and Technology (MUET), Jamshoro, Pakistan.</div></div>
         <div class="ni"><div class="nd">2026</div><div class="nt"><strong>Paper Accepted:</strong> "Zero-Knowledge Inspired Provenance for Trustless FL" at IEEE VTC 2026-Spring.</div></div>
         <div class="ni"><div class="nd">2025</div><div class="nt"><strong>Best Paper Award</strong> at IEEE VTC 2025-Spring for "Federated Multi-Task Learning with Dual Attention for Smart Buildings."</div></div>
       </div>
@@ -228,25 +229,49 @@
       <div class="scard">
         <div class="sct">Research Keywords</div>
         <div class="kwc">
-          <span class="kw">Federated Learning</span><span class="kw">Blockchain</span>
-          <span class="kw">Distributed Systems</span><span class="kw">IoT</span>
-          <span class="kw">TinyML</span><span class="kw">Edge AI</span>
-          <span class="kw">Trustworthy AI</span><span class="kw">6G</span>
-          <span class="kw">Privacy ML</span><span class="kw">Differential Privacy</span>
+          <span class="kw">Federated Learning</span><span class="kw">Edge AI</span>
+          <span class="kw">TinyML</span><span class="kw">Trustworthy AI</span>
+          <span class="kw">Agentic AI</span><span class="kw">Distributed Systems</span>
+          <span class="kw">Blockchain</span><span class="kw">IoT</span>
+          <span class="kw">Privacy ML</span><span class="kw">6G</span>
+          <span class="kw">Differential Privacy</span>
         </div>
       </div>
 
       <div class="scard">
-        <div class="sct">PhD Supervision</div>
-        <div style="font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)">
-          <strong style="color:var(--navy);display:block">Prof. Giovanni Iacca</strong>
-          Associate Professor, DISI<br>University of Trento, Italy<br>
-          <a href="https://disi.unitn.it/~iacca/" target="_blank" style="color:var(--accent);font-size:13px">disi.unitn.it/~iacca/ →</a>
+        <div class="sct">Supervision</div>
+
+        <!-- PhD Block -->
+        <div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">PhD Students</div>
+          <div style="font-size:13px;color:var(--light);font-style:italic;display:flex;align-items:center;gap:8px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex-shrink:0;color:var(--border)"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            None currently
+          </div>
         </div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.65">
-          <strong style="color:var(--navy)">Co-Supervised (2024)</strong><br>
-          Hafiz Muhammad Bilal — MSc Data Science, UniTrento<br>
-          <em style="font-size:12px">Thesis: Communication-Efficient FL for HAR through Knowledge Distillation</em>
+
+        <!-- Masters Block -->
+        <div>
+          <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Master's Students</div>
+          <div style="border-left:3px solid var(--accent);padding-left:12px">
+            <div style="font-size:13.5px;font-weight:600;color:var(--navy)">Enrico Micheli</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">MSc · University of Trento, Italy · 2025</div>
+            <div style="font-size:12px;color:var(--muted);font-style:italic;margin-top:4px;line-height:1.5">Federated Learning for HVAC Systems in Smart Buildings</div>
+          </div>
+
+          <div style="border-left:3px solid var(--border);padding-left:12px;margin-top:12px">
+            <div style="font-size:13.5px;font-weight:600;color:var(--navy)">Hafiz Muhammad Bilal</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">MSc Data Science · University of Trento, Italy · 2024</div>
+            <div style="font-size:12px;color:var(--muted);font-style:italic;margin-top:4px;line-height:1.5">Communication-Efficient FL for HAR through Knowledge Distillation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scard">
+        <div class="sct">Team &amp; Internees</div>
+        <div style="font-size:13px;color:var(--light);font-style:italic;display:flex;align-items:center;gap:8px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="flex-shrink:0;color:var(--border)"><circle cx="9" cy="7" r="4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 20c0-3 -1.8-5.4-4-6"/></svg>
+          No current internees
         </div>
       </div>
     </aside>

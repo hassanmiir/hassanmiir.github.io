@@ -53,8 +53,9 @@
     .pgrid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
     .pgrid img{width:110px;height:82px;object-fit:cover;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:opacity .15s}
     .pgrid img:hover{opacity:.8}
-    .add-photo-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--accent);cursor:pointer;border:1px solid rgba(200,135,58,.3);padding:5px 13px;border-radius:var(--r);transition:all .15s}
-    .add-photo-btn:hover{background:var(--accent);color:var(--white)}
+    .talk-logo{width:52px;height:52px;object-fit:contain;border-radius:4px;border:1px solid var(--border);background:var(--white);padding:4px;flex-shrink:0}
+    .talk-logo-dark{background:var(--navy);border-color:var(--navy2)}
+    .thdr-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:8px}
     /* LIGHTBOX */
     #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;align-items:center;justify-content:center}
     #lb.show{display:flex}
@@ -109,22 +110,32 @@
       <div class="yrg" data-yr="2026">
         <div class="yrhd">2026 <span class="yrn">1 talk</span></div>
         <div class="tcard" data-t="invited">
-          <div class="thdr"><div class="ttit">Federated Learning for Trustworthy AI: From Theory to Edge Deployment</div><span class="tbadge">Invited Talk</span></div>
-          <div class="tev">Azerbaijan Diplomatic Academy University (ADNSU), Baku, Azerbaijan</div>
-          <div class="tmeta"><span>📅 7 May 2026</span><span>📍 Baku, Azerbaijan</span></div>
-          <div class="tabs">An invited talk at ADNSU covering the principles and deployment of federated learning for trustworthy AI systems — privacy-preserving model training, communication efficiency at the edge, and practical challenges in resource-constrained and security-sensitive environments.</div>
-          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Trustworthy AI</span><span class="tt">Edge Deployment</span><span class="tt">Privacy</span></div>
-          <!-- PHOTO SECTION: place photos in assets/talks/ named adnsu_1.jpg, adnsu_2.jpg, etc. -->
-          <div class="photo-sec">
-            <div class="photo-lbl">Photos</div>
-            <div class="pgrid" id="pg-adnsu">
-              <!-- Static photos: uncomment and update src when you upload to GitHub
-              <img src="assets/talks/adnsu_1.jpg" alt="ADNSU Talk 1" onclick="olb('adnsu',0)"/>
-              <img src="assets/talks/adnsu_2.jpg" alt="ADNSU Talk 2" onclick="olb('adnsu',1)"/>
-              <img src="assets/talks/adnsu_3.jpg" alt="ADNSU Talk 3" onclick="olb('adnsu',2)"/>
-              -->
+          <div class="thdr-top">
+            <img class="talk-logo talk-logo-dark" src="assets/logos/adnsu.png" alt="ADNSU Logo"/>
+            <div style="flex:1">
+              <div class="thdr">
+                <div class="ttit">Modern AI Systems Beyond Centralized Data</div>
+                <span class="tbadge">Invited Talk</span>
+              </div>
+              <div class="tev">Azerbaijan State Oil and Industry University (ADNSU), Baku, Azerbaijan</div>
             </div>
-            <label class="add-photo-btn">+ Add Photos (preview only)<input type="file" accept="image/*" multiple style="display:none" onchange="addP(this,'adnsu')"/></label>
+          </div>
+          <div class="tmeta"><span>📅 7 May 2026</span><span>📍 Baku, Azerbaijan</span></div>
+          <div class="tabs">An invited talk at Azerbaijan State Oil and Industry University exploring how modern AI systems can transcend the limitations of centralized data — covering federated learning architectures, privacy-preserving model training, and practical deployment of distributed AI in resource-constrained and security-sensitive environments.</div>
+          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Trustworthy AI</span><span class="tt">Edge Deployment</span><span class="tt">Privacy</span><span class="tt">Agentic AI</span></div>
+          <!-- PHOTO SECTION — place photos in assets/talks/ folder
+               Name them: adnsu_1.jpg, adnsu_2.jpg, adnsu_3.jpg, etc.
+               Add or remove <img> lines below to match how many photos you have. -->
+          <div class="photo-sec" id="photos-adnsu">
+            <div class="photo-lbl">Photos</div>
+            <div class="pgrid">
+              <img src="assets/talks/adnsu_1.jpg" alt="ADNSU Talk — photo 1" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/adnsu_2.jpg" alt="ADNSU Talk — photo 2" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/adnsu_3.jpg" alt="ADNSU Talk — photo 3" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/adnsu_4.jpg" alt="ADNSU Talk — photo 4" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/adnsu_5.jpg" alt="ADNSU Talk — photo 5" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/adnsu_6.jpg" alt="ADNSU Talk — photo 6" onclick="olb(this)" onerror="this.style.display='none'"/>
+            </div>
           </div>
         </div>
       </div>
@@ -133,22 +144,33 @@
       <div class="yrg" data-yr="2025">
         <div class="yrhd">2025 <span class="yrn">2 talks</span></div>
         <div class="tcard" data-t="invited">
-          <div class="thdr"><div class="ttit">Communication-Efficient Federated Learning: Advances and Applications</div><span class="tbadge">Invited Talk</span></div>
-          <div class="tev">Mehran University of Engineering and Technology (MUET), Jamshoro, Pakistan</div>
-          <div class="tmeta"><span>📅 8 December 2025</span><span>📍 Jamshoro, Pakistan</span></div>
-          <div class="tabs">An invited seminar at MUET covering communication-efficient federated learning techniques, edge AI deployment, and research directions in distributed ML for resource-constrained environments. Discussed the EMAI4EU programme and future collaboration opportunities.</div>
-          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Edge AI</span><span class="tt">Distributed ML</span><span class="tt">IoT</span></div>
-          <!-- PHOTO SECTION: place photos in assets/talks/ named muet_1.jpg, muet_2.jpg, etc. -->
-          <div class="photo-sec">
-            <div class="photo-lbl">Photos</div>
-            <div class="pgrid" id="pg-muet">
-              <!-- Static photos: uncomment and update src when you upload to GitHub
-              <img src="assets/talks/muet_1.jpg" alt="MUET Talk 1" onclick="olb('muet',0)"/>
-              <img src="assets/talks/muet_2.jpg" alt="MUET Talk 2" onclick="olb('muet',1)"/>
-              <img src="assets/talks/muet_3.jpg" alt="MUET Talk 3" onclick="olb('muet',2)"/>
-              -->
+          <div class="thdr-top">
+            <img class="talk-logo" src="assets/logos/muet.png" alt="MUET Logo"/>
+            <div style="flex:1">
+              <div class="thdr">
+                <div class="ttit">Artificial Intelligence for a Sustainable Environment</div>
+                <span class="tbadge">Invited Talk</span>
+              </div>
+              <div class="tev">Mehran University of Engineering and Technology (MUET), Jamshoro, Pakistan</div>
             </div>
-            <label class="add-photo-btn">+ Add Photos (preview only)<input type="file" accept="image/*" multiple style="display:none" onchange="addP(this,'muet')"/></label>
+          </div>
+          <div class="tmeta"><span>📅 8 December 2025</span><span>📍 Jamshoro, Pakistan</span></div>
+          <div style="font-size:13px;font-style:italic;color:var(--light);margin-bottom:9px">AI Innovations for Smart and Green World</div>
+          <div class="tabs">An invited seminar at Mehran University of Engineering and Technology addressing how AI — and federated learning in particular — can drive sustainable smart environments. Topics included edge AI deployment, communication-efficient FL for IoT, green computing strategies, and the EMAI4EU programme's contribution to ethical and sustainable AI education across Europe.</div>
+          <div class="ttags"><span class="tt">Sustainable AI</span><span class="tt">Federated Learning</span><span class="tt">Edge AI</span><span class="tt">Smart Environments</span><span class="tt">Green Computing</span></div>
+          <!-- PHOTO SECTION — place photos in assets/talks/ folder
+               Name them: muet_1.jpg, muet_2.jpg, muet_3.jpg, etc.
+               Add or remove <img> lines below to match how many photos you have. -->
+          <div class="photo-sec" id="photos-muet">
+            <div class="photo-lbl">Photos</div>
+            <div class="pgrid">
+              <img src="assets/talks/muet_1.jpg" alt="MUET Talk — photo 1" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/muet_2.jpg" alt="MUET Talk — photo 2" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/muet_3.jpg" alt="MUET Talk — photo 3" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/muet_4.jpg" alt="MUET Talk — photo 4" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/muet_5.jpg" alt="MUET Talk — photo 5" onclick="olb(this)" onerror="this.style.display='none'"/>
+              <img src="assets/talks/muet_6.jpg" alt="MUET Talk — photo 6" onclick="olb(this)" onerror="this.style.display='none'"/>
+            </div>
           </div>
         </div>
         <div class="tcard" data-t="invited">
@@ -188,7 +210,7 @@
       <div class="scard">
         <div class="sct">Institutions</div>
         <div style="font-size:13.5px;color:var(--muted);line-height:1.7">
-          <div style="padding:8px 0;border-bottom:1px solid #f0ece5"><strong style="color:var(--navy);display:block">ADNSU</strong>Baku, Azerbaijan · 1 talk · 2026</div>
+          <div style="padding:8px 0;border-bottom:1px solid #f0ece5"><strong style="color:var(--navy);display:block">Azerbaijan State Oil and Industry University (ADNSU)</strong>Baku, Azerbaijan · 1 talk · 2026</div>
           <div style="padding:8px 0;border-bottom:1px solid #f0ece5"><strong style="color:var(--navy);display:block">Mehran University (MUET)</strong>Jamshoro, Pakistan · 1 talk · 2025</div>
           <div style="padding:8px 0"><strong style="color:var(--navy);display:block">Yildiz Technical University</strong>Istanbul, Turkey · 2 talks · 2024–2025</div>
         </div>
@@ -225,28 +247,23 @@ function ft(t,btn){
   });
 }
 
-// Photo upload (preview only — for permanent photos, use static img tags in the HTML)
-const photos={adnsu:[],muet:[]};
-function addP(input,tgt){
-  const grid=document.getElementById('pg-'+tgt);
-  Array.from(input.files).forEach(f=>{
-    const url=URL.createObjectURL(f);
-    photos[tgt].push(url);
-    const img=document.createElement('img');
-    img.src=url; img.alt='Talk photo';
-    const idx=photos[tgt].length-1;
-    img.onclick=()=>olb(tgt,idx);
-    grid.appendChild(img);
-  });
-  input.value='';
-}
+// Lightbox — works with static img tags
+let lbImgs=[], lbIdx=0;
 
-// Lightbox
-let lbS=[],lbI=0;
-function olb(tgt,idx){lbS=photos[tgt];lbI=idx;ulb();document.getElementById('lb').classList.add('show');}
+function olb(img){
+  // Collect all visible sibling images in the same pgrid
+  const grid=img.closest('.pgrid');
+  lbImgs=Array.from(grid.querySelectorAll('img')).filter(i=>i.style.display!=='none');
+  lbIdx=lbImgs.indexOf(img);
+  ulb();
+  document.getElementById('lb').classList.add('show');
+}
 function clb(){document.getElementById('lb').classList.remove('show');}
-function slb(d){lbI=(lbI+d+lbS.length)%lbS.length;ulb();}
-function ulb(){document.getElementById('lb-img').src=lbS[lbI];document.getElementById('lb-cap').textContent=(lbI+1)+' / '+lbS.length;}
+function slb(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;ulb();}
+function ulb(){
+  document.getElementById('lb-img').src=lbImgs[lbIdx].src;
+  document.getElementById('lb-cap').textContent=(lbIdx+1)+' / '+lbImgs.length;
+}
 document.addEventListener('keydown',e=>{
   if(!document.getElementById('lb').classList.contains('show'))return;
   if(e.key==='Escape')clb();
