@@ -1,867 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Publications — Mir Hassan</title>
-  <meta name="description" content="Publications of Mir Hassan." />
-  <link rel="icon" href="assets/favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta name="description" content="Publications of Mir Hassan — 19+ peer-reviewed papers in IEEE journals and conferences."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --ink: #0f172a;
-      --ink-dim: #324156;
-      --panel: #fff;
-      --border: rgba(15, 23, 42, .08);
-      --link: #0f4cc9;
-      --accent: #6366f1;
-      --success: #10b981;
-      --radius: 16px;
-      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-    
-    a {
-      color: var(--link);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-      color: var(--accent);
-    }
-    
-    .wrap {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 22px;
-    }
-    
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: #ffffffcc;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .topbar__in {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-    
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: conic-gradient(from 200deg, #0e9ae6, #6366f1);
-    }
-    
-    nav a {
-      margin-left: 8px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: var(--ink);
-      transition: all 0.2s ease;
-    }
-    
-    nav a:hover {
-      background: #fff;
-      border: 1px solid var(--border);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-    
-    /* Job Seeking Alert Bar */
-    .job-alert-bar {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      padding: 12px 20px;
-      text-align: center;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      border-bottom: 3px solid #047857;
-      animation: slideDown 0.5s ease;
-    }
-    
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-    
-    .job-alert-bar a {
-      color: white;
-      text-decoration: underline;
-      font-weight: 700;
-    }
-    
-    .job-alert-bar a:hover {
-      color: #d1fae5;
-    }
-    
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
-    }
-    
-    .hero {
-      padding: 24px;
-      margin-top: 12px;
-    }
-    
-    .hero__card {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 22px;
-      align-items: center;
-      padding: 0;
-    }
-    
-    .hero__img {
-      width: 120px;
-      height: 120px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-    
-    .title {
-      margin: 0 0 6px;
-      font-size: 28px;
-      font-weight: 800;
-    }
-    
-    .tagline {
-      margin: 0;
-      color: var(--ink-dim);
-    }
-    
-    .cta {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--ink);
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-    
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-      text-decoration: none;
-    }
-    
-    .section {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      margin: 18px 0;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .section:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 40px rgba(2, 10, 32, .12);
-    }
-    
-    .h3 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      font-weight: 800;
-      border-bottom: 1px dashed var(--border);
-      padding-bottom: 8px;
-    }
-    
-    /* Updated styles for numbered lists */
-    .pub-list {
-      margin: 8px 0 0 0;
-      padding: 0;
-      list-style: none;
-      counter-reset: pub-counter;
-    }
-    
-    .pub-list li {
-      margin: 10px 0;
-      padding: 12px;
-      padding-left: 50px;
-      position: relative;
-      counter-increment: pub-counter;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    
-    .pub-list li:hover {
-      background: linear-gradient(90deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);
-      padding-left: 55px;
-    }
-    
-    .pub-list li::before {
-      content: counter(pub-counter) ".";
-      position: absolute;
-      left: 12px;
-      top: 12px;
-      font-weight: 700;
-      color: var(--link);
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-    
-    .pub-list li:hover::before {
-      color: var(--accent);
-      transform: scale(1.1);
-    }
-    
-    /* Award badge styles */
-    .award-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      color: #78350f;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-left: 8px;
-      vertical-align: middle;
-      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
-    }
-    
-    .pub-list li.has-award {
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.08) 0%, transparent 100%);
-      border-left: 3px solid #fbbf24;
-      padding-left: 47px;
-    }
-    
-    .pub-list li.has-award:hover {
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.12) 0%, transparent 100%);
-      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
-    }
-    
-    .pub-list li.has-award::before {
-      color: #f59e0b;
-    }
-    
-    /* Quartile and Ranking badges */
-    .quartile-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-    
-    .quartile-q1 {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
-    }
-    
-    .quartile-q2 {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-    }
-    
-    .quartile-q3 {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
-    }
-    
-    .quartile-q4 {
-      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
-    }
-    
-    .rank-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-      margin-left: 6px;
-      vertical-align: middle;
-    }
-    
-    .rank-a-star {
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
-    }
-    
-    .rank-a {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
-    }
-    
-    .rank-b {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-    }
-    
-    .rank-c {
-      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-      color: white;
-      box-shadow: 0 2px 6px rgba(100, 116, 139, 0.3);
-    }
-    
-    .source-label {
-      font-size: 10px;
-      opacity: 0.8;
-    }
-    
-    footer {
-      margin: 30px 0 40px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-      color: #5c6f86;
-      font-size: 14px;
-    }
-    
-    @media(max-width:640px) {
-      .hero__card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .hero__img {
-        margin: 0 auto;
-      }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0D1B2A;--navy2:#162435;--accent:#C8873A;--accent2:#e6a355;--cream:#F7F4EF;--cream2:#EDE8DF;--muted:#4A5568;--light:#8898A8;--border:#D9D2C7;--white:#fff;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--max:1100px;--r:6px}
+    body{font-family:var(--sans);background:var(--cream);color:var(--navy);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .topbar{background:var(--navy);color:#9BAABB;font-size:12px;text-align:center;padding:9px 20px;letter-spacing:.02em}
+    .topbar strong{color:var(--accent2)}.topbar a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
+    nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-in{max-width:var(--max);margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-family:var(--serif);font-size:18px;color:var(--navy);text-decoration:none}
+    .nav-links{display:flex;gap:0;list-style:none}
+    .nav-links a{font-size:12.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 11px;letter-spacing:.04em;text-transform:uppercase;border-bottom:2px solid transparent;transition:color .15s;display:block}
+    .nav-links a:hover{color:var(--navy)}.nav-links a.active{color:var(--navy);border-bottom-color:var(--accent)}
+    .phdr{background:var(--navy);padding:48px 32px 44px}.phdr-in{max-width:var(--max);margin:0 auto}
+    .plbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .ptitle{font-family:var(--serif);font-size:clamp(28px,4vw,42px);color:var(--white);font-weight:400;line-height:1.1;margin-bottom:10px}
+    .pdesc{font-size:15px;color:#8BAABB;max-width:640px;line-height:1.7}.pdesc a{color:var(--accent2);text-decoration:none}
+    .stats{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.06)}
+    .stats-in{max-width:var(--max);margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat{padding:18px 10px;border-right:1px solid rgba(255,255,255,.07);text-align:center}.stat:last-child{border-right:none}
+    .snum{font-family:var(--serif);font-size:28px;color:var(--accent2);line-height:1;margin-bottom:4px}
+    .slbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5A7080}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}.full{padding:44px 0 72px}
+    .pf{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;align-items:center}
+    .pf-lbl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-right:4px}
+    .pfb{font-size:12.5px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+    .pfb:hover{border-color:var(--accent);color:var(--accent)}.pfb.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+    .pg{margin-bottom:40px}
+    .pgt{font-family:var(--serif);font-size:20px;color:var(--navy);font-weight:400;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--cream2)}
+    .pub{padding:14px 0 14px 20px;border-bottom:1px solid #f0ece5;position:relative}.pub:last-child{border-bottom:none}
+    .pnum{position:absolute;left:0;top:17px;font-size:12px;font-weight:600;color:var(--light)}
+    .ptit{font-size:14.5px;font-weight:600;color:var(--navy);line-height:1.4;margin-bottom:4px}
+    .pau{font-size:13px;color:var(--muted);margin-bottom:3px;line-height:1.5}.pau strong{color:var(--navy)}
+    .pven{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:5px}
+    .ptags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pt{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:3px}
+    .pt-r{background:rgba(200,135,58,.1);color:#8C5A1A}.pt-p{background:rgba(26,107,74,.1);color:#0E5035}
+    .pt-j3{background:rgba(45,90,158,.1);color:#1A3D7A}.pt-j2{background:rgba(45,90,158,.08);color:#2A5A9A}
+    .pt-b{background:rgba(184,57,14,.1);color:#8C2E07}.pt-c{background:rgba(88,88,88,.1);color:#444}
+    .pdoi{font-size:12px;color:var(--accent);text-decoration:none;margin-top:5px;display:inline-block}.pdoi:hover{text-decoration:underline}
+    footer{background:var(--navy);color:#5A7080;padding:26px 32px;text-align:center;font-size:12.5px}
+    footer a{color:#7A9AAC;text-decoration:none}
+    @media(max-width:900px){.stats-in{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
+    @media(max-width:600px){.nav-links a{font-size:11px;padding:6px 7px}.wrap{padding:0 16px}.phdr{padding:36px 16px}}
   </style>
 </head>
 <body>
-<!-- Job Seeking Alert Bar -->
-<div class="job-alert-bar">
-  🎯 <strong>Actively Seeking Opportunities:</strong> Open to Postdoc & Faculty positions starting January 2026 · 
-  <a href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry">Contact Me</a>
-</div>
+<div class="topbar"><strong>Position:</strong> Senior Researcher &amp; Associate Professor, Mykolas Romeris University · Research Collaborator, University of Trento · <a href="mailto:meerrhassan@gmail.com">Get in touch →</a></div>
+<nav><div class="nav-in">
+  <a class="brand" href="index.html">Mir Hassan</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="publications.html" class="active">Publications</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="education.html">Education</a></li>
+    <li><a href="experience.html">Experience</a></li>
+    <li><a href="teaching.html">Teaching</a></li>
+    <li><a href="seminars.html">Seminars</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</div></nav>
 
-<header class="topbar">
-  <div class="wrap topbar__in">
-    <a class="brand" href="index.html">
-      <div class="logo"></div>
-      <strong>Mir Hassan</strong>
-    </a>
-    <nav>
-      <a href="projects.html">Projects</a>
-      <a href="education.html">Education</a>
-      <a href="experience.html">Academic Experience</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+<div class="phdr"><div class="phdr-in">
+  <p class="plbl">Research Output</p>
+  <h1 class="ptitle">Publications</h1>
+  <p class="pdesc">19+ peer-reviewed publications in IEEE journals and conferences. Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank">Google Scholar</a>.</p>
+</div></div>
+<div class="stats"><div class="stats-in">
+  <div class="stat"><div class="snum">10</div><div class="slbl">Journal Articles</div></div>
+  <div class="stat"><div class="snum">9</div><div class="slbl">Conference Papers</div></div>
+  <div class="stat"><div class="snum">250+</div><div class="slbl">Citations</div></div>
+  <div class="stat"><div class="snum">1</div><div class="slbl">Best Paper Award</div></div>
+</div></div>
+
+<div class="wrap"><div class="full">
+  <div class="pf">
+    <span class="pf-lbl">Filter:</span>
+    <button class="pfb on" onclick="fp('all',this)">All</button>
+    <button class="pfb" onclick="fp('j',this)">Journals</button>
+    <button class="pfb" onclick="fp('c',this)">Conferences</button>
+    <button class="pfb" onclick="fp('r',this)">Under Review</button>
   </div>
-</header>
 
-<main class="wrap">
-  <!-- Shared HERO -->
-  <section class="hero card">
-    <div class="hero__card">
-      <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
-      <div>
-        <h1 class="title">Mir Hassan</h1>
-        <!-- Research areas -->
-        <p class="tagline">
-          Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
-        </p>
+  <div class="pg"><div class="pgt">Journal Articles</div>
+    <div class="pub" data-t="j r"><span class="pnum">1</span><div class="ptit">Semantic-Aware Sparse Communication for Federated Learning in Mission-Critical 6G</div><div class="pau"><strong>Hassan, M.</strong>, Nawaz, A., Ali Hassan, S., Johnsson, M., &amp; Tafazolli, R.</div><div class="pven">IEEE Open Journal of the Communications Society, 2026</div><div class="ptags"><span class="pt pt-r">Submitted</span></div></div>
+    <div class="pub" data-t="j"><span class="pnum">2</span><div class="ptit">Proximity-Aware Federated Learning for Symbiotic Task Offloading in Vehicular Edge Intelligence</div><div class="pau">Ali, N., <strong>Hassan, M.</strong>, Sodhro, A. H., Aloi, G., Gravina, R., Iacca, G., &amp; Rango, F. D.</div><div class="pven">IEEE Internet of Things Journal, 2025</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-j2">JUFO 2</span></div><a class="pdoi" href="https://doi.org/10.1109/JIOT.2025.3591253" target="_blank">doi:10.1109/JIOT.2025.3591253 ↗</a></div>
+    <div class="pub" data-t="j r"><span class="pnum">3</span><div class="ptit">TinyML at the Wireless Edge: Architectures, Deployment Modes, and 6G Integration</div><div class="pau"><strong>Hassan, M.</strong>, Ali, N., Aloi, G., Gravina, R., Fortino, G., Yildirim, K. S., &amp; Iacca, G.</div><div class="pven">IEEE Wireless Communications, 2025</div><div class="ptags"><span class="pt pt-r">Under Review</span><span class="pt pt-j2">JUFO 2</span></div></div>
+    <div class="pub" data-t="j r"><span class="pnum">4</span><div class="ptit">Adaptive Weighted Sign-Based Aggregation for Practical Communication-Accuracy Trade-Off in Federated Learning</div><div class="pau"><strong>Hassan, M.</strong>, Yildirim, K. S., &amp; Iacca, G.</div><div class="pven">IEEE Transactions on Mobile Computing, 2025</div><div class="ptags"><span class="pt pt-r">Under Review</span><span class="pt pt-j3">JUFO 3</span></div></div>
+    <div class="pub" data-t="j"><span class="pnum">5</span><div class="ptit">Meta-IDS: Meta-Learning Based Smart Intrusion Detection System for IoMT Network</div><div class="pau">Zukaib, U., Cui, X., Zheng, C., <strong>Hassan, M.</strong>, &amp; Shen, Z.</div><div class="pven">IEEE Internet of Things Journal, 2024</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-j2">JUFO 2</span></div><a class="pdoi" href="https://doi.org/10.1109/JIOT.2024.3387294" target="_blank">doi:10.1109/JIOT.2024.3387294 ↗</a></div>
+    <div class="pub" data-t="j"><span class="pnum">6</span><div class="ptit">Blockchain and Machine Learning in EHR Security: A Systematic Review</div><div class="pau">Zukaib, U., Cui, X., <strong>Hassan, M.</strong>, Harris, S., Hadi, H. J., &amp; Zheng, C.</div><div class="pven">IEEE Access, 2023</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-j2">Q1</span></div><a class="pdoi" href="https://doi.org/10.1109/ACCESS.2023.3333229" target="_blank">doi:10.1109/ACCESS.2023.3333229 ↗</a></div>
+    <div class="pub" data-t="j"><span class="pnum">7</span><div class="ptit">Towards AI-Enabled Approach for Urdu Text Recognition</div><div class="pau">Narwani, K., Lin, H., Pirbhulal, S., &amp; <strong>Hassan, M.</strong></div><div class="pven">IEEE Access, 2022</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-c">JUFO 1</span></div><a class="pdoi" href="https://doi.org/10.1109/ACCESS.2022.3203426" target="_blank">doi:10.1109/ACCESS.2022.3203426 ↗</a></div>
+    <div class="pub" data-t="j"><span class="pnum">8</span><div class="ptit">Future of the Internet of Things Emerging with Blockchain and Smart Contracts</div><div class="pau"><strong>Hassan, M.</strong>, Jincai, C., Iftekhar, A., &amp; Cui, X.</div><div class="pven">International Journal of Advanced Computer Science and Applications, 2020</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-c">JUFO 1</span></div><a class="pdoi" href="http://dx.doi.org/10.14569/IJACSA.2020.0110676" target="_blank">doi:10.14569/IJACSA.2020.0110676 ↗</a></div>
+    <div class="pub" data-t="j"><span class="pnum">9</span><div class="ptit">Application of Blockchain and IoT to Ensure Tamper-Proof Data Availability for Food Safety</div><div class="pau">Iftekhar, A., Cui, X., <strong>Hassan, M.</strong>, &amp; Afzal, W.</div><div class="pven">Journal of Food Quality, 2020</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-c">JUFO 1</span></div><a class="pdoi" href="https://doi.org/10.1155/2020/5385207" target="_blank">doi:10.1155/2020/5385207 ↗</a></div>
+  </div>
 
-        <!-- Current affiliations -->
-        <p class="tagline" style="font-weight:600; margin-top:6px;">
-          PhD Candidate, University of Trento (Italy) · Supervisor: <a href="https://disi.unitn.it/~iacca/" target="_blank" rel="noopener">Prof. Giovanni Iacca</a>
-        </p>
+  <div class="pg"><div class="pgt">Conference Proceedings</div>
+    <div class="pub" data-t="c"><span class="pnum">1</span><div class="ptit">Zero-Knowledge Inspired Provenance for Trustless Federated Learning in Decentralized IoT Systems</div><div class="pau"><strong>Hassan, M.</strong>, Sergio, J., Giedre, S., Ali, N., Ali Hassan, S., &amp; Kahraman, N.</div><div class="pven">IEEE Vehicular Technology Conference (VTC2026-Spring)</div><div class="ptags"><span class="pt pt-p">Accepted</span><span class="pt pt-c">Rank B</span></div></div>
+    <div class="pub" data-t="c"><span class="pnum">2</span><div class="ptit">Enhancing Communication-Efficient Federated Learning for HAR through Knowledge Distillation</div><div class="pau">Bilal, H. M., <strong>Hassan, M.</strong>, &amp; Iacca, G.</div><div class="pven">IEEE Vehicular Technology Conference (VTC2025)</div><div class="ptags"><span class="pt pt-p">Accepted</span><span class="pt pt-c">Rank B</span></div></div>
+    <div class="pub" data-t="c"><span class="pnum">3</span><div class="ptit">A TinyML Approach for the Classification of Bean Crop Diseases</div><div class="pau"><strong>Hassan, M.</strong>, Raza, W., &amp; Iacca, G.</div><div class="pven">IEEE Vehicular Technology Conference (VTC2025)</div><div class="ptags"><span class="pt pt-p">Accepted</span><span class="pt pt-c">Rank B</span></div></div>
+    <div class="pub" data-t="c"><span class="pnum">4</span><div class="ptit">A Federated Multi-Task Learning Framework with Dual Attention Mechanisms for Smart Buildings</div><div class="pau"><strong>Hassan, M.</strong>, Sinan, K., &amp; Giovanni, I.</div><div class="pven">IEEE Vehicular Technology Conference (VTC2025-Spring)</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-b">🏆 Best Paper Award</span><span class="pt pt-c">Rank B</span></div></div>
+    <div class="pub" data-t="c"><span class="pnum">5</span><div class="ptit">A Genetic Algorithm-Based Parameter Selection for Communication-Efficient Federated Learning</div><div class="pau"><strong>Hassan, M.</strong>, Yildirim, K. S., &amp; Iacca, G.</div><div class="pven">EvoApplications 2025: Applications of Evolutionary Computation, Vol. 15613, pp. 437–453</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-j2">Rank A</span></div><a class="pdoi" href="https://doi.org/10.1007/978-3-031-90065-5_27" target="_blank">doi:10.1007/978-3-031-90065-5_27 ↗</a></div>
+    <div class="pub" data-t="c"><span class="pnum">6</span><div class="ptit">FedEdge: Federated Learning with Docker and Kubernetes for Scalable and Efficient Edge Computing</div><div class="pau"><strong>Hassan, M.</strong>, Custode, L. L., Yildirim, K. S., &amp; Iacca, G.</div><div class="pven">EWSN 2023: International Conference on Embedded Wireless Systems and Networks, pp. 339–344</div><div class="ptags"><span class="pt pt-p">Published</span><span class="pt pt-j2">Rank A</span></div></div>
+    <div class="pub" data-t="c"><span class="pnum">7</span><div class="ptit">Adoption of Blockchain-Based Artificial Intelligence in Healthcare</div><div class="pau"><strong>Hassan, M.</strong>, Chen, J., Zhu, C., &amp; Zukaib, U.</div><div class="pven">5th International Conference on AI and Big Data (ICAIBD), 2022, pp. 140–144</div><div class="ptags"><span class="pt pt-p">Published</span></div><a class="pdoi" href="https://doi.org/10.1109/ICAIBD55127.2022.9820137" target="_blank">doi:10.1109/ICAIBD55127.2022.9820137 ↗</a></div>
+    <div class="pub" data-t="c"><span class="pnum">8</span><div class="ptit">Food Item Recognition and Intake Measurement Techniques</div><div class="pau">Shehzad, A., Zafar, N., <strong>Hassan, M.</strong>, &amp; Shen, Z.</div><div class="pven">11th International Conference on Machine Learning and Computing (ICMLC), 2019, pp. 405–411</div><div class="ptags"><span class="pt pt-p">Published</span></div><a class="pdoi" href="https://doi.org/10.1145/3318299.3318379" target="_blank">doi:10.1145/3318299.3318379 ↗</a></div>
+    <div class="pub" data-t="c"><span class="pnum">9</span><div class="ptit">Optimization of Satellite Link to Earth Station Using Satellite Tool Kit (STK)</div><div class="pau">Mir, H., Cui, X., Shahzad, A., &amp; Jumani, R.</div><div class="pven">Proceedings, Vol. 6, pp. 48–52, 2018</div><div class="ptags"><span class="pt pt-p">Published</span></div></div>
+  </div>
+</div></div>
 
-        <!-- Location -->
-        <p class="tagline" style="margin-top:6px;">
-          📍 Currently based in <strong>Trento, Italy</strong>
-        </p>
-        <div class="cta">
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">📄 Download CV</a>
-          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
-          <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
-          <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <h1>Publications</h1>
-  
-  <section class="section">
-    <h3 class="h3">Under Review</h3>
-    <ul id="pub-under-review" class="pub-list"></ul>
-  </section>
-  
-  <section class="section">
-    <h3 class="h3">Journal Publications</h3>
-    <ul id="pub-journals" class="pub-list"></ul>
-  </section>
-  
-  <section class="section">
-    <h3 class="h3">Conference (Peer‑Reviewed)</h3>
-    <ul id="pub-confs" class="pub-list"></ul>
-    <p>Full list on <a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
-    <p style="font-size: 12px; color: var(--ink-dim); margin-top: 12px;">
-      <strong>Note:</strong> Rankings are automatically matched from CORE and Web of Science databases (last updated: October 2025). 
-      For the most current rankings, please verify with official sources.
-    </p>
-  </section>
-
-  <footer class="site-footer">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-      <div>
-        © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
-      </div>
-      <div style="min-width:280px;flex:1">
-        <div style="font-weight:700;color:var(--ink)">Top countries</div>
-        <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
-      </div>
-    </div>
-    <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
-  </footer>
-</main>
-
+<footer>© 2026 Mir Hassan · Senior Researcher, Mykolas Romeris University · <a href="mailto:meerrhassan@gmail.com">meerrhassan@gmail.com</a></footer>
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="assets/js/analytics.js" defer></script>
-
-<script>
-  // Rankings database - Update quarterly with latest data
-  const RANKINGS_DB = {
-    // Last updated: October 2025
-    journals: {
-      // IEEE Journals
-      "ieee transactions on neural networks and learning systems": { wos: "Q1", scopus: "Q1" },
-      "ieee transactions on pattern analysis and machine intelligence": { wos: "Q1", scopus: "Q1" },
-      "ieee transactions on knowledge and data engineering": { wos: "Q1", scopus: "Q1" },
-      "ieee transactions on mobile computing": { wos: "Q1", scopus: "Q1" },
-      "ieee transactions on parallel and distributed systems": { wos: "Q1", scopus: "Q1" },
-      "ieee internet of things journal": { wos: "Q1", scopus: "Q1" },
-      "ieee transactions on industrial informatics": { wos: "Q1", scopus: "Q1" },
-      
-      // ACM Journals
-      "acm computing surveys": { wos: "Q1", scopus: "Q1" },
-      "acm transactions on intelligent systems and technology": { wos: "Q1", scopus: "Q1" },
-      
-      // Nature/Science
-      "nature machine intelligence": { wos: "Q1", scopus: "Q1" },
-      "nature communications": { wos: "Q1", scopus: "Q1" },
-      
-      // Elsevier Journals
-      "neural networks": { wos: "Q1", scopus: "Q1" },
-      "information fusion": { wos: "Q1", scopus: "Q1" },
-      "future generation computer systems": { wos: "Q1", scopus: "Q1" },
-      "computer networks": { wos: "Q1", scopus: "Q1" },
-      "expert systems with applications": { wos: "Q1", scopus: "Q1" },
-      "neurocomputing": { wos: "Q2", scopus: "Q1" },
-      
-      // Springer Journals
-      "machine learning": { wos: "Q1", scopus: "Q1" },
-      "data mining and knowledge discovery": { wos: "Q1", scopus: "Q1" },
-      
-      // Other Top Journals
-      "artificial intelligence": { wos: "Q1", scopus: "Q1" },
-      "journal of machine learning research": { wos: "Q1", scopus: "Q1" }
-    },
-    
-    conferences: {
-      // A* Conferences (Top Tier)
-      "neurips": "A*",
-      "nips": "A*",
-      "icml": "A*",
-      "iclr": "A*",
-      "cvpr": "A*",
-      "iccv": "A*",
-      "eccv": "A*",
-      "acm sigkdd": "A*",
-      "kdd": "A*",
-      "www": "A*",
-      "aaai": "A*",
-      "ijcai": "A*",
-      "acl": "A*",
-      "emnlp": "A*",
-      "sigmod": "A*",
-      "vldb": "A*",
-      "siggraph": "A*",
-      "icse": "A*",
-      "fse": "A*",
-      "osdi": "A*",
-      "sosp": "A*",
-      
-      // A Conferences (Excellent)
-      "uai": "A",
-      "aistats": "A",
-      "wacv": "A",
-      "bmvc": "A",
-      "coling": "A",
-      "naacl": "A",
-      "icde": "A",
-      "sigir": "A",
-      "recsys": "A",
-      "icdm": "A",
-      "saner": "A",
-      "ase": "A",
-      "middleware": "A",
-      "eurosys": "A",
-      
-      // B Conferences (Good)
-      "accv": "B",
-      "icpr": "B",
-      "ijcnn": "B",
-      "pakdd": "B",
-      "ecml": "B",
-      "dasfaa": "B",
-      "edbt": "B"
-    }
-  };
-  
-  // Normalize venue name for matching
-  function normalizeVenue(venue) {
-    return venue.toLowerCase()
-      .replace(/[^\w\s]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-  
-  // Find ranking for a venue
-  function findRanking(venue, type) {
-    if (!venue) return null;
-    
-    const normalized = normalizeVenue(venue);
-    
-    if (type === 'journal') {
-      // Try exact match first
-      if (RANKINGS_DB.journals[normalized]) {
-        return RANKINGS_DB.journals[normalized];
-      }
-      
-      // Try partial match for common abbreviations
-      for (const [key, value] of Object.entries(RANKINGS_DB.journals)) {
-        if (normalized.includes(key) || key.includes(normalized)) {
-          return value;
-        }
-      }
-    } else if (type === 'conference') {
-      // Try exact match
-      if (RANKINGS_DB.conferences[normalized]) {
-        return { rank: RANKINGS_DB.conferences[normalized] };
-      }
-      
-      // Try partial match
-      for (const [key, value] of Object.entries(RANKINGS_DB.conferences)) {
-        if (normalized.includes(key)) {
-          return { rank: value };
-        }
-      }
-    }
-    
-    return null;
-  }
-  
-  // Configuration
-  const MY_NAMES = ["Hassan, Mir", "Mir Hassan", "Hassan, M."];
-  
-  // Utility: Convert LaTeX formatting to HTML
-  function latexToHTML(s) {
-    return (s || "")
-      .replace(/\\textbf\{([^}]*)\}/g, "<strong>$1</strong>")
-      .replace(/\\emph\{([^}]*)\}/g, "<em>$1</em>");
-  }
-  
-  // Utility: Normalize string for comparison
-  function norm(s) {
-    return (s || "")
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, " ")
-      .trim();
-  }
-  
-  const MY_NAMES_NORM = MY_NAMES.map(norm);
-  
-  // Boldify author names that match MY_NAMES
-  function boldifyAuthor(a) {
-    const h = latexToHTML(a);
-    const p = h.replace(/<[^>]+>/g, "");
-    const n = norm(p);
-    for (const me of MY_NAMES_NORM) {
-      if (n === me || n.includes(me)) return `<strong>${h}</strong>`;
-    }
-    return h;
-  }
-  
-  // Parse BibTeX format
-  function parseBibtex(b) {
-    const chunks = b.split(/^\s*@/m).filter(Boolean);
-    const entries = [];
-    
-    for (const c of chunks) {
-      const m = c.match(/^([a-zA-Z]+)\s*\{\s*([^,]+)\s*,/);
-      if (!m) continue;
-      
-      const type = m[1].toLowerCase();
-      const key = m[2].trim();
-      const body = c.slice(m[0].length);
-      const re = /([a-zA-Z]+)\s*=\s*({([^{}]*|{[^{}]*})*}|\"[^\"]*\"|[^,]+)\s*,?/g;
-      const f = {};
-      let x;
-      
-      while ((x = re.exec(body)) !== null) {
-        const name = x[1].toLowerCase();
-        let val = x[2].trim();
-        if ((val.startsWith('{') && val.endsWith('}')) || 
-            (val.startsWith('"') && val.endsWith('"'))) {
-          val = val.slice(1, -1);
-        }
-        val = val.replace(/\s+/g, ' ').trim();
-        f[name] = latexToHTML(val);
-      }
-      
-      entries.push({ type, key, fields: f });
-    }
-    
-    return entries;
-  }
-  
-  // Parse author list
-  function listAuthors(s) {
-    return s.split(/\s+and\s+/i).map(a => a.trim()).filter(Boolean);
-  }
-  
-  // Determine publication type
-  function decideType(e) {
-    const t = e.type;
-    if (t === 'article') return 'journal';
-    if (t === 'inproceedings' || t === 'conference') return 'conference';
-    const v = (e.fields.journal || e.fields.booktitle || '').toLowerCase();
-    return /journal|transactions|magazine/.test(v) ? 'journal' : 'conference';
-  }
-  
-  // Extract entry information
-  function entryInfo(e) {
-    const f = e.fields;
-    const title = f.title || 'Untitled';
-    const venue = f.journal || f.booktitle || '';
-    const year = f.year || '';
-    const url = f.url || (f.doi ? `https://doi.org/${f.doi}` : '');
-    const authors = f.author ? listAuthors(f.author) : [];
-    const award = f.award || f.note || '';
-    
-    // Manual overrides from BibTeX (takes precedence)
-    let quartile_wos = f.quartile_wos || f.quartile || '';
-    let quartile_scopus = f.quartile_scopus || '';
-    let rank = f.rank || f.rating || '';
-    
-    // Auto-detect from database if not manually specified
-    const type = e.type === 'article' ? 'journal' : 'conference';
-    const autoRanking = findRanking(venue, type);
-    
-    if (autoRanking) {
-      if (type === 'journal') {
-        quartile_wos = quartile_wos || autoRanking.wos || '';
-        quartile_scopus = quartile_scopus || autoRanking.scopus || '';
-      } else {
-        rank = rank || autoRanking.rank || '';
-      }
-    }
-    
-    return { title, venue, year, url, authors, award, quartile_wos, quartile_scopus, rank };
-  }
-  
-  // Build list item for publication
-  function buildLI({ title, authors, year, venue, url, award, quartile_wos, quartile_scopus, rank }) {
-    const linkStart = url ? `<a href="${url}" target="_blank" rel="noopener">` : '';
-    const linkEnd = url ? `</a>` : '';
-    const authorsHTML = (authors || []).map(boldifyAuthor).join(', ');
-    const venueStr = venue ? `<em>${latexToHTML(venue)}</em>` : '';
-    const yearStr = year ? `, ${year}` : '';
-    
-    // Add award badge if present
-    const awardBadge = award ? `<span class="award-badge">🏆 ${latexToHTML(award)}</span>` : '';
-    
-    // Add WoS quartile badge
-    let wosBadge = '';
-    if (quartile_wos) {
-      const q = quartile_wos.toUpperCase();
-      const qClass = `quartile-${q.toLowerCase()}`;
-      wosBadge = `<span class="quartile-badge ${qClass}"><span class="source-label">WoS</span> ${q}</span>`;
-    }
-    
-    // Add Scopus quartile badge
-    let scopusBadge = '';
-    if (quartile_scopus) {
-      const q = quartile_scopus.toUpperCase();
-      const qClass = `quartile-${q.toLowerCase()}`;
-      scopusBadge = `<span class="quartile-badge ${qClass}"><span class="source-label">Scopus</span> ${q}</span>`;
-    }
-    
-    // Add conference rank badge
-    let rankBadge = '';
-    if (rank) {
-      const r = rank.toUpperCase();
-      let rClass = 'rank-c';
-      if (r === 'A*' || r === 'A-STAR') rClass = 'rank-a-star';
-      else if (r === 'A') rClass = 'rank-a';
-      else if (r === 'B') rClass = 'rank-b';
-      rankBadge = `<span class="rank-badge ${rClass}">CORE ${r.replace('A-STAR', 'A*')}</span>`;
-    }
-    
-    const badges = awardBadge + wosBadge + scopusBadge + rankBadge;
-    
-    const li = document.createElement('li');
-    if (award) {
-      li.classList.add('has-award');
-    }
-    li.innerHTML = `<strong>${linkStart}${latexToHTML(title)}${linkEnd}${badges}</strong><br>${authorsHTML}<br>${venueStr}${yearStr}`;
-    return li;
-  }
-  
-  // Main initialization
-  (async function() {
-    try {
-      const [bibResp, rankResp, urResp] = await Promise.all([
-        fetch('assets/publications.bib', { cache: 'no-store' }),
-        fetch('assets/venue_ranks.json', { cache: 'no-store' }),
-        fetch('assets/under_review.json', { cache: 'no-store' })
-      ]);
-      
-      const ranks = rankResp.ok ? await rankResp.json() : {};
-      const bibText = bibResp.ok ? await bibResp.text() : '';
-      const underReview = urResp.ok ? await urResp.json() : [];
-      const entries = bibText ? parseBibtex(bibText) : [];
-      const j = [], c = [];
-      
-      const urList = document.getElementById('pub-under-review');
-      
-      // Sort and display under review publications
-      underReview.sort((a, b) => (parseInt(b.year) || 0) - (parseInt(a.year) || 0));
-      for (const item of underReview) {
-        // Auto-detect ranking for under review papers
-        const venue = item.venue || 'Submitted';
-        const isJournal = venue.toLowerCase().includes('journal') || 
-                         venue.toLowerCase().includes('transactions') ||
-                         venue.toLowerCase().includes('ieee') ||
-                         venue.toLowerCase().includes('acm');
-        const type = isJournal ? 'journal' : 'conference';
-        const autoRanking = findRanking(venue, type);
-        
-        let quartile_wos = item.quartile_wos || '';
-        let quartile_scopus = item.quartile_scopus || '';
-        let rank = item.rank || '';
-        
-        if (autoRanking) {
-          if (type === 'journal') {
-            quartile_wos = quartile_wos || autoRanking.wos || '';
-            quartile_scopus = quartile_scopus || autoRanking.scopus || '';
-          } else {
-            rank = rank || autoRanking.rank || '';
-          }
-        }
-        
-        urList.appendChild(buildLI({
-          title: item.title,
-          authors: item.authors || [],
-          year: item.year || '',
-          venue: venue,
-          url: item.url || '',
-          award: item.award || '',
-          quartile_wos: quartile_wos,
-          quartile_scopus: quartile_scopus,
-          rank: rank
-        }));
-      }
-      
-      // Process BibTeX entries
-      for (const e of entries) {
-        const type = decideType(e);
-        const info = entryInfo(e);
-        const li = buildLI(info);
-        (type === 'journal' ? j : c).push({ li, y: info.year });
-      }
-      
-      // Sort by year (most recent first)
-      const byYear = (a, b) => (parseInt(b.y) || 0) - (parseInt(a.y) || 0);
-      j.sort(byYear);
-      c.sort(byYear);
-      
-      // Append to DOM
-      const J = document.getElementById('pub-journals');
-      const C = document.getElementById('pub-confs');
-      j.forEach(x => J.appendChild(x.li));
-      c.forEach(x => C.appendChild(x.li));
-      
-    } catch (err) {
-      console.warn('Failed to render publications:', err);
-    }
-  })();
+function fp(t,btn){
+  document.querySelectorAll('.pfb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.pub').forEach(p=>{
+    p.style.display=(t==='all'||p.dataset.t.includes(t))?'':'none';
+  });
+}
 </script>
 </body>
 </html>

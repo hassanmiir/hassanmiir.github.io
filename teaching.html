@@ -1,604 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Academic Experience & Teaching — Mir Hassan</title>
-  <meta name="description" content="Academic Experience and Teaching of Mir Hassan." />
-  <link rel="icon" href="assets/favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Teaching — Mir Hassan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --ink: #0f172a;
-      --ink-dim: #324156;
-      --panel: #fff;
-      --border: rgba(15, 23, 42, .08);
-      --link: #0f4cc9;
-      --accent: #6366f1;
-      --radius: 16px;
-      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-    
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-    }
-    
-    .wrap {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 22px;
-    }
-    
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: #ffffffcc;
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .topbar__in {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-    
-    .brand {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: conic-gradient(from 200deg, #0e9ae6, #6366f1);
-    }
-    
-    nav a {
-      margin-left: 8px;
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: var(--ink);
-    }
-    
-    nav a:hover {
-      background: #fff;
-      border: 1px solid var(--border);
-      text-decoration: none;
-    }
-    
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    
-    .hero {
-      padding: 24px;
-      margin-top: 12px;
-    }
-    
-    .hero__card {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 22px;
-      align-items: center;
-      padding: 0;
-    }
-    
-    .hero__img {
-      width: 120px;
-      height: 120px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-    
-    .title {
-      margin: 0 0 6px;
-      font-size: 28px;
-      font-weight: 800;
-    }
-    
-    .tagline {
-      margin: 0;
-      color: var(--ink-dim);
-    }
-    
-    .section {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      margin: 18px 0;
-    }
-    
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--border);
-    }
-    
-    .section-icon {
-      font-size: 28px;
-    }
-    
-    .section-title {
-      margin: 0;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--ink);
-    }
-    
-    .experience-item {
-      padding: 16px;
-      margin: 12px 0;
-      border-left: 4px solid var(--accent);
-      background: linear-gradient(90deg, rgba(99, 102, 241, 0.05) 0%, transparent 100%);
-      border-radius: 8px;
-    }
-    
-    .experience-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--ink);
-      margin: 0 0 4px 0;
-    }
-    
-    .experience-institution {
-      font-size: 15px;
-      color: var(--ink-dim);
-      margin: 0 0 8px 0;
-    }
-    
-    .experience-details {
-      font-size: 14px;
-      color: var(--ink-dim);
-      line-height: 1.6;
-      margin: 8px 0 0 0;
-    }
-    
-    .experience-details ul {
-      margin: 8px 0;
-      padding-left: 20px;
-    }
-    
-    .experience-details li {
-      margin: 4px 0;
-    }
-    
-    .highlight-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 24px;
-      border-radius: var(--radius);
-      margin: 20px 0;
-    }
-    
-    .highlight-box h3 {
-      margin: 0 0 12px 0;
-      font-size: 22px;
-    }
-    
-    .highlight-box p {
-      margin: 8px 0;
-      opacity: 0.95;
-    }
-    
-    .highlight-box a {
-      color: white;
-      text-decoration: underline;
-      font-weight: 600;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin: 20px 0;
-    }
-    
-    .stat-card {
-      padding: 20px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      text-align: center;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    }
-    
-    .stat-number {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 8px;
-    }
-    
-    .stat-label {
-      font-size: 14px;
-      color: var(--ink-dim);
-      font-weight: 600;
-    }
-    
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin: 20px 0;
-    }
-    
-    .course-card {
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: white;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .course-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
-    }
-    
-    .course-card h4 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
-      color: var(--ink);
-    }
-    
-    .course-card ul {
-      margin: 8px 0;
-      padding-left: 20px;
-      font-size: 14px;
-      color: var(--ink-dim);
-    }
-    
-    .course-card li {
-      margin: 6px 0;
-    }
-    
-    .btn-primary {
-      display: inline-block;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-    
-    .btn-primary:hover {
-      transform: scale(1.05);
-      text-decoration: none;
-    }
-    
-    .timeline-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      background: var(--accent);
-      color: white;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-left: 8px;
-    }
-    
-    footer {
-      margin: 30px 0 40px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-      color: #5c6f86;
-      font-size: 14px;
-    }
-    
-    @media(max-width: 768px) {
-      .hero__card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .hero__img {
-        margin: 0 auto;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .course-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0D1B2A;--navy2:#162435;--accent:#C8873A;--accent2:#e6a355;--cream:#F7F4EF;--cream2:#EDE8DF;--muted:#4A5568;--light:#8898A8;--border:#D9D2C7;--white:#fff;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--max:1100px;--r:6px}
+    body{font-family:var(--sans);background:var(--cream);color:var(--navy);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .topbar{background:var(--navy);color:#9BAABB;font-size:12px;text-align:center;padding:9px 20px;letter-spacing:.02em}.topbar strong{color:var(--accent2)}.topbar a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
+    nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-in{max-width:var(--max);margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-family:var(--serif);font-size:18px;color:var(--navy);text-decoration:none}
+    .nav-links{display:flex;list-style:none}
+    .nav-links a{font-size:12.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 11px;letter-spacing:.04em;text-transform:uppercase;border-bottom:2px solid transparent;transition:color .15s;display:block}
+    .nav-links a:hover{color:var(--navy)}.nav-links a.active{color:var(--navy);border-bottom-color:var(--accent)}
+    .phdr{background:var(--navy);padding:48px 32px 44px}.phdr-in{max-width:var(--max);margin:0 auto}
+    .plbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .ptitle{font-family:var(--serif);font-size:clamp(28px,4vw,42px);color:var(--white);font-weight:400;line-height:1.1;margin-bottom:10px}
+    .pdesc{font-size:15px;color:#8BAABB;max-width:640px;line-height:1.7}.pdesc a{color:var(--accent2);text-decoration:none}
+    .stats{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.06)}
+    .stats-in{max-width:var(--max);margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat{padding:18px 10px;border-right:1px solid rgba(255,255,255,.07);text-align:center}.stat:last-child{border-right:none}
+    .snum{font-family:var(--serif);font-size:28px;color:var(--accent2);line-height:1;margin-bottom:4px}
+    .slbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5A7080}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}.full{padding:44px 0 72px}
+    .sec{margin-bottom:40px}
+    .sec-lbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .sec-title{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--navy);margin-bottom:16px;line-height:1.2}
+    .progb{background:var(--navy);border-radius:var(--r);padding:28px 32px;margin-bottom:36px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+    .pbn{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    .pbt{font-family:var(--serif);font-size:22px;color:var(--white);font-weight:400;margin-bottom:8px}
+    .pbd{font-size:13.5px;color:#8BAABB;line-height:1.65}
+    .pbg{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+    .pbadge{font-size:11px;font-weight:500;padding:3px 12px;border-radius:20px;border:1px solid rgba(200,135,58,.35);color:var(--accent2)}
+    .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:8px}
+    .ccard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+    .cimg{width:100%;height:150px;object-fit:cover;background:var(--cream2);display:block}
+    .cbody{padding:18px 20px 20px}
+    .ctag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:rgba(200,135,58,.1);padding:2px 8px;border-radius:3px;display:inline-block;margin-bottom:8px}
+    .ctit{font-size:15.5px;font-weight:600;color:var(--navy);line-height:1.35;margin-bottom:7px}
+    .cmeta{font-size:12.5px;color:var(--light);margin-bottom:14px}
+    .clink{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--accent);text-decoration:none;border:1px solid rgba(200,135,58,.3);padding:6px 14px;border-radius:var(--r);transition:all .15s}
+    .clink:hover{background:var(--accent);color:var(--white)}
+    .tagrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .tacard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;border-left:4px solid var(--accent)}
+    .tayr{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em}
+    .tacou{font-size:15px;font-weight:600;color:var(--navy);margin:4px 0}
+    .tauni{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .tapts{list-style:none}.tapts li{font-size:13px;color:var(--muted);padding:3px 0 3px 14px;position:relative;line-height:1.55}
+    .tapts li::before{content:'';position:absolute;left:0;top:10px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;text-decoration:none;transition:all .15s}
+    .btn-p{background:var(--accent);color:var(--white)}.btn-p:hover{background:var(--accent2)}
+    footer{background:var(--navy);color:#5A7080;padding:26px 32px;text-align:center;font-size:12.5px}footer a{color:#7A9AAC;text-decoration:none}
+    @media(max-width:900px){.stats-in,.cgrid,.tagrid{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}.progb{grid-template-columns:1fr}}
+    @media(max-width:600px){.nav-links a{font-size:11px;padding:6px 7px}.wrap{padding:0 16px}.phdr{padding:36px 16px}.cgrid,.tagrid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="wrap topbar__in">
-    <a class="brand" href="index.html">
-      <div class="logo"></div>
-      <strong>Mir Hassan</strong>
-    </a>
-    <nav>
-      <a href="publications.html">Publications</a>
-      <a href="projects.html">Projects</a>
-      <a href="education.html">Education</a>
-      <a href="experience.html">Academic Experience</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
+<div class="topbar"><strong>Position:</strong> Senior Researcher &amp; Associate Professor, Mykolas Romeris University · Research Collaborator, University of Trento · <a href="mailto:meerrhassan@gmail.com">Get in touch →</a></div>
+<nav><div class="nav-in">
+  <a class="brand" href="index.html">Mir Hassan</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="publications.html">Publications</a></li>
+    <li><a href="projects.html">Projects</a></li><li><a href="education.html">Education</a></li>
+    <li><a href="experience.html">Experience</a></li><li><a href="teaching.html" class="active">Teaching</a></li>
+    <li><a href="seminars.html">Seminars</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+</div></nav>
+<div class="phdr"><div class="phdr-in"><p class="plbl">Teaching &amp; Courses</p><h1 class="ptitle">Instructor &amp; Course Designer</h1><p class="pdesc">Course instructor at the <a href="https://eit.icarus.education/teacher-profile/mir-hassan/" target="_blank">EIT Digital EMAI4EU programme</a> via 28DIGITAL · ICARUS AI Education platform. Also Teaching Assistant at the University of Trento.</p></div></div>
+<div class="stats"><div class="stats-in">
+  <div class="stat"><div class="snum">2</div><div class="slbl">Courses Designed</div></div>
+  <div class="stat"><div class="snum">24</div><div class="slbl">Modules Total</div></div>
+  <div class="stat"><div class="snum">24</div><div class="slbl">Quizzes</div></div>
+  <div class="stat"><div class="snum">4+</div><div class="slbl">Years Teaching</div></div>
+</div></div>
+<div class="wrap"><div class="full">
 
-<main class="wrap">
-  <!-- Shared HERO -->
-  <section class="hero card">
-    <div class="hero__card">
-      <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
-      <div>
-        <h1 class="title">Mir Hassan</h1>
-        <p class="tagline">
-          Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
-        </p>
-        <p class="tagline" style="font-weight:600; margin-top:6px;">
-          PhD Candidate, University of Trento (Italy) · Supervisor: Prof. Giovanni Iacca
-        </p>
-        <p class="tagline" style="font-weight:600; margin-top:2px;">
-          Co-founder, Ibn e Adam Foundation (Non-Profit Organization)
-        </p>
-        <p class="tagline" style="margin-top:2px;">
-          📍 Currently based in <strong>Trento, Italy</strong>
-        </p>
-        <div class="cta">
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener">Download CV</a>
-          <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="btn" href="mailto:mir.hassan@unitn.it">Email</a>
+  <div class="progb">
+    <div>
+      <p class="pbn">EIT Digital · EMAI4EU Programme · Academic Year 2025/26</p>
+      <div class="pbt">European Master in AI — Instructor</div>
+      <div class="pbd">The EMAI4EU programme is an EIT Digital initiative offering intensive AI education to European Master's students. I designed and deliver two full 12-module courses on the 28DIGITAL ICARUS AI e-learning platform, covering Trustworthy AI ethics and Emotion AI computation.</div>
+      <div class="pbg"><span class="pbadge">EIT Digital</span><span class="pbadge">28DIGITAL</span><span class="pbadge">ICARUS AI Platform</span><span class="pbadge">European Masters</span><span class="pbadge">Online · 2025/26</span></div>
+    </div>
+    <a class="btn btn-p" href="https://eit.icarus.education/teacher-profile/mir-hassan/" target="_blank" style="white-space:nowrap">View Instructor Profile →</a>
+  </div>
+
+  <div class="sec">
+    <p class="sec-lbl">EMAI4EU Courses</p><h2 class="sec-title">Courses I Teach</h2>
+    <div class="cgrid">
+      <div class="ccard">
+        <img class="cimg" src="https://eit.icarus.education/wp-content/uploads/2025/09/emai4eu-ethics-of-trustworthy-ai.png" alt="Ethics of Trustworthy AI" onerror="this.style.background='#EDE8DF';this.removeAttribute('src')"/>
+        <div class="cbody">
+          <span class="ctag">EMAI4EU · Ethics</span>
+          <div class="ctit">Ethics of Trustworthy AI</div>
+          <div class="cmeta">28DIGITAL · ICARUS AI · 12 Modules · 12 Quizzes · Free · Sep 2025</div>
+          <a class="clink" href="https://eit.icarus.education/courses/ethics-of-trustworthy-ai/" target="_blank">View Course on EIT Portal →</a>
+        </div>
+      </div>
+      <div class="ccard">
+        <img class="cimg" src="https://eit.icarus.education/wp-content/uploads/2025/09/emai4eu-introduction-emotion-ai.png" alt="Introduction to Emotion AI" onerror="this.style.background='#EDE8DF';this.removeAttribute('src')"/>
+        <div class="cbody">
+          <span class="ctag">EMAI4EU · Emotion AI</span>
+          <div class="ctit">Introduction to Emotion AI — Computation</div>
+          <div class="cmeta">28DIGITAL · ICARUS AI · 12 Modules · 12 Quizzes · Free · Sep 2025</div>
+          <a class="clink" href="https://eit.icarus.education/courses/introduction-to-emotion-ai/" target="_blank">View Course on EIT Portal →</a>
         </div>
       </div>
     </div>
-  </section>
-
-  <h1>Academic Experience & Teaching</h1>
-
-  <!-- Teaching Overview Stats -->
-  <section class="section">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <span class="stat-number">4+</span>
-        <span class="stat-label">Years Teaching Experience</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number">6+</span>
-        <span class="stat-label">Courses & Modules</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number">3</span>
-        <span class="stat-label">International Universities</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number">100+</span>
-        <span class="stat-label">Students Mentored</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- EMAI4EU Highlight -->
-  <div class="highlight-box">
-    <h3>🎓 Currently Teaching: EMAI4EU Program (EIT Digital)</h3>
-    <p><strong>Starting 2025/26</strong> — Teaching cutting-edge AI modules in the European Master in AI program</p>
-    <p>
-      📚 <strong>Two Specialized Modules:</strong> Ethics for Trustworthy AI & Introduction to Emotion AI
-    </p>
-    <p>
-      🔗 <a href="https://eit.icarus.education/emai4eu/" target="_blank" rel="noopener">View EMAI4EU Program</a> | 
-      <a href="https://eit.icarus.education/teacher-profile/mir-hassan/" target="_blank" rel="noopener">My Instructor Profile</a>
-    </p>
   </div>
 
-  <!-- Current Teaching -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">👨‍🏫</span>
-      <h2 class="section-title">Current Teaching (2025/26)</h2>
-    </div>
-
-    <div class="course-grid">
-      <div class="course-card">
-        <h4>🛡️ Ethics for Trustworthy AI</h4>
-        <p><strong>Program:</strong> EMAI4EU (EIT Digital)<br>
-        <strong>Format:</strong> 1-week intensive sprint</p>
-        <ul>
-          <li>Principles & frameworks (OECD, HLEG)</li>
-          <li>EU AI Act: risk tiers, conformity, documentation</li>
-          <li>Bias, robustness, privacy: hands-on assessments</li>
-          <li>Accountability & reproducibility in FL/Edge AI</li>
+  <div class="sec">
+    <p class="sec-lbl">University of Trento</p><h2 class="sec-title">Teaching Assistant Experience</h2>
+    <div class="tagrid">
+      <div class="tacard">
+        <div class="tayr">2023–2024</div>
+        <div class="tacou">Computer Architectures</div>
+        <div class="tauni">University of Trento, Italy · Undergraduate</div>
+        <ul class="tapts">
+          <li>Hands-on lab sessions on processor design and assembly programming</li>
+          <li>Tutorial materials on pipeline architectures and memory hierarchies</li>
+          <li>Evaluated student assignments; held office hours for consultations</li>
         </ul>
       </div>
-
-      <div class="course-card">
-        <h4>🧠 Introduction to Emotion AI</h4>
-        <p><strong>Program:</strong> EMAI4EU (EIT Digital)<br>
-        <strong>Format:</strong> 1-week intensive sprint</p>
-        <ul>
-          <li>Signals: audio, video, physiological sensors</li>
-          <li>Dataset design, labels, and leakage prevention</li>
-          <li>Edge AI modeling (TinyML, Federated Learning)</li>
-          <li>Ethics, consent, and privacy-aware deployment</li>
+      <div class="tacard">
+        <div class="tayr">2023–2024</div>
+        <div class="tacou">Embedded Software for IoT</div>
+        <div class="tauni">University of Trento, Italy · Graduate</div>
+        <ul class="tapts">
+          <li>Supervised capstone projects with Arduino, ESP32, and Raspberry Pi</li>
+          <li>Guided sensor integration and real-time data processing</li>
+          <li>Mentored teams on MQTT, CoAP, and LoRaWAN protocols</li>
         </ul>
       </div>
     </div>
+  </div>
 
-    <p style="text-align: center; margin-top: 20px;">
-      <a href="https://eit.icarus.education/emai4eu/" class="btn-primary" target="_blank" rel="noopener">
-        🌐 Explore EMAI4EU Program
-      </a>
-    </p>
-  </section>
-
-  <!-- Student Supervision -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">🎯</span>
-      <h2 class="section-title">Student Supervision</h2>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Master's Thesis Co-Supervisor</h3>
-      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2024</span></p>
-      <div class="experience-details">
-        <strong>Thesis Title:</strong> Communication-Efficient Federated Learning using Compressed Models
-        <ul>
-          <li>Guided research on model compression techniques for resource-constrained FL environments</li>
-          <li>Supervised implementation and evaluation of novel compression algorithms</li>
-          <li>Mentored student through publication preparation and defense</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Teaching Assistant Experience -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">💻</span>
-      <h2 class="section-title">Teaching Assistant Experience</h2>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Computer Architectures (Undergraduate)</h3>
-      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2023-2024</span></p>
-      <div class="experience-details">
-        <ul>
-          <li>Conducted hands-on lab sessions on processor design and assembly programming</li>
-          <li>Created tutorial materials on pipeline architectures and memory hierarchies</li>
-          <li>Evaluated student assignments and provided comprehensive feedback</li>
-          <li>Held office hours for one-on-one student consultations</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Embedded Software for Internet of Things (Graduate)</h3>
-      <p class="experience-institution">University of Trento, Italy <span class="timeline-badge">2023-2024</span></p>
-      <div class="experience-details">
-        <ul>
-          <li>Supervised capstone projects involving microcontrollers (Arduino, ESP32, Raspberry Pi)</li>
-          <li>Guided students in sensor integration and real-time data processing</li>
-          <li>Mentored teams on wireless communication protocols (MQTT, CoAP, LoRaWAN)</li>
-          <li>Evaluated project demonstrations and technical reports</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Visiting Research & Teaching -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">🌍</span>
-      <h2 class="section-title">Visiting Research & Teaching Appointments</h2>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Visiting Researcher</h3>
-      <p class="experience-institution">Yildiz Technical University, Istanbul, Turkey <span class="timeline-badge">Apr-Sep 2024, Oct 2023</span></p>
-      <div class="experience-details">
-        <ul>
-          <li><strong>Host:</strong> Prof. Nihan Kahraman</li>
-          <li>Conducted collaborative research on federated learning in edge computing environments</li>
-          <li>Delivered guest lectures on privacy-preserving machine learning</li>
-          <li>Co-authored research publications with local faculty and students</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Specialist (Part-Time)</h3>
-      <p class="experience-institution">Dept. of Biomechanical Engineering, Vilnius Tech University, Lithuania <span class="timeline-badge">May 2022-Aug 2023</span></p>
-      <div class="experience-details">
-        <ul>
-          <li>Contributed to research projects on AI applications in biomechanics</li>
-          <li>Developed machine learning models for biomedical signal processing</li>
-          <li>Collaborated on interdisciplinary research publications</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="experience-item">
-      <h3 class="experience-title">Remote Visiting Researcher</h3>
-      <p class="experience-institution">School of Computing Science, University of Glasgow, United Kingdom <span class="timeline-badge">Jan-Mar 2020</span></p>
-      <div class="experience-details">
-        <ul>
-          <li>Conducted research on distributed machine learning systems</li>
-          <li>Participated in research seminars and group discussions</li>
-          <li>Established international research collaborations</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Teaching Philosophy -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">💡</span>
-      <h2 class="section-title">Teaching Philosophy</h2>
-    </div>
-    <p style="color: var(--ink-dim); line-height: 1.8;">
-      My teaching approach emphasizes <strong>hands-on learning</strong> and <strong>real-world applications</strong>. 
-      I believe in bridging the gap between theoretical concepts and practical implementation, especially in rapidly 
-      evolving fields like AI and edge computing. Through project-based learning and close mentorship, I help students 
-      develop both technical skills and critical thinking abilities needed for research and industry careers.
-    </p>
-  </section>
-
-  <footer class="site-footer">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-      <div>
-        © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
-      </div>
-      <div style="min-width:280px;flex:1">
-        <div style="font-weight:700;color:var(--ink)">Top countries</div>
-        <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
-      </div>
-    </div>
-    <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
-  </footer>
-</main>
-
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="assets/js/analytics.js" defer></script>
+</div></div>
+<footer>© 2026 Mir Hassan · Senior Researcher, Mykolas Romeris University · <a href="mailto:meerrhassan@gmail.com">meerrhassan@gmail.com</a></footer>
 </body>
 </html>

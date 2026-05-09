@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Seminars — Mir Hassan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0D1B2A;--navy2:#162435;--accent:#C8873A;--accent2:#e6a355;--cream:#F7F4EF;--cream2:#EDE8DF;--muted:#4A5568;--light:#8898A8;--border:#D9D2C7;--white:#fff;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--max:1100px;--r:6px}
+    body{font-family:var(--sans);background:var(--cream);color:var(--navy);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    .topbar{background:var(--navy);color:#9BAABB;font-size:12px;text-align:center;padding:9px 20px;letter-spacing:.02em}.topbar strong{color:var(--accent2)}.topbar a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
+    nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-in{max-width:var(--max);margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-family:var(--serif);font-size:18px;color:var(--navy);text-decoration:none}
+    .nav-links{display:flex;list-style:none}
+    .nav-links a{font-size:12.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 11px;letter-spacing:.04em;text-transform:uppercase;border-bottom:2px solid transparent;transition:color .15s;display:block}
+    .nav-links a:hover{color:var(--navy)}.nav-links a.active{color:var(--navy);border-bottom-color:var(--accent)}
+    .phdr{background:var(--navy);padding:48px 32px 44px}.phdr-in{max-width:var(--max);margin:0 auto}
+    .plbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .ptitle{font-family:var(--serif);font-size:clamp(28px,4vw,42px);color:var(--white);font-weight:400;line-height:1.1;margin-bottom:10px}
+    .pdesc{font-size:15px;color:#8BAABB;max-width:640px;line-height:1.7}
+    .stats{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.06)}
+    .stats-in{max-width:var(--max);margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat{padding:18px 10px;border-right:1px solid rgba(255,255,255,.07);text-align:center}.stat:last-child{border-right:none}
+    .snum{font-family:var(--serif);font-size:28px;color:var(--accent2);line-height:1;margin-bottom:4px}
+    .slbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5A7080}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+    .grid2{display:grid;grid-template-columns:1fr 300px;gap:40px;padding:44px 0 72px}
+    /* FILTER */
+    .fb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;align-items:center}
+    .fbl{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-right:4px}
+    .fbb{font-size:12.5px;font-weight:500;padding:5px 14px;border-radius:20px;border:1px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;transition:all .15s}
+    .fbb:hover{border-color:var(--accent);color:var(--accent)}.fbb.on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+    /* YEAR GROUPS */
+    .yrg{margin-bottom:40px}
+    .yrhd{font-family:var(--serif);font-size:22px;color:var(--navy);font-weight:400;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--cream2);display:flex;align-items:center;gap:10px}
+    .yrn{font-family:var(--sans);font-size:12px;background:var(--cream2);color:var(--muted);padding:2px 10px;border-radius:20px}
+    /* TALK CARDS */
+    .tcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:12px;border-left:4px solid var(--accent);transition:box-shadow .2s}
+    .tcard:hover{box-shadow:0 4px 18px rgba(13,27,42,.08)}
+    .thdr{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:8px}
+    .ttit{font-size:15px;font-weight:600;color:var(--navy);line-height:1.4;flex:1}
+    .tbadge{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:3px;white-space:nowrap;flex-shrink:0;background:rgba(200,135,58,.12);color:#8C5A1A}
+    .tev{font-size:13.5px;font-weight:600;color:var(--muted);margin-bottom:5px}
+    .tmeta{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--light);margin-bottom:9px}
+    .tabs{font-size:13.5px;color:var(--muted);line-height:1.65;padding-top:10px;border-top:1px solid #f0ece5}
+    .ttags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .tt{font-size:11px;background:var(--cream2);color:var(--muted);padding:3px 9px;border-radius:3px;border:1px solid var(--border)}
+    /* PHOTOS */
+    .photo-sec{margin-top:14px;padding-top:12px;border-top:1px solid #f0ece5}
+    .photo-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--light);margin-bottom:9px}
+    .pgrid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .pgrid img{width:110px;height:82px;object-fit:cover;border-radius:4px;border:1px solid var(--border);cursor:pointer;transition:opacity .15s}
+    .pgrid img:hover{opacity:.8}
+    .add-photo-btn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--accent);cursor:pointer;border:1px solid rgba(200,135,58,.3);padding:5px 13px;border-radius:var(--r);transition:all .15s}
+    .add-photo-btn:hover{background:var(--accent);color:var(--white)}
+    /* LIGHTBOX */
+    #lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;align-items:center;justify-content:center}
+    #lb.show{display:flex}
+    #lb-img{max-width:90vw;max-height:86vh;object-fit:contain;border-radius:4px}
+    .lb-x{position:absolute;top:18px;right:22px;font-size:28px;color:#fff;cursor:pointer;background:none;border:none;line-height:1}
+    .lb-arr{position:absolute;top:50%;transform:translateY(-50%);font-size:38px;color:rgba(255,255,255,.7);cursor:pointer;background:none;border:none;padding:0 16px;line-height:1}
+    .lb-l{left:0}.lb-r{right:0}
+    .lb-cap{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.6);font-size:12.5px}
+    /* SIDEBAR */
+    .scard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:18px}
+    .sct{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+    .tst{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0ece5;font-size:13.5px}
+    .tst:last-child{border-bottom:none}.tsn{color:var(--muted)}.tsc{font-weight:600;color:var(--navy);background:var(--cream2);padding:2px 8px;border-radius:3px;font-size:12px}
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;text-decoration:none;transition:all .15s}
+    .btn-p{background:var(--accent);color:var(--white)}.btn-p:hover{background:var(--accent2)}
+    footer{background:var(--navy);color:#5A7080;padding:26px 32px;text-align:center;font-size:12.5px}footer a{color:#7A9AAC;text-decoration:none}
+    @media(max-width:900px){.grid2{grid-template-columns:1fr}.stats-in{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
+    @media(max-width:600px){.nav-links a{font-size:11px;padding:6px 7px}.wrap{padding:0 16px}.phdr{padding:36px 16px}}
+  </style>
+</head>
+<body>
+<div class="topbar"><strong>Position:</strong> Senior Researcher &amp; Associate Professor, Mykolas Romeris University · Research Collaborator, University of Trento · <a href="mailto:meerrhassan@gmail.com?subject=Speaking%20Invitation">Invite Me to Speak →</a></div>
+<nav><div class="nav-in">
+  <a class="brand" href="index.html">Mir Hassan</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="publications.html">Publications</a></li>
+    <li><a href="projects.html">Projects</a></li><li><a href="education.html">Education</a></li>
+    <li><a href="experience.html">Experience</a></li><li><a href="teaching.html">Teaching</a></li>
+    <li><a href="seminars.html" class="active">Seminars</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+</div></nav>
+<div class="phdr"><div class="phdr-in"><p class="plbl">Invited Talks &amp; Seminars</p><h1 class="ptitle">Guest Lectures &amp; Keynotes</h1><p class="pdesc">Invited talks and guest lectures on Federated Learning, Edge AI, and Trustworthy ML at universities and conferences.</p></div></div>
+<div class="stats"><div class="stats-in">
+  <div class="stat"><div class="snum">4</div><div class="slbl">Total Talks</div></div>
+  <div class="stat"><div class="snum">4</div><div class="slbl">Countries</div></div>
+  <div class="stat"><div class="snum">4</div><div class="slbl">Institutions</div></div>
+  <div class="stat"><div class="snum">3</div><div class="slbl">Years Active</div></div>
+</div></div>
+
+<div class="wrap">
+  <div class="grid2">
+    <main>
+      <div class="fb">
+        <span class="fbl">Filter:</span>
+        <button class="fbb on" onclick="ft('all',this)">All</button>
+        <button class="fbb" onclick="ft('invited',this)">Invited Talk</button>
+        <button class="fbb" onclick="ft('keynote',this)">Keynote</button>
+        <button class="fbb" onclick="ft('workshop',this)">Workshop</button>
+      </div>
+
+      <!-- 2026 -->
+      <div class="yrg" data-yr="2026">
+        <div class="yrhd">2026 <span class="yrn">1 talk</span></div>
+        <div class="tcard" data-t="invited">
+          <div class="thdr"><div class="ttit">Federated Learning for Trustworthy AI: From Theory to Edge Deployment</div><span class="tbadge">Invited Talk</span></div>
+          <div class="tev">Azerbaijan Diplomatic Academy University (ADNSU), Baku, Azerbaijan</div>
+          <div class="tmeta"><span>📅 7 May 2026</span><span>📍 Baku, Azerbaijan</span></div>
+          <div class="tabs">An invited talk at ADNSU covering the principles and deployment of federated learning for trustworthy AI systems — privacy-preserving model training, communication efficiency at the edge, and practical challenges in resource-constrained and security-sensitive environments.</div>
+          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Trustworthy AI</span><span class="tt">Edge Deployment</span><span class="tt">Privacy</span></div>
+          <!-- PHOTO SECTION: place photos in assets/talks/ named adnsu_1.jpg, adnsu_2.jpg, etc. -->
+          <div class="photo-sec">
+            <div class="photo-lbl">Photos</div>
+            <div class="pgrid" id="pg-adnsu">
+              <!-- Static photos: uncomment and update src when you upload to GitHub
+              <img src="assets/talks/adnsu_1.jpg" alt="ADNSU Talk 1" onclick="olb('adnsu',0)"/>
+              <img src="assets/talks/adnsu_2.jpg" alt="ADNSU Talk 2" onclick="olb('adnsu',1)"/>
+              <img src="assets/talks/adnsu_3.jpg" alt="ADNSU Talk 3" onclick="olb('adnsu',2)"/>
+              -->
+            </div>
+            <label class="add-photo-btn">+ Add Photos (preview only)<input type="file" accept="image/*" multiple style="display:none" onchange="addP(this,'adnsu')"/></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2025 -->
+      <div class="yrg" data-yr="2025">
+        <div class="yrhd">2025 <span class="yrn">2 talks</span></div>
+        <div class="tcard" data-t="invited">
+          <div class="thdr"><div class="ttit">Communication-Efficient Federated Learning: Advances and Applications</div><span class="tbadge">Invited Talk</span></div>
+          <div class="tev">Mehran University of Engineering and Technology (MUET), Jamshoro, Pakistan</div>
+          <div class="tmeta"><span>📅 8 December 2025</span><span>📍 Jamshoro, Pakistan</span></div>
+          <div class="tabs">An invited seminar at MUET covering communication-efficient federated learning techniques, edge AI deployment, and research directions in distributed ML for resource-constrained environments. Discussed the EMAI4EU programme and future collaboration opportunities.</div>
+          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Edge AI</span><span class="tt">Distributed ML</span><span class="tt">IoT</span></div>
+          <!-- PHOTO SECTION: place photos in assets/talks/ named muet_1.jpg, muet_2.jpg, etc. -->
+          <div class="photo-sec">
+            <div class="photo-lbl">Photos</div>
+            <div class="pgrid" id="pg-muet">
+              <!-- Static photos: uncomment and update src when you upload to GitHub
+              <img src="assets/talks/muet_1.jpg" alt="MUET Talk 1" onclick="olb('muet',0)"/>
+              <img src="assets/talks/muet_2.jpg" alt="MUET Talk 2" onclick="olb('muet',1)"/>
+              <img src="assets/talks/muet_3.jpg" alt="MUET Talk 3" onclick="olb('muet',2)"/>
+              -->
+            </div>
+            <label class="add-photo-btn">+ Add Photos (preview only)<input type="file" accept="image/*" multiple style="display:none" onchange="addP(this,'muet')"/></label>
+          </div>
+        </div>
+        <div class="tcard" data-t="invited">
+          <div class="thdr"><div class="ttit">Communication-Efficient Federated Learning for Edge AI: Methods and Deployments</div><span class="tbadge">Invited Talk</span></div>
+          <div class="tev">Department of Electronics Engineering, Yildiz Technical University, Istanbul, Turkey</div>
+          <div class="tmeta"><span>📅 April 2025</span><span>📍 Istanbul, Turkey</span><span>⏱ 60 min</span></div>
+          <div class="tabs">Invited seminar on sign-based gradient compression, adaptive aggregation strategies, and deployment challenges in resource-constrained IoT environments. Included demonstrations of the FedEdge framework and PA-FL results on embedded hardware.</div>
+          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Model Compression</span><span class="tt">Edge AI</span><span class="tt">IoT</span></div>
+        </div>
+      </div>
+
+      <!-- 2024 -->
+      <div class="yrg" data-yr="2024">
+        <div class="yrhd">2024 <span class="yrn">1 talk</span></div>
+        <div class="tcard" data-t="invited">
+          <div class="thdr"><div class="ttit">Federated Learning at the Edge: Challenges in Communication and Privacy</div><span class="tbadge">Invited Talk</span></div>
+          <div class="tev">Department of Electronics Engineering, Yildiz Technical University, Istanbul, Turkey</div>
+          <div class="tmeta"><span>📅 April – September 2024</span><span>📍 Istanbul, Turkey</span></div>
+          <div class="tabs">Guest lecture during the visiting researcher appointment at Yildiz Technical University. Covered the landscape of federated learning for edge computing with emphasis on privacy-preserving aggregation, heterogeneous device handling, and practical communication cost reduction.</div>
+          <div class="ttags"><span class="tt">Federated Learning</span><span class="tt">Privacy</span><span class="tt">Edge Computing</span><span class="tt">Distributed Systems</span></div>
+        </div>
+      </div>
+
+      <!-- ADD NEW TALKS: copy a tcard block above into the correct year group -->
+
+    </main>
+
+    <aside>
+      <div class="scard">
+        <div class="sct">Topics Covered</div>
+        <div class="tst"><span class="tsn">Federated Learning</span><span class="tsc">4</span></div>
+        <div class="tst"><span class="tsn">Edge AI &amp; TinyML</span><span class="tsc">3</span></div>
+        <div class="tst"><span class="tsn">Privacy &amp; Security</span><span class="tsc">2</span></div>
+        <div class="tst"><span class="tsn">Trustworthy AI</span><span class="tsc">1</span></div>
+        <div class="tst"><span class="tsn">Distributed Systems</span><span class="tsc">2</span></div>
+      </div>
+      <div class="scard">
+        <div class="sct">Institutions</div>
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.7">
+          <div style="padding:8px 0;border-bottom:1px solid #f0ece5"><strong style="color:var(--navy);display:block">ADNSU</strong>Baku, Azerbaijan · 1 talk · 2026</div>
+          <div style="padding:8px 0;border-bottom:1px solid #f0ece5"><strong style="color:var(--navy);display:block">Mehran University (MUET)</strong>Jamshoro, Pakistan · 1 talk · 2025</div>
+          <div style="padding:8px 0"><strong style="color:var(--navy);display:block">Yildiz Technical University</strong>Istanbul, Turkey · 2 talks · 2024–2025</div>
+        </div>
+      </div>
+      <div style="background:var(--navy);border-radius:var(--r);padding:20px">
+        <div class="sct" style="color:var(--accent);border-color:rgba(255,255,255,.1)">Invite Me to Speak</div>
+        <p style="font-size:13px;color:#8BAABB;line-height:1.65;margin-bottom:14px">Available for invited talks, guest lectures, and panels on Federated Learning, Edge AI, and Trustworthy ML.</p>
+        <a class="btn btn-p" href="mailto:meerrhassan@gmail.com?subject=Speaking%20Invitation" style="display:block;text-align:center">Send Speaking Invitation</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lb" onclick="if(event.target===this)clb()">
+  <button class="lb-x" onclick="clb()">✕</button>
+  <button class="lb-arr lb-l" onclick="slb(-1)">‹</button>
+  <img id="lb-img" src="" alt=""/>
+  <button class="lb-arr lb-r" onclick="slb(1)">›</button>
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<footer>© 2026 Mir Hassan · Senior Researcher, Mykolas Romeris University · <a href="mailto:meerrhassan@gmail.com">meerrhassan@gmail.com</a></footer>
+
+<script>
+// Filter talks
+function ft(t,btn){
+  document.querySelectorAll('.fbb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tcard').forEach(c=>{c.style.display=(t==='all'||c.dataset.t===t)?'':'none';});
+  document.querySelectorAll('.yrg').forEach(g=>{
+    const vis=Array.from(g.querySelectorAll('.tcard')).some(c=>c.style.display!=='none');
+    g.style.display=vis?'':'none';
+  });
+}
+
+// Photo upload (preview only — for permanent photos, use static img tags in the HTML)
+const photos={adnsu:[],muet:[]};
+function addP(input,tgt){
+  const grid=document.getElementById('pg-'+tgt);
+  Array.from(input.files).forEach(f=>{
+    const url=URL.createObjectURL(f);
+    photos[tgt].push(url);
+    const img=document.createElement('img');
+    img.src=url; img.alt='Talk photo';
+    const idx=photos[tgt].length-1;
+    img.onclick=()=>olb(tgt,idx);
+    grid.appendChild(img);
+  });
+  input.value='';
+}
+
+// Lightbox
+let lbS=[],lbI=0;
+function olb(tgt,idx){lbS=photos[tgt];lbI=idx;ulb();document.getElementById('lb').classList.add('show');}
+function clb(){document.getElementById('lb').classList.remove('show');}
+function slb(d){lbI=(lbI+d+lbS.length)%lbS.length;ulb();}
+function ulb(){document.getElementById('lb-img').src=lbS[lbI];document.getElementById('lb-cap').textContent=(lbI+1)+' / '+lbS.length;}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('show'))return;
+  if(e.key==='Escape')clb();
+  if(e.key==='ArrowLeft')slb(-1);
+  if(e.key==='ArrowRight')slb(1);
+});
+</script>
+</body>
+</html>
