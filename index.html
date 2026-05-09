@@ -1,628 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mir Hassan | PhD Researcher in Federated Learning & Edge AI</title>
-  <meta name="description" content="Mir Hassan — PhD Candidate specializing in Communication-Efficient Federated Learning, Edge Computing, and Trustworthy AI. Open to Postdoc positions from Jan 2026." />
-  <link rel="icon" href="assets/favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Mir Hassan | Senior Researcher · Federated Learning & Edge AI</title>
+  <meta name="description" content="Mir Hassan — Senior Researcher & Associate Professor at Mykolas Romeris University. Research in Communication-Efficient Federated Learning, Edge AI, and Trustworthy ML."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg: #f7f9fc;
-      --ink: #0f172a;
-      --ink-dim: #324156;
-      --panel: rgba(255, 255, 255, .82);
-      --elev: #fff;
-      --border: rgba(15, 23, 42, .08);
-      --brand-1: #0e9ae6;
-      --brand-2: #6366f1;
-      --link: #0f4cc9;
-      --accent: #6366f1;
-      --success: #10b981;
-      --shadow: 0 14px 30px rgba(2, 10, 32, .08);
-      --radius: 16px;
-    }
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.6;
-    }
-    
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-    }
-    
-    .wrap {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 22px;
-    }
-    
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--panel);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .topbar__in {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      height: 64px;
-    }
-    
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    
-    .logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: conic-gradient(from 200deg, var(--brand-1), var(--brand-2));
-      box-shadow: 0 6px 18px rgba(14, 165, 233, .25);
-    }
-    
-    .nav {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-    
-    .nav a {
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: var(--ink);
-    }
-    
-    .nav a:hover {
-      background: #fff;
-      border: 1px solid var(--border);
-      text-decoration: none;
-    }
-    
-    .card {
-      background: var(--elev);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    
-    .hero {
-      padding: 42px 0;
-    }
-    
-    .hero__card {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 22px;
-      align-items: center;
-      padding: 24px;
-    }
-    
-    .hero__img {
-      width: 120px;
-      height: 120px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-    
-    .title {
-      margin: 0 0 6px;
-      font-size: 28px;
-      font-weight: 800;
-    }
-    
-    .tagline {
-      margin: 0;
-      color: var(--ink-dim);
-    }
-    
-    .section {
-      padding: 24px;
-      margin-top: 16px;
-    }
-    
-    .h3 {
-      margin: 0 0 16px;
-      font-size: 22px;
-      font-weight: 800;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .badge-hiring {
-      display: inline-block;
-      padding: 4px 12px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
-    
-    .op-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    
-    .op-card {
-      padding: 20px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .op-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
-    }
-    
-    .op-card h4 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    
-    .highlight-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 24px;
-      border-radius: var(--radius);
-      color: white;
-      margin: 16px 0;
-    }
-    
-    .highlight-box h4 {
-      margin: 0 0 12px 0;
-      font-size: 20px;
-    }
-    
-    .highlight-box p {
-      margin: 8px 0;
-      opacity: 0.95;
-    }
-    
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 16px;
-      margin: 20px 0;
-    }
-    
-    .stat-item {
-      text-align: center;
-      padding: 16px;
-      background: white;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-    
-    .stat-number {
-      display: block;
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-    
-    .stat-label {
-      font-size: 13px;
-      color: var(--ink-dim);
-      margin-top: 4px;
-    }
-    
-    .news-timeline {
-      position: relative;
-      padding-left: 30px;
-      border-left: 3px solid var(--border);
-    }
-    
-    .news-month {
-      position: relative;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-    }
-    
-    .news-month::before {
-      content: '';
-      position: absolute;
-      left: -36px;
-      top: 6px;
-      width: 12px;
-      height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 0 0 2px var(--accent);
-    }
-    
-    .news-month h4 {
-      margin: 0 0 12px 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--accent);
-    }
-    
-    .news-item {
-      margin: 8px 0;
-      padding: 12px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border-left: 3px solid var(--accent);
-    }
-    
-    .news-item strong {
-      color: var(--ink);
-    }
-    
-    .list {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--ink-dim);
-    }
-    
-    .list li {
-      margin: 8px 0;
-    }
-    
-    .cta {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--ink);
-      transition: all 0.2s;
-    }
-    
-    .btn:hover {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
-      color: white;
-      border: none;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-    }
-    
-    footer {
-      margin: 30px 0 40px;
-      border-top: 1px solid var(--border);
-      padding-top: 18px;
-      color: #5c6f86;
-      font-size: 14px;
-      text-align: left;
-    }
-    
-    @media(max-width: 768px) {
-      .hero__card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .hero__img {
-        margin: 0 auto;
-      }
-      
-      .op-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0D1B2A;--navy2:#162435;--accent:#C8873A;--accent2:#e6a355;--cream:#F7F4EF;--cream2:#EDE8DF;--muted:#4A5568;--light:#8898A8;--border:#D9D2C7;--white:#fff;--serif:'Instrument Serif',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--max:1100px;--r:6px}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--cream);color:var(--navy);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    /* TOP BAR */
+    .topbar{background:var(--navy);color:#9BAABB;font-size:12px;text-align:center;padding:9px 20px;letter-spacing:.02em}
+    .topbar strong{color:var(--accent2)}.topbar a{color:var(--accent2);text-decoration:underline;text-underline-offset:3px}
+    /* NAV */
+    nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-in{max-width:var(--max);margin:0 auto;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-family:var(--serif);font-size:18px;color:var(--navy);text-decoration:none}
+    .nav-links{display:flex;gap:0;list-style:none;flex-wrap:nowrap}
+    .nav-links a{font-size:12.5px;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 11px;letter-spacing:.04em;text-transform:uppercase;border-bottom:2px solid transparent;transition:color .15s;display:block}
+    .nav-links a:hover{color:var(--navy)}.nav-links a.active{color:var(--navy);border-bottom-color:var(--accent)}
+    /* HERO */
+    .hero{background:var(--navy);color:var(--white);padding:64px 32px 56px}
+    .hero-in{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:48px;align-items:start}
+    .hphoto{width:200px;height:200px;border-radius:var(--r);object-fit:cover;border:3px solid rgba(200,135,58,.5);display:block}
+    .hlbl{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+    .hname{font-family:var(--serif);font-size:clamp(34px,5vw,50px);line-height:1.06;color:var(--white);margin-bottom:12px}
+    .hsub{font-size:15px;color:#8BAABB;margin-bottom:20px;line-height:1.6}.hsub a{color:var(--accent2);text-decoration:none}
+    .htags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+    .htag{font-size:11px;font-weight:500;padding:4px 11px;border-radius:20px;border:1px solid rgba(200,135,58,.4);color:var(--accent2)}
+    .hcta{display:flex;flex-wrap:wrap;gap:9px}
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;text-decoration:none;transition:all .15s;cursor:pointer;border:none;font-family:var(--sans)}
+    .btn-p{background:var(--accent);color:var(--white)}.btn-p:hover{background:var(--accent2)}
+    .btn-o{background:transparent;border:1px solid rgba(255,255,255,.25);color:#CBD5DF}.btn-o:hover{border-color:rgba(255,255,255,.5);color:var(--white)}
+    .btn-d{background:var(--navy);color:var(--white)}.btn-d:hover{background:var(--navy2)}
+    /* STATS */
+    .stats{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.06)}
+    .stats-in{max-width:var(--max);margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat{padding:18px 10px;border-right:1px solid rgba(255,255,255,.07);text-align:center}.stat:last-child{border-right:none}
+    .snum{font-family:var(--serif);font-size:28px;color:var(--accent2);line-height:1;margin-bottom:4px}
+    .slbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5A7080}
+    /* WRAP & LAYOUT */
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+    .grid2{display:grid;grid-template-columns:1fr 320px;gap:40px;padding:48px 0 72px}
+    /* SECTION */
+    .sec{margin-bottom:40px}
+    .sec-lbl{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+    .sec-title{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--navy);margin-bottom:14px;line-height:1.2}
+    .prose{color:var(--muted);line-height:1.75;font-size:15px}.prose p+p{margin-top:12px}.prose strong{color:var(--navy);font-weight:600}
+    /* FOCUS GRID */
+    .fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .fc{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;border-left:3px solid var(--accent)}
+    .fc h4{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:5px}.fc p{font-size:13px;color:var(--muted);line-height:1.6}
+    /* DARK BOX */
+    .dbox{background:var(--navy);border-radius:var(--r);padding:26px;margin-bottom:40px}
+    .dbox .sec-lbl{color:var(--accent)}.dbox .sec-title{color:var(--white);font-size:19px;margin-bottom:10px}
+    .dbox .prose{color:#8BAABB;font-size:14px;margin-bottom:16px}
+    .dlist{list-style:none;margin-bottom:18px}
+    .dlist li{font-size:13.5px;color:#B0C8D4;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}
+    .dlist li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0}
+    .dlist li:last-child{border-bottom:none}
+    .dmeta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+    .dmi .dlbl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:1px}
+    .dmi .dval{color:#CBD5DF;font-size:13px}
+    .dcta{display:flex;gap:9px;flex-wrap:wrap}
+    /* NEWS */
+    .ni{padding:14px 0;border-bottom:1px solid var(--border)}.ni:last-child{border-bottom:none}
+    .nd{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--light);margin-bottom:3px}
+    .nt{font-size:14px;color:var(--muted);line-height:1.6}.nt strong{color:var(--navy)}.nt a{color:var(--accent);text-decoration:none}
+    /* SIDEBAR */
+    .scard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:18px}
+    .sct{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+    .srow{display:flex;align-items:flex-start;gap:9px;padding:7px 0;font-size:13.5px;color:var(--muted);border-bottom:1px solid #f0ece5}
+    .srow:last-child{border-bottom:none}.srow svg{flex-shrink:0;color:var(--accent);margin-top:2px}
+    .srow a{color:var(--navy);text-decoration:none;font-weight:500}.srow a:hover{color:var(--accent)}
+    .kwc{display:flex;flex-wrap:wrap;gap:6px}
+    .kw{font-size:11.5px;background:var(--cream2);color:var(--muted);padding:3px 10px;border-radius:20px;border:1px solid var(--border)}
+    .pitem{padding:10px 0;border-bottom:1px solid #f0ece5}.pitem:last-child{border-bottom:none}
+    .pbadge{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:3px}
+    .pb-active{background:rgba(200,135,58,.12);color:#8C5A1A}
+    .pb-done{background:rgba(88,88,88,.1);color:#555}
+    .pname{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px}.pdsc{font-size:12.5px;color:var(--muted)}
+    /* FOOTER */
+    footer{background:var(--navy);color:#5A7080;padding:26px 32px;text-align:center;font-size:12.5px}
+    footer a{color:#7A9AAC;text-decoration:none}.footer a:hover{color:var(--accent2)}
+    /* RESPONSIVE */
+    @media(max-width:900px){.grid2,.hero-in,.fg{grid-template-columns:1fr}.hphoto{width:120px;height:120px}.stats-in{grid-template-columns:repeat(2,1fr)}.stat:nth-child(2){border-right:none}}
+    @media(max-width:600px){.nav-links a{font-size:11px;padding:6px 7px}.wrap{padding:0 16px}.hero{padding:40px 16px}}
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar__in">
-      <a class="brand" href="index.html">
-        <div class="logo"></div>
-        <strong>Mir Hassan</strong>
-      </a>
-      <nav class="nav">
-        <a href="publications.html">Publications</a>
-        <a href="projects.html">Projects</a>
-        <a href="education.html">Education</a>
-        <a href="experience.html">Academic Experience</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+
+<div class="topbar">
+  <strong>Position:</strong> Senior Researcher &amp; Associate Professor, Mykolas Romeris University ·
+  Research Collaborator, University of Trento ·
+  <a href="mailto:meerrhassan@gmail.com?subject=Collaboration">Get in touch →</a>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="index.html">Mir Hassan</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="education.html">Education</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="teaching.html">Teaching</a></li>
+      <li><a href="seminars.html">Seminars</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-in">
+    <img class="hphoto" src="assets/mir_hassan.jpg" alt="Mir Hassan"/>
+    <div>
+      <p class="hlbl">Senior Researcher · Mykolas Romeris University, Lithuania &amp; University of Trento, Italy</p>
+      <h1 class="hname">Mir Hassan</h1>
+      <p class="hsub">Communication-Efficient Federated Learning &amp; Edge AI<br>
+        PhD, University of Trento · Supervised by <a href="https://disi.unitn.it/~iacca/" target="_blank">Prof. Giovanni Iacca</a>
+      </p>
+      <div class="htags">
+        <span class="htag">Federated Learning</span><span class="htag">Edge Computing</span>
+        <span class="htag">Trustworthy ML</span><span class="htag">Distributed Systems</span>
+        <span class="htag">TinyML</span><span class="htag">Blockchain</span>
+      </div>
+      <div class="hcta">
+        <a class="btn btn-p" href="CV_Mir_Hassan.pdf" target="_blank">Download CV</a>
+        <a class="btn btn-o" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank">Google Scholar</a>
+        <a class="btn btn-o" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank">LinkedIn</a>
+        <a class="btn btn-o" href="mailto:meerrhassan@gmail.com">Email</a>
+      </div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <main class="wrap">
-    <!-- Hero Section -->
-    <section class="hero card">
-      <div class="hero__card">
-        <img class="hero__img" src="assets/mir_hassan.jpg" alt="Mir Hassan" />
-        <div>
-          <h1 class="title">Mir Hassan</h1>
-          <p class="tagline">
-            Research Areas: Federated Learning · Edge Computing · Trustworthy ML · Distributed Systems
-          </p>
-          <p class="tagline" style="font-weight:600; margin-top:6px;">
-            Senior Researcher/Associate Professor, Mykolas Romeris University (Lithuania) </a>
-          </p>
-          <p class="tagline" style="margin-top:6px;">
-            📍 Currently based in <strong>Vilnius, Lithuania</strong>
-          </p>
-          <div class="cta">
-            <a class="btn btn-primary" href="Mir_Hassan_CV.pdf" target="_blank" rel="noopener">📄 Download CV</a>
-            <a class="btn" href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank" rel="noopener">🎓 Google Scholar</a>
-            <a class="btn" href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank" rel="noopener">💼 LinkedIn</a>
-            <a class="btn" href="mailto:mir.hassan@unitn.it">✉️ Email</a>
-          </div>
+<div class="stats">
+  <div class="stats-in">
+    <div class="stat"><div class="snum">19+</div><div class="slbl">Publications</div></div>
+    <div class="stat"><div class="snum">250+</div><div class="slbl">Citations</div></div>
+    <div class="stat"><div class="snum">2</div><div class="slbl">EU Projects</div></div>
+    <div class="stat"><div class="snum">1</div><div class="slbl">Best Paper Award</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="grid2">
+    <main>
+      <div class="sec">
+        <p class="sec-lbl">About</p>
+        <h2 class="sec-title">Research Overview</h2>
+        <div class="prose">
+          <p>I am a <strong>Senior Researcher and Associate Professor</strong> at the Human Environment Technology department, Mykolas Romeris University (MRU), Vilnius, Lithuania, and a <strong>Research Collaborator</strong> at the University of Trento, Italy. I hold a PhD in Information Engineering and Computer Science from the University of Trento (2022–2025), supervised by Prof. Giovanni Iacca.</p>
+          <p>My research spans <strong>Federated Learning, Blockchain Technology, Distributed Systems, and IoT</strong>. I develop frameworks such as <strong>GASPU, FedEdge, FedFor, and PA-FL</strong> to make distributed learning robust, private, and production-ready at the edge.</p>
+          <p>Published in <em>IEEE Transactions on Mobile Computing</em> (JUFO 3), <em>IEEE IoT Journal</em> (JUFO 2), and <em>IEEE Wireless Communications</em> (JUFO 2). <strong>Best Paper Award</strong> at IEEE VTC 2025.</p>
         </div>
       </div>
-    </section>
 
-    <!-- Research Impact Stats -->
-    <section class="section card">
-      <div class="stats-row">
-        <div class="stat-item">
-          <span class="stat-number" id="publication-count">15+</span>
-          <div class="stat-label">Publications</div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" id="citation-count">250+</span>
-          <div class="stat-label">Citations</div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">3</span>
-          <div class="stat-label">Major Projects</div>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">4+</span>
-          <div class="stat-label">Years Teaching</div>
+      <div class="sec">
+        <p class="sec-lbl">Research Focus</p>
+        <h2 class="sec-title">Current Directions</h2>
+        <p class="prose" style="margin-bottom:6px">PhD Thesis: <strong>"Communication-Efficient Federated Learning for Resource-Constrained Environments"</strong></p>
+        <div class="fg">
+          <div class="fc"><h4>Model Compression &amp; Quantization</h4><p>Sign-based aggregation reducing uplink costs 32× without accuracy loss.</p></div>
+          <div class="fc"><h4>Agentic Federated Systems</h4><p>RL-driven client participation balancing utility, cost, and model quality.</p></div>
+          <div class="fc"><h4>Trustworthy &amp; Privacy-Aware FL</h4><p>Multi-trust frameworks with differential privacy and Byzantine resilience.</p></div>
+          <div class="fc"><h4>Edge AI for IoT &amp; IIoT</h4><p>Drift-aware intrusion detection on industrial edge devices.</p></div>
         </div>
       </div>
-    </section>
 
-    <!-- About Section -->
-    <section class="section card" id="about">
-      <h3 class="h3">🎯 About</h3>
-      <p style="font-size: 16px; line-height: 1.8;">
-        I specialize in <strong>communication-efficient federated learning</strong> for resource-constrained environments, 
-        with a focus on system-level precision, reproducibility, and practical deployment at the edge. My research develops 
-        innovative methods and frameworks including <strong>GASPU, FedEdge, FedFor, and PA-FL</strong> to make distributed 
-        learning robust and production-ready.
-      </p>
-      <p style="font-size: 16px; line-height: 1.8;">
-        My work sits at the intersection of <strong>distributed systems and machine learning</strong>: orchestrating 
-        resource-constrained devices, compressing and securing the learning signal, and evaluating end-to-end behavior 
-        with rigorous, reproducible pipelines. I'm passionate about building solutions that translate from paper to production, 
-        pushing evaluation beyond accuracy into <strong>reliability, privacy, safety, and sustainability</strong>.
-      </p>
-      
-      <div class="highlight-box">
-        <h4>🔬 Current Research Focus</h4>
-        <p>
-          <strong>PhD Thesis:</strong> "Communication-efficient Federated Learning for Resource Constraint Environment"<br>
-          <strong>Key Projects:</strong> SUSTAIN (Horizon EIC Pathfinder), EMAI4EU (EIT Digital)
-        </p>
-      </div>
-    </section>
-
-    <!-- Opportunities Section -->
-    <section class="section card" id="opportunities" style="border: 3px solid #10b981;">
-      <h3 class="h3" style="color: #059669;">
-        💼 Seeking New Opportunities
-        <span class="badge-hiring">Available</span>
-      </h3>
-      
-      <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #10b981;">
-        <p style="margin: 0; font-size: 17px; font-weight: 600; color: #065f46;">
-          🎯 I am actively seeking <strong>Postdoctoral Researcher</strong>, <strong>Research Scientist</strong>, 
-          or <strong>Assistant Professor</strong> positions in Federated Learning, Edge AI, and Trustworthy ML. 
-          Open to opportunities across Europe and Nordic countries, with immediate availability from January 2026.
-        </p>
-      </div>
-      
-      <div class="op-grid">
-        <div class="op-card">
-          <h4>🎓 Positions of Interest</h4>
-          <ul class="list">
-            <li><strong>Postdoctoral Researcher</strong> (Federated Learning, Trustworthy ML, TinyML)</li>
-            <li><strong>Research Scientist</strong> / Research Fellow</li>
-            <li><strong>Lecturer</strong> / Assistant Professor (tenure track)</li>
-          </ul>
+      <div class="dbox">
+        <p class="sec-lbl">Current Position</p>
+        <h2 class="sec-title">Senior Researcher &amp; Associate Professor — MRU Lithuania</h2>
+        <p class="prose">Senior Researcher / Associate Professor at MRU, Vilnius (Jan 2026–Present) and Research Collaborator at University of Trento (Apr 2026–Present). Open to collaborations, joint grants, and visiting positions.</p>
+        <ul class="dlist">
+          <li>Research collaborations in Federated Learning &amp; Edge AI</li>
+          <li>Joint EU/ERC project proposals</li>
+          <li>Co-supervision of PhD and Master's students</li>
+          <li>Invited talks and visiting researcher exchanges</li>
+        </ul>
+        <div class="dmeta">
+          <div class="dmi"><span class="dlbl">Primary</span><span class="dval">MRU, Vilnius, Lithuania</span></div>
+          <div class="dmi"><span class="dlbl">Secondary</span><span class="dval">University of Trento, Italy</span></div>
+          <div class="dmi"><span class="dlbl">Status</span><span class="dval">EU Resident (Italy)</span></div>
+          <div class="dmi"><span class="dlbl">Work Auth</span><span class="dval">EU &amp; Schengen</span></div>
         </div>
-        
-        <div class="op-card">
-          <h4>🔑 Research Keywords</h4>
-          <ul class="list">
-            <li>Communication-efficient FL & model compression</li>
-            <li>Federated agentic systems & edge orchestration</li>
-            <li>Reproducible FL pipelines & benchmarks</li>
-            <li>Trustworthy AI & privacy-preserving ML</li>
-          </ul>
-        </div>
-        
-        <div class="op-card">
-          <h4>🌍 Availability</h4>
-          <ul class="list">
-            <li><strong>Start Date:</strong> January 2026 (flexible)</li>
-            <li><strong>Location:</strong> Europe & Nordics preferred</li>
-            <li><strong>Visa Status:</strong> EU resident (Italy)</li>
-            <li><strong>Work Authorization:</strong> EU & Schengen area</li>
-          </ul>
-        </div>
-        
-        <div class="op-card">
-          <h4>📬 Get in Touch</h4>
-          <p style="margin-bottom: 12px;">Interested in collaboration or hiring?</p>
-          <a class="btn btn-primary" href="mailto:mir.hassan@unitn.it?subject=Position%20Inquiry" style="width: 100%; justify-content: center;">
-            ✉️ Contact Me
-          </a>
-          <a class="btn" href="CV_Mir_Hassan (2).pdf" target="_blank" rel="noopener" style="width: 100%; justify-content: center; margin-top: 8px;">
-            📄 View CV
-          </a>
+        <div class="dcta">
+          <a class="btn btn-p" href="mailto:meerrhassan@gmail.com?subject=Collaboration">Contact Me</a>
+          <a class="btn btn-o" href="CV_Mir_Hassan.pdf" target="_blank" style="border-color:rgba(255,255,255,.25);color:#CBD5DF">View CV</a>
         </div>
       </div>
-    </section>
 
-    <!-- Recent News & Updates -->
-    <section class="section card" id="news">
-      <h3 class="h3">📰 Recent News & Updates</h3>
-      
-      <div class="news-timeline">
-        <!-- October 2025 -->
-        <div class="news-month">
-          <h4>October 2025</h4>
-          <div class="news-item" style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-left: 4px solid #10b981;">
-            <strong style="color: #065f46;">💼 JOB MARKET:</strong> Actively applying for postdoc and faculty positions. Interested in collaboration? <a href="mailto:mir.hassan@unitn.it" style="color: #059669; font-weight: 700;">Get in touch!</a>
-          </div>
-          <div class="news-item">
-            <strong>🎓 PhD Defense Preparation:</strong> Finalizing dissertation and preparing for PhD defense in Expected Jan 2026.
-          </div>
+      <div class="sec">
+        <p class="sec-lbl">Updates</p>
+        <h2 class="sec-title">Recent News</h2>
+        <div class="ni"><div class="nd">May 2026</div><div class="nt"><strong>Invited Talk:</strong> Guest lecture at ADNSU — Azerbaijan Diplomatic Academy University, Baku.</div></div>
+        <div class="ni"><div class="nd">April 2026</div><div class="nt"><strong>Research Collaborator:</strong> Continuing collaboration with DISI, University of Trento, Italy.</div></div>
+        <div class="ni"><div class="nd">January 2026</div><div class="nt"><strong>New Position:</strong> Started as Senior Researcher / Associate Professor at MRU, Vilnius, Lithuania.</div></div>
+        <div class="ni"><div class="nd">December 2025</div><div class="nt"><strong>Invited Talk:</strong> Guest lecture at Mehran University of Engineering and Technology (MUET), Pakistan.</div></div>
+        <div class="ni"><div class="nd">2026</div><div class="nt"><strong>Paper Accepted:</strong> "Zero-Knowledge Inspired Provenance for Trustless FL" at IEEE VTC 2026-Spring.</div></div>
+        <div class="ni"><div class="nd">2025</div><div class="nt"><strong>Best Paper Award</strong> at IEEE VTC 2025-Spring for "Federated Multi-Task Learning with Dual Attention for Smart Buildings."</div></div>
+      </div>
+    </main>
 
-        </div>
+    <aside>
+      <div class="scard">
+        <div class="sct">Contact</div>
+        <div class="srow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div><a href="mailto:meerrhassan@gmail.com">meerrhassan@gmail.com</a><br><span style="font-size:12px;color:var(--muted)">mir.hassan@unitn.it</span></div></div>
+        <div class="srow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div>Vilnius, Lithuania / Trento, Italy</div></div>
+        <div class="srow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16z"/></svg><div>+39 346 3566216</div></div>
+        <div class="srow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg><div><a href="https://www.linkedin.com/in/mir-hassan-294a0569/" target="_blank">LinkedIn Profile</a></div></div>
+        <div class="srow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12A10 10 0 1 1 12 2"/><path d="M22 12c0 5.52-4.48 10-10 10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><div><a href="https://scholar.google.com/citations?user=mRV4UPwAAAAJ" target="_blank">Google Scholar</a></div></div>
+      </div>
 
-        <!-- September 2025 -->
-        <div class="news-month">
-          <h4>September 2025</h4>
-          <div class="news-item">
-            <strong>💼 Job Market:</strong> Actively seeking postdoc positions in Europe and Nordic countries (start: Jan 2026).
-          </div>
-        </div>
+      <div class="scard">
+        <div class="sct">Projects</div>
+        <div class="pitem"><span class="pbadge pb-active">EIT Digital · Active</span><div class="pname">EMAI4EU</div><div class="pdsc">European Master in AI — Instructor for Ethics of Trustworthy AI &amp; Introduction to Emotion AI</div></div>
+        <div class="pitem"><span class="pbadge pb-done">Completed · 2023–2026</span><div class="pname">SUSTAIN</div><div class="pdsc">Smart Building Sensitive to Daily Sentiment (Horizon EIC Pathfinder, Grant No. 101071179), WP3</div></div>
+      </div>
 
-        <!-- August 2025 -->
-        <div class="news-month">
-          <h4>August 2025</h4>
-
-          <div class="news-item">
-            <strong>🎯 EMAI4EU:</strong> Preparing course materials for Ethics for Trustworthy AI and Introduction to Emotion AI modules (start: 2025/26).
-          </div>
-        </div>
-
-        <!-- July 2025 -->
-        <div class="news-month">
-          <h4>July 2025</h4>
-          <div class="news-item">
-            <strong>📚 Survey Paper:</strong> Finalized comprehensive survey on "TinyML and 6G Edge Integration" based on reviewer feedback.
-          </div>
-          <div class="news-item">
-            <strong>🔬 Extended Evaluation:</strong> Conducted comprehensive performance analysis of FedEdge framework with GA-based gradient masking on IoT devices.
-          </div>
+      <div class="scard">
+        <div class="sct">Research Keywords</div>
+        <div class="kwc">
+          <span class="kw">Federated Learning</span><span class="kw">Blockchain</span>
+          <span class="kw">Distributed Systems</span><span class="kw">IoT</span>
+          <span class="kw">TinyML</span><span class="kw">Edge AI</span>
+          <span class="kw">Trustworthy AI</span><span class="kw">6G</span>
+          <span class="kw">Privacy ML</span><span class="kw">Differential Privacy</span>
         </div>
       </div>
-      
-      <p style="margin-top: 20px; font-style: italic; color: var(--ink-dim);">
-        💡 <strong>Note:</strong> This news section is updated monthly. Last update: October 2025
-      </p>
-    </section>
 
-    <footer class="site-footer">
-      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
-        <div>
-          © <span id="year"></span> Mir Hassan · Views: <strong id="mh-views">—</strong> · You: <span id="mh-you">detecting…</span>
+      <div class="scard">
+        <div class="sct">PhD Supervision</div>
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+          <strong style="color:var(--navy);display:block">Prof. Giovanni Iacca</strong>
+          Associate Professor, DISI<br>University of Trento, Italy<br>
+          <a href="https://disi.unitn.it/~iacca/" target="_blank" style="color:var(--accent);font-size:13px">disi.unitn.it/~iacca/ →</a>
         </div>
-        <div style="min-width:280px;flex:1">
-          <div style="font-weight:700;color:var(--ink)">Top countries</div>
-          <div id="mh-countries" style="display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px"></div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.65">
+          <strong style="color:var(--navy)">Co-Supervised (2024)</strong><br>
+          Hafiz Muhammad Bilal — MSc Data Science, UniTrento<br>
+          <em style="font-size:12px">Thesis: Communication-Efficient FL for HAR through Knowledge Distillation</em>
         </div>
       </div>
-      <div id="map" style="height:300px;margin-top:14px;border:1px solid var(--border);border-radius:12px"></div>
-    </footer>
-  </main>
+    </aside>
+  </div>
+</div>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // Fetch Google Scholar stats
-    async function fetchScholarStats() {
-      try {
-        // Using a CORS proxy to fetch Google Scholar data
-        const scholarId = 'mRV4UPwAAAAJ';
-        const proxyUrl = 'https://api.allorigins.win/raw?url=';
-        const scholarUrl = `https://scholar.google.com/citations?user=${scholarId}&hl=en`;
-        
-        const response = await fetch(proxyUrl + encodeURIComponent(scholarUrl));
-        const html = await response.text();
-        
-        // Parse citations
-        const citationMatch = html.match(/Cited by<\/a><\/td><td class="gsc_rsb_std">(\d+)/);
-        if (citationMatch) {
-          const citations = parseInt(citationMatch[1]);
-          document.getElementById('citation-count').textContent = citations.toLocaleString();
-        }
-        
-        // Parse publications count (from table rows)
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const rows = doc.querySelectorAll('.gsc_a_tr');
-        if (rows.length > 0) {
-          document.getElementById('publication-count').textContent = rows.length;
-        }
-      } catch (error) {
-        console.warn('Could not fetch Google Scholar stats:', error);
-        // Keep default values if fetch fails
-      }
-    }
-    
-    // Call the function when page loads
-    fetchScholarStats();
-  </script>
-
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="assets/js/analytics.js" defer></script>
+<footer>
+  © 2026 Mir Hassan · Senior Researcher, Mykolas Romeris University, Lithuania ·
+  <a href="mailto:meerrhassan@gmail.com">meerrhassan@gmail.com</a>
+</footer>
 </body>
 </html>
