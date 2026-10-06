@@ -114,34 +114,34 @@ whole class can run code at once with no rate limits. Each editor also has:
 > appear, use **Open in OnlineGDB** for those programs. Drop an editor into any
 > slide with `<div class="live-code"> … C++ code … </div>`.
 
-## Unlocking lectures by date
+## Lectures appear as they're built
 
-Each lecture in `course.json` has an **`unlockDate`** (`YYYY-MM-DD`). Before that
-date the lecture is **locked** on the home page (greyed out, "🔒 Unlocks …") and
-not clickable; on the day, it opens automatically. Lecture 1 has an empty
-`unlockDate`, so it's always open. Edit the dates to match your real schedule,
-then re-sync the home-page data (see "Point the QR codes…" below — the same
-one-liner regenerates `course-data.js`). The dates are currently set to weekly
-Tuesdays starting Oct 13, 2026 as placeholders.
+There are **no dates**. Each lecture in `course.json` has a **`built`** flag.
+When `built: true`, the lecture is clickable on the home page; otherwise it shows
+**"Coming soon"** and isn't clickable (so there are never broken links). Set a
+lecture's `built` to `true` once its folder exists, re-sync `course-data.js`
+(same one-liner as the QR step), and push.
 
-## Password gate (lecture-day access)
+## Password gate (one password per lecture)
 
-Each lecture page shows a **password overlay** before the slides. Students type
-the shared password you give them in class; the deck stays hidden until they do,
-and once entered it's remembered for that browser session (a refresh won't
-re-prompt).
+Each lecture page shows a **password overlay** before the slides. Every lecture
+has its **own** password (field `password` on the lecture in `course.json`), so
+a student who has the link to a future lecture still can't open it without that
+lecture's password. You tell students the password in class. Once entered it's
+remembered for that lecture in that browser session (a refresh won't re-prompt),
+and unlocking one lecture does **not** unlock the others.
 
-- Set the password in **`course.json → access.password`** (currently `cpp2026`).
-  Change it each class day if you like, then re-sync `course-data.js` (same
-  one-liner as the QR step) and push.
-- Turn it off entirely with `access.enabled: false`.
+- Passwords follow a simple pattern: **`cpp-L1`, `cpp-L2`, … `cpp-L10`**. Change
+  any of them in `course.json` (the lecture's `password` field), then re-sync
+  `course-data.js` and push.
+- Turn the gate off entirely with `access.enabled: false`, or open a single
+  lecture by clearing its `password`.
 
 > **Honest limitation:** this is a *"don't open early"* deterrent, not strong
 > security. A static GitHub Pages site can't keep a true secret — a determined
-> student could read the password in the page source. It's perfect for keeping
-> the class in step; it won't stop someone determined to peek. For real access
-> control you'd need a backend (e.g. Cloudflare Access), which GitHub Pages
-> alone can't provide.
+> student could read the password in the page source. It keeps the class in
+> step; it won't stop someone determined to peek. For real access control you'd
+> need a backend (e.g. Cloudflare Access), which GitHub Pages alone can't provide.
 
 ## Seeing how many students opened a lecture
 

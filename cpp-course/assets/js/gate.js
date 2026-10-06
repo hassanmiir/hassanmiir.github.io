@@ -11,8 +11,8 @@
     document.documentElement.classList.remove("gate-pending");
   }
   var cfg = (window.COURSE && window.COURSE.access) || null;
-  // If no config or disabled, do nothing (and reveal the deck).
-  if (!cfg || cfg.enabled === false || !cfg.password) { clearPending(); return; }
+  // If no config or gate disabled, do nothing (and reveal the deck).
+  if (!cfg || cfg.enabled === false) { clearPending(); return; }
 
   // Which lecture is this page? Read <body data-lecture="lectureN"> or infer
   // from the URL (…/lectureN/).
@@ -22,26 +22,18 @@
     if (m) lectureId = m[1];
   }
 
-  // Policy: by default the password is required ONLY while a lecture is still
-  // locked by its unlockDate (so it's a true lecture-day key). Once a lecture's
-  // date has passed it opens freely. Set access.always:true to always require it.
-  if (!cfg.always) {
-    try {
-      var lec = (window.COURSE.lectures || []).filter(function (l) { return l.id === lectureId; })[0];
-      if (lec && lec.unlockDate) {
-        var t = new Date(lec.unlockDate + "T00:00:00");
-        var now = new Date(); now.setHours(0,0,0,0);
-        if (now >= t) { clearPending(); return; }   // already unlocked by date → no password
-      } else if (lec && !lec.unlockDate) {
-        clearPending(); return;                      // no date set → open (e.g. Lecture 1)
-      }
-    } catch (e) {}
-  }
+  // Per-lecture password: each lecture carries its own 'password' in course.json.
+  // No dates — the password is always required. You tell students the password
+  // in class. (A lecture with no password set is left open.)
+  var lec = null;
+  try { lec = (window.COURSE.lectures || []).filter(function (l) { return l.id === lectureId; })[0]; } catch (e) {}
+  var PASS = lec && lec.password ? String(lec.password) : "";
+  if (!PASS) { clearPending(); return; }   // no password defined → open
 
-  var PASS = String(cfg.password);
-  var KEY = "cpp_gate_ok";               // session flag once unlocked
+  // Remember unlock per-lecture, so unlocking one doesn't unlock the next.
+  var KEY = "cpp_gate_ok_" + lectureId;
 
-  // Already unlocked this session? skip.
+  // Already unlocked this lecture this session? skip.
   try { if (sessionStorage.getItem(KEY) === "1") { clearPending(); return; } } catch (e) {}
 
   function buildOverlay() {

@@ -136,21 +136,20 @@ footer .line{height:1px;background:var(--line);margin-bottom:22px}
 <script>
 (function(){
   var c = window.COURSE;
-  function isLocked(d){ if(!d) return false; var t=new Date(d+'T00:00:00'); var now=new Date(); now.setHours(0,0,0,0); return now < t; }
-  function fmtDate(d){ try{ return new Date(d+'T00:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'}); }catch(e){ return d; } }
   document.getElementById('subtitle').textContent = c.subtitle ? (c.title + ' — ' + c.subtitle) : document.getElementById('subtitle').textContent;
   document.getElementById('meta').textContent = c.instructor + ' · ' + c.affiliation;
   document.getElementById('footer-text').textContent = c.title + ' · ' + c.instructor + ' · ' + c.affiliation;
 
   const L = document.getElementById('lectures');
   c.lectures.forEach(l=>{
-    const locked = isLocked(l.unlockDate);
-    const a=document.createElement(locked ? 'div' : 'a');
-    if(!locked) a.href = l.id+'/';
-    a.className='lec'+(locked?' locked':'');
-    const foot = locked
-      ? `<span class="go lock">🔒 Unlocks ${fmtDate(l.unlockDate)}</span>`
-      : `<span class="go">Open slides →</span>`;
+    // "built" lectures are clickable; the rest show "Coming soon" (no dates).
+    const ready = l.built === true;
+    const a=document.createElement(ready ? 'a' : 'div');
+    if(ready) a.href = l.id+'/';
+    a.className='lec'+(ready?'':' locked');
+    const foot = ready
+      ? `<span class="go">Open slides →</span>`
+      : `<span class="go lock">Coming soon</span>`;
     a.innerHTML = `
       <div class="ic"><img src="assets/icons/${l.icon}_2C3E50.png" alt=""></div>
       <div>

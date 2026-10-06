@@ -18,21 +18,15 @@
 <script>
 /* Pre-hide the deck the instant the page parses, if a gate will be needed,
    so students never glimpse the slides before entering the password.
-   Mirrors the date policy in gate.js so an already-open lecture never flashes. */
+   Per-lecture password (no dates) — mirrors gate.js. */
 (function(){
   try{
     var C = window.COURSE || {}, a = C.access;
-    if(!(a && a.enabled!==false && a.password)) return;
-    if(sessionStorage.getItem('cpp_gate_ok')==='1') return;
+    if(!(a && a.enabled!==false)) return;
     var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
-    if(!a.always){
-      var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
-      if(lec){
-        if(!lec.unlockDate) return;              // open lecture → no gate
-        var now=new Date(); now.setHours(0,0,0,0);
-        if(now >= new Date(lec.unlockDate+'T00:00:00')) return; // date passed → open
-      }
-    }
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;           // no password → open, no gate
     document.documentElement.classList.add('gate-pending');
   }catch(e){}
 })();

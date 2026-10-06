@@ -7,6 +7,9 @@
   box-shadow:0 8px 22px rgba(17,32,46,.22);
   font-family:'JetBrains Mono','Fira Code',Consolas,monospace;
   margin:12px 0; display:flex; flex-direction:column;
+  /* Keep the whole widget — editor + output — inside the slide.
+     The editor scrolls internally; the output stays visible below. */
+  max-height:560px;
 }
 .reveal .live-code .lc-bar{
   display:flex; align-items:center; gap:7px; padding:9px 12px;
@@ -31,9 +34,11 @@
 .reveal .live-code .lc-gdb:hover{ filter:brightness(1.1); }
 
 .reveal .live-code .lc-editor{
-  width:100%; box-sizing:border-box; resize:vertical; border:none; outline:none;
-  background:#1B2733; color:#E6EDF3; font-family:inherit; font-size:18px; line-height:1.5;
-  padding:14px 16px; tab-size:4; min-height:120px;
+  width:100%; box-sizing:border-box; resize:none; border:none; outline:none;
+  background:#1B2733; color:#E6EDF3; font-family:inherit; font-size:17px; line-height:1.45;
+  padding:14px 16px; tab-size:4;
+  /* fixed editor window that scrolls when code is long — output stays below */
+  height:300px; overflow:auto; flex:0 0 auto;
 }
 .reveal .live-code .lc-editor::selection{ background:#2E6DA4; color:#fff; }
 

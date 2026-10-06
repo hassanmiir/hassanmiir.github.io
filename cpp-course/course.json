@@ -5,7 +5,6 @@
   "affiliation": "Mykolas Romeris University, Vilnius",
   "baseUrl": "https://hassanmiir.github.io/cpp-course",
   "repo": "https://github.com/hassanmiir/hassanmiir.github.io",
-  "_unlockHelp": "Set each lecture's unlockDate to YYYY-MM-DD. Before that date the card is locked on the home page and the deck shows a 'locked' notice. Leave unlockDate empty or null to keep a lecture open. Lecture 1 is open by default.",
   "lectures": [
     {
       "id": "lecture1",
@@ -20,7 +19,8 @@
       ],
       "handsOn": "Write and run \"Hello, World\", then personalize it to greet yourself by name.",
       "icon": "rocket",
-      "unlockDate": ""
+      "password": "cpp-L1",
+      "built": true
     },
     {
       "id": "lecture2",
@@ -35,7 +35,8 @@
       ],
       "handsOn": "Build a program that asks the user's name and age and prints a personalized sentence.",
       "icon": "boxes",
-      "unlockDate": "2026-10-13"
+      "password": "cpp-L2",
+      "built": false
     },
     {
       "id": "lecture3",
@@ -50,7 +51,8 @@
       ],
       "handsOn": "Create a simple calculator that takes two numbers and prints all basic operations.",
       "icon": "calculator",
-      "unlockDate": "2026-10-20"
+      "password": "cpp-L3",
+      "built": false
     },
     {
       "id": "lecture4",
@@ -65,7 +67,8 @@
       ],
       "handsOn": "Build a grade classifier: enter a score, print the letter grade.",
       "icon": "branch",
-      "unlockDate": "2026-10-27"
+      "password": "cpp-L4",
+      "built": false
     },
     {
       "id": "lecture5",
@@ -80,7 +83,8 @@
       ],
       "handsOn": "Print a multiplication table and sum the numbers from 1 to N.",
       "icon": "loop",
-      "unlockDate": "2026-11-03"
+      "password": "cpp-L5",
+      "built": false
     },
     {
       "id": "lecture6",
@@ -95,7 +99,8 @@
       ],
       "handsOn": "Refactor the calculator into functions, one per operation.",
       "icon": "function",
-      "unlockDate": "2026-11-10"
+      "password": "cpp-L6",
+      "built": false
     },
     {
       "id": "lecture7",
@@ -110,7 +115,8 @@
       ],
       "handsOn": "Store a list of test scores and report the average and the highest.",
       "icon": "list",
-      "unlockDate": "2026-11-17"
+      "password": "cpp-L7",
+      "built": false
     },
     {
       "id": "lecture8",
@@ -125,7 +131,8 @@
       ],
       "handsOn": "Build a tiny text analyzer: count words, characters, and vowels in a sentence.",
       "icon": "text",
-      "unlockDate": "2026-11-24"
+      "password": "cpp-L8",
+      "built": false
     },
     {
       "id": "lecture9",
@@ -140,7 +147,8 @@
       ],
       "handsOn": "Model a Student (name, id, grade) and print a small roster.",
       "icon": "cube",
-      "unlockDate": "2026-12-01"
+      "password": "cpp-L9",
+      "built": false
     },
     {
       "id": "lecture10",
@@ -155,7 +163,8 @@
       ],
       "handsOn": "Save and load the roster to a file; integrate it into the capstone.",
       "icon": "save",
-      "unlockDate": "2026-12-08"
+      "password": "cpp-L10",
+      "built": false
     }
   ],
   "projects": [
@@ -173,9 +182,9 @@
     }
   ],
   "access": {
-    "_help": "Set 'password' to the word students must type to open a lecture. Change it each class day if you like. Set 'enabled' false to turn the gate off entirely. The gate is a 'do not open early' deterrent, not strong security (static sites can't hide secrets).",
+    "_help": "Each lecture has its own password (field 'password' on the lecture). Students need it to open that lecture. Tell them the password in class. Change any password here anytime. Set a lecture's 'built' to true when its folder exists.",
     "enabled": true,
-    "password": "cpp2026"
+    "mode": "per-lecture"
   },
   "instructorTitle": "Associate Professor in Artificial Intelligence and Trustworthy Digital Systems"
 }
