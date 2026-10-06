@@ -1,7 +1,7 @@
 {
   "title": "Programming with C++",
   "subtitle": "A Hands-On Course for Absolute Beginners",
-  "instructor": "Mir Hassan",
+  "instructor": "Dr. Mir Hassan",
   "affiliation": "Mykolas Romeris University, Vilnius",
   "baseUrl": "https://hassanmiir.github.io/cpp-course",
   "repo": "https://github.com/hassanmiir/hassanmiir.github.io",
@@ -176,5 +176,6 @@
     "_help": "Set 'password' to the word students must type to open a lecture. Change it each class day if you like. Set 'enabled' false to turn the gate off entirely. The gate is a 'do not open early' deterrent, not strong security (static sites can't hide secrets).",
     "enabled": true,
     "password": "cpp2026"
-  }
+  },
+  "instructorTitle": "Associate Professor in Artificial Intelligence and Trustworthy Digital Systems"
 }

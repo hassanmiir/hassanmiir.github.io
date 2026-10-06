@@ -111,3 +111,38 @@
 .open-counter.oc-err .oc-num{ color:#8aa7c2; }
 .open-counter .oc-label{ color:#9FB4C7; letter-spacing:.3px; }
 @keyframes ocPop{ 0%{ transform:scale(.6); opacity:0; } 100%{ transform:scale(1); opacity:1; } }
+
+/* ---------- presenter name/title on scan-in slide ---------- */
+.presenter{ margin-top:26px; padding-top:18px; border-top:1px solid rgba(93,169,233,.25); }
+.presenter-name{ font-family:'Georgia',serif; font-weight:700; font-size:.82em; color:#fff; }
+.presenter-title{ font-size:.5em; color:#9FB4C7; line-height:1.4; margin-top:4px; }
+
+/* ---------- welcome badges row ---------- */
+.welcome-badges{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+.wbadge{ display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(93,169,233,.3); border-radius:40px; padding:8px 18px 8px 8px;
+  color:#EAF2FA; font-weight:600; font-size:.6em; }
+
+/* ---------- download-PDF button (fixed, top-right of deck) ---------- */
+.pdf-btn{
+  position:fixed; top:20px; right:92px; z-index:40;
+  display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  background:#1E824C; color:#fff; font-family:'Inter',sans-serif; font-weight:700;
+  font-size:14px; padding:8px 15px; border-radius:10px; box-shadow:0 4px 12px rgba(17,32,46,.22);
+  transition:filter .12s, transform .05s;
+}
+.pdf-btn:hover{ filter:brightness(1.12); color:#fff; }
+.pdf-btn:active{ transform:translateY(1px); }
+.pdf-btn svg{ width:15px; height:15px; fill:currentColor; }
+@media (max-width:640px){ .pdf-btn{ right:70px; font-size:12px; padding:7px 11px; } }
+
+/* ---------- enriched part-divider slides ---------- */
+.part-hero{ display:flex; align-items:center; gap:40px; height:100%; }
+.part-hero .ph-left{ flex:1.4; }
+.part-hero .ph-icon{ flex:0 0 auto; }
+.part-hero h2{ font-size:1.8em; margin-bottom:.2em; }
+.part-hero .ph-sub{ color:#CADCEC; font-size:.9em; margin-bottom:22px; }
+.part-preview{ display:flex; flex-direction:column; gap:12px; margin-top:6px; }
+.part-preview .pp{ display:flex; align-items:center; gap:14px; color:#DCE7F0; font-size:.68em;
+  background:rgba(255,255,255,.05); border:1px solid #2E4A63; border-radius:12px; padding:10px 16px; }
+.part-num-big{ font-family:'Georgia',serif; font-weight:700; font-size:.55em; color:#6FA8DC; letter-spacing:2px; }

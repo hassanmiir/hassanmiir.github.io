@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="../assets/css/theme.css">
 <link rel="stylesheet" href="../assets/css/live-code.css">
 <link rel="stylesheet" href="../assets/css/animations.css">
+<link rel="stylesheet" href="../assets/css/timer.css">
 <link rel="stylesheet" href="../assets/css/gate.css">
 <!-- Password gate: must load before the deck so it covers the page immediately -->
 <script src="../assets/js/course-data.js"></script>
@@ -41,6 +42,10 @@
 </head>
 <body data-lecture="lecture1">
 <div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture1-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
 <div class="deck-footer">Programming with C++ · Lecture 1</div>
 
 <div class="reveal"><div class="slides">
@@ -54,44 +59,40 @@
     <div class="row top" style="align-items:center">
       <div class="col" style="flex:1.3">
         <span class="kicker">Programming with C++ · Lecture 1</span>
-        <h1 style="font-size:2.3em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
-        <p style="color:#CADCEC;font-size:.9em;margin-top:14px">Open today's slides on your own phone or laptop.<br>Scan the code, or type the link below.</p>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
         <div class="urlbox fragment fade-up">hassanmiir.github.io/cpp-course/lecture1</div>
-        <div class="title-steps fragment fade-up" style="margin-top:26px">
-          <div class="step"><span class="chip sm bob"><img src="../assets/icons/eye_FFFFFF.png"></span> See</div>
-          <div class="step">→</div>
-          <div class="step"><span class="chip sm red bob"><img src="../assets/icons/flask_FFFFFF.png"></span> Try</div>
-          <div class="step">→</div>
-          <div class="step"><span class="chip sm green bob"><img src="../assets/icons/check_FFFFFF.png"></span> Build</div>
+        <div class="presenter fragment fade-up">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
         </div>
       </div>
       <div class="col center" style="flex:1">
-        <div class="qr-wrap fragment zoom-in"><img src="lecture1-qr.png" alt="Scan to open this lecture" style="width:230px;height:230px"></div>
-        <p class="muted" style="color:#8aa7c2;margin:22px 0 16px;font-size:.62em">📱 Point your camera here</p>
+        <div class="qr-wrap fragment zoom-in"><img src="lecture1-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
         <span class="open-counter fragment fade-in" data-lecture="lecture1"></span>
       </div>
     </div>
   </div>
-  <aside class="notes">Leave this slide up as students arrive. Everyone scans and opens the deck on their device, so they can run the live code examples themselves. Then advance.</aside>
+  <aside class="notes">Leave this slide up as students arrive. Everyone scans and opens the deck on their device. Then advance.</aside>
 </section>
 
-<!-- 1 TITLE -->
+<!-- 1 TITLE / BIG WELCOME -->
 <section class="slide-title hero-anim" data-background-color="#0F2A43">
   <div class="floaty" data-floaty></div>
-  <div class="hero-content">
-    <span class="kicker">Lecture 1 · Hands-On Programming</span>
-    <h1 style="font-size:2.4em">First Steps in <span class="shimmer">C++</span></h1>
-    <p class="fragment fade-in">What a program is — and how to write your very first one.</p>
-    <div class="title-steps fragment fade-up">
-      <div class="step"><span class="chip sm"><img src="../assets/icons/eye_FFFFFF.png"></span> See</div>
-      <div class="step">→</div>
-      <div class="step"><span class="chip sm red"><img src="../assets/icons/flask_FFFFFF.png"></span> Try</div>
-      <div class="step">→</div>
-      <div class="step"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span> Build</div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Welcome · Let's Begin</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">Welcome to <span class="shimmer">Software Engineering</span><br>Hands-On Class</h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:16px">Today you become a <strong style="color:#fff">programmer</strong> — write your very first real program, live, together.</p>
+    <div class="welcome-badges fragment fade-up">
+      <span class="wbadge"><span class="chip sm bob"><img src="../assets/icons/code_FFFFFF.png"></span> Real C++</span>
+      <span class="wbadge"><span class="chip sm red bob"><img src="../assets/icons/flask_FFFFFF.png"></span> Run it live</span>
+      <span class="wbadge"><span class="chip sm green bob"><img src="../assets/icons/rocket_FFFFFF.png"></span> Build a project</span>
+      <span class="wbadge"><span class="chip sm orange bob"><img src="../assets/icons/users_FFFFFF.png"></span> Together</span>
     </div>
-    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:34px">A 2-hour session · let's build something together</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:26px">A 2-hour hands-on session · no experience needed · just curiosity</p>
   </div>
-  <aside class="notes">This is a 2-hour hands-on class: we watch a little, then write code together constantly. By the end, everyone will have written and run real C++.</aside>
+  <aside class="notes">Welcome to Software Engineering. This is a 2-hour hands-on class: we watch a little, then write code together constantly. By the end, everyone will have written and run real C++.</aside>
 </section>
 
 <!-- 2 WELCOME -->
@@ -106,6 +107,25 @@
     </div>
     <div class="col center"><span class="chip lg orange fragment zoom-in"><img src="../assets/icons/rocket_FFFFFF.png"></span></div>
   </div>
+</section>
+
+<!-- 2b FULL COURSE OUTLINE (all 10 at a glance) -->
+<section>
+  <span class="kicker">Course Outline</span>
+  <h2>The full plan — 10 lectures</h2>
+  <div class="outline-grid">
+    <div class="ol fragment fade-up"><span class="chip sm"><img src="../assets/icons/rocket_FFFFFF.png"></span><div><b>1 · First Steps</b><small>Your first C++ program</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm bluedark"><img src="../assets/icons/boxes_FFFFFF.png"></span><div><b>2 · Variables</b><small>Storing &amp; naming data</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div><b>3 · Operators</b><small>Maths &amp; comparisons</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/branch_FFFFFF.png"></span><div><b>4 · Decisions</b><small>if / else logic</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm red"><img src="../assets/icons/loop_FFFFFF.png"></span><div><b>5 · Loops</b><small>Repeating work</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm"><img src="../assets/icons/function_FFFFFF.png"></span><div><b>6 · Functions</b><small>Reusable blocks</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm bluedark"><img src="../assets/icons/list_FFFFFF.png"></span><div><b>7 · Arrays &amp; Vectors</b><small>Collections of data</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/text_FFFFFF.png"></span><div><b>8 · Strings</b><small>Working with text</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/cube_FFFFFF.png"></span><div><b>9 · Structs</b><small>Grouping data</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm green"><img src="../assets/icons/save_FFFFFF.png"></span><div><b>10 · Files &amp; Project</b><small>Save data &amp; finish</small></div></div>
+  </div>
+  <div class="note tip fragment fade-in" style="margin-top:14px"><span class="lead">One step at a time</span>Each lecture adds one new idea — and one piece of the project we build together.</div>
 </section>
 
 <!-- 3 THE JOURNEY (overview of all 10) -->
@@ -135,24 +155,24 @@
   </div>
 </section>
 
-<!-- 5 WHAT YOU'LL BUILD -->
+<!-- 5 WHAT YOU'LL BUILD — collaborative, TBD -->
 <section>
   <span class="kicker green">The Destination</span>
-  <h2>What you'll build</h2>
-  <p class="fragment fade-in" style="font-size:.8em">Every lecture adds one piece to a real project. Pick a track:</p>
+  <h2>We'll build a real project — <em>together</em></h2>
+  <p class="fragment fade-in" style="font-size:.8em">Every lecture adds one piece to a working program. <strong>You</strong> help decide what we build. Today we'll brainstorm ideas; here are two to spark your thinking:</p>
   <div class="cards two">
     <div class="card fragment fade-up" style="border-top:4px solid var(--blue)">
       <span class="chip"><img src="../assets/icons/graduation_FFFFFF.png"></span>
-      <h3>Study Buddy</h3>
+      <h3>e.g. Study Buddy</h3>
       <p>A tool <strong>for students</strong>: track subjects, log study hours, record grades, see your progress.</p>
     </div>
     <div class="card fragment fade-up" style="border-top:4px solid var(--green)">
       <span class="chip green"><img src="../assets/icons/clipboard_FFFFFF.png"></span>
-      <h3>Teacher Gradebook</h3>
+      <h3>e.g. Teacher Gradebook</h3>
       <p>A tool <strong>for teachers</strong>: manage a class, record scores, compute averages, find top students.</p>
     </div>
   </div>
-  <div class="note fragment fade-in"><span class="lead">By Lecture 10</span>your group will demo a finished, working program you built yourselves.</div>
+  <div class="note tip fragment fade-in"><span class="lead">Your idea counts</span>A game? A quiz app? A budget tracker? We'll pick our project as a class and build it step by step.</div>
 </section>
 
 <!-- 6 HOW TODAY WORKS -->
@@ -179,10 +199,21 @@
 <!-- ============ PART 1 — WHAT IS PROGRAMMING ============ -->
 
 <!-- 8 section divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker">Part 1</span>
-  <h2>What is programming, really?</h2>
-  <p class="fragment fade-in">Let's build the idea from the ground up.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>What is programming, really?</h2>
+      <p class="ph-sub">Let's build the idea from the ground up — no jargon.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/clipboard_FFFFFF.png"></span> A program = precise instructions</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/cogs_FFFFFF.png"></span> A language + compiler makes it run</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/bolt_FFFFFF.png"></span> Why C++ is worth learning</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/brain_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 9 what is a program -->
@@ -251,10 +282,21 @@
 <!-- ============ PART 2 — YOUR FIRST PROGRAM ============ -->
 
 <!-- 14 divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker red">Part 2</span>
-  <h2>Your first C++ program</h2>
-  <p class="fragment fade-in">Here it is — five lines. Then we take it apart.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 2</span>
+      <h2>Your first C++ program</h2>
+      <p class="ph-sub">Five lines — then we take each one apart, together.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/code_FFFFFF.png"></span> Write &amp; run "Hello, World!"</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/search_FFFFFF.png"></span> The anatomy: include, main, cout, ;</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Your first live code — you run it!</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg red bob"><img src="../assets/icons/rocket_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 15 hello world -->
@@ -355,10 +397,21 @@ cout &lt;&lt; " is fun";</code></pre>
 <!-- ============ PART 3 — MASTERING OUTPUT ============ -->
 
 <!-- 23 divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker">Part 3</span>
-  <h2>Mastering output</h2>
-  <p class="fragment fade-in">You control exactly what appears on screen.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 3</span>
+      <h2>Mastering output</h2>
+      <p class="ph-sub">You decide exactly what appears on the screen.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/exchange_FFFFFF.png"></span> Chain messages with &lt;&lt;</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/text_FFFFFF.png"></span> New lines &amp; tabs: \n and \t</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Experiment live + a fill-in puzzle</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/terminal_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 24 chaining -->
@@ -435,10 +488,21 @@ cout &lt;&lt; "Hi"; // comments can sit after code too
 <!-- ============ PART 4 — TALKING TO THE USER ============ -->
 
 <!-- 29 divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker">Part 4</span>
-  <h2>Talking to the user</h2>
-  <p class="fragment fade-in">Programs get more fun when they listen and respond.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 4</span>
+      <h2>Talking to the user</h2>
+      <p class="ph-sub">Programs get far more fun when they listen and respond.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/keyboard_FFFFFF.png"></span> Read input with cin &gt;&gt;</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> Greet the user by name — live</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/calculator_FFFFFF.png"></span> A mini challenge with real logic</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/exchange_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 30 cin intro -->
@@ -501,10 +565,21 @@ int main() {
 <!-- ============ PART 5 — ERRORS & DEBUGGING ============ -->
 
 <!-- 33 divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker red">Part 5</span>
-  <h2>Errors are your friends</h2>
-  <p class="fragment fade-in">Let's make some on purpose.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 5</span>
+      <h2>Errors are your friends</h2>
+      <p class="ph-sub">Every programmer meets them daily — let's make some on purpose.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span> The 3 errors you'll meet most</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/bug_FFFFFF.png"></span> Break a program on purpose — live</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/wrench_FFFFFF.png"></span> How real programmers debug</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg red bob"><img src="../assets/icons/bug_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 34 common errors -->
@@ -548,10 +623,21 @@ int main() {
 <!-- ============ PART 6 — ACTIVITIES BLOCK ============ -->
 
 <!-- 37 divider -->
-<section class="slide-title" data-background-color="#0F2A43">
-  <span class="kicker orange">Part 6</span>
-  <h2>Let's put it together</h2>
-  <p class="fragment fade-in">A quick quiz, then a build-with-a-partner challenge.</p>
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 6</span>
+      <h2>Let's put it together</h2>
+      <p class="ph-sub">Time to think, build, and show what you've learned.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/question_FFFFFF.png"></span> A quick 3-question quiz</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/brain_FFFFFF.png"></span> The "Smart ID Card" brain challenge</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> Build with a partner &amp; demo</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
 </section>
 
 <!-- 38 quiz round Q1 -->
@@ -596,47 +682,109 @@ int main() {
   </div>
 </section>
 
-<!-- 41 pair challenge brief -->
+<!-- 41 pair challenge brief + TIMER (tricky / think!) -->
 <section class="slide-handson" data-background-color="#0F2A43">
-  <span class="kicker">Pair Challenge <span class="tbadge">⏱ 15 min</span></span>
-  <h2>Build a personal intro card</h2>
-  <div class="handson-box">
-    <p style="margin-bottom:10px">With a partner, write one program that prints a neat "intro card":</p>
-    <ol>
-      <li>A top border line (e.g. <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">======================</span>)</li>
-      <li>Your name, your city, and one goal for this course</li>
-      <li>A bottom border line</li>
-      <li>Use <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">\t</span> or spaces to line things up neatly</li>
-    </ol>
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>The Smart ID Card</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Build a program that <strong>asks</strong> the user, then <strong>figures things out</strong>:</p>
+        <ol style="font-size:.92em">
+          <li>Ask for their <b>name</b> and their <b>birth year</b>.</li>
+          <li><span style="color:#E8B98A">Think:</span> compute their <b>age in 2026</b> — don't let them type the age!</li>
+          <li><span style="color:#E8B98A">Trickier:</span> print their <b>initials</b> only (hint: first letter of the name).</li>
+          <li>Show it all inside a neat bordered card using <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">\t</span>.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
   </div>
+  <div class="note warn" style="margin-top:12px;font-size:.62em"><span class="lead">The catch</span>The age must be <em>calculated</em> by the program (2026 − birth year), not entered. That's the difference between a printout and a <strong>program</strong>.</div>
 </section>
 
-<!-- 42 pair challenge live canvas -->
+<!-- 42 pair challenge live canvas (scaffolded, think to finish) -->
 <section>
-  <span class="kicker green">Pair Challenge · Build Here</span>
-  <h2>Your intro card</h2>
-  <div class="live-code">
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your Smart ID Card</h2>
+  <p style="font-size:.6em" class="muted">Starter reads the data. <strong>You add</strong> the age calculation and the card. (Input box is pre-filled: Sara 2005)</p>
+  <div class="live-code" data-stdin="Sara 2005">
 #include &lt;iostream&gt;
 using namespace std;
 
 int main() {
+    char name[40];
+    int birthYear;
+    cout &lt;&lt; "Name and birth year: ";
+    cin &gt;&gt; name &gt;&gt; birthYear;
+
+    // TODO 1: compute age  ->  int age = 2026 - birthYear;
+    // TODO 2: print a bordered card with name, age, and first initial
+
     cout &lt;&lt; "========================" &lt;&lt; endl;
-    cout &lt;&lt; "  Name:  ____" &lt;&lt; endl;
-    cout &lt;&lt; "  City:  ____" &lt;&lt; endl;
-    cout &lt;&lt; "  Goal:  ____" &lt;&lt; endl;
+    cout &lt;&lt; "  Name: " &lt;&lt; name &lt;&lt; endl;
+    // add age and initial lines here
     cout &lt;&lt; "========================" &lt;&lt; endl;
     return 0;
 }
   </div>
-  <aside class="notes">Let pairs work 15 min. Invite 2–3 pairs to show their card on the projector. Celebrate creativity (ASCII art, extra lines).</aside>
+  <aside class="notes">The trick: age is computed (2026 - birthYear), and the initial is name[0]. Let pairs struggle a little — that's the thinking. Solution on next slide. Invite 2–3 pairs to demo.</aside>
+</section>
+
+<!-- 42b solution reveal -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How the smart card works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>int age = 2026 - birthYear;   // computed!
+
+cout &lt;&lt; "====================" &lt;&lt; endl;
+cout &lt;&lt; "  Name:    " &lt;&lt; name &lt;&lt; endl;
+cout &lt;&lt; "  Age:     " &lt;&lt; age  &lt;&lt; endl;
+cout &lt;&lt; "  Initial: " &lt;&lt; name[0] &lt;&lt; endl;
+cout &lt;&lt; "====================" &lt;&lt; endl;</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Age is derived</h3><p>The program does the maths, not the user.</p></div></div>
+      <div class="iconrow"><span class="chip sm orange"><img src="../assets/icons/text_FFFFFF.png"></span><div class="txt"><h3><span class="kw">name[0]</span> = first letter</h3><p>Text is made of characters you can pick out.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/lightbulb_FFFFFF.png"></span><div class="txt"><h3>That's real logic</h3><p>Input → process → output. The heart of every program.</p></div></div>
+    </div>
+  </div>
 </section>
 
 <!-- 43 project connection -->
 <section>
   <span class="kicker green">Project Connection</span>
-  <h2>You just built your project's welcome screen</h2>
-  <p class="fragment fade-up" style="font-size:.8em">That intro card is exactly how the <strong>Study Buddy</strong> and <strong>Gradebook</strong> projects begin — a header that greets the user.</p>
-  <div class="note ok fragment fade-in"><span class="lead">Next lecture</span>we add <strong>variables</strong>, so the card can ask the user's real name and remember it.</div>
+  <h2>You just built a welcome screen</h2>
+  <p class="fragment fade-up" style="font-size:.8em">Almost every program starts with a header that greets the user — whatever project we choose as a class, that intro card is step one.</p>
+  <div class="note ok fragment fade-in"><span class="lead">Next lecture</span>we add <strong>variables</strong>, so the program can ask the user's real name and remember it.</div>
+</section>
+
+<!-- 43b LET'S DESIGN THE PROJECT TOGETHER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Let's Decide <span class="badge">Discussion</span></span>
+  <h2>What should <em>we</em> build this semester?</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.5">
+      <div class="handson-box">
+        <p style="margin-bottom:10px">Talk it through as a class. A good first project is:</p>
+        <ol>
+          <li><strong>Useful</strong> — something you'd actually want to use</li>
+          <li><strong>Simple to start</strong> — runs in the console, text in / text out</li>
+          <li><strong>Growable</strong> — we can add a feature each week</li>
+        </ol>
+        <p style="margin-top:12px;color:#9FB4C7;font-size:.88em">Ideas: a quiz game · a budget tracker · a to-do list · a simple bank · a mini library · a score keeper…</p>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <span class="chip lg orange bob" style="margin-bottom:14px"><img src="../assets/icons/lightbulb_FFFFFF.png"></span>
+      <p style="color:#CADCEC;font-size:.74em">We'll pick one together<br>and build it step by step.</p>
+    </div>
+  </div>
+  <aside class="notes">This is the discussion slot. Gather project ideas from the class, vote, and note the requirements. After class, tell the assistant what was chosen so the capstone brief and later lectures can be tailored to it.</aside>
 </section>
 
 <!-- ============ PART 7 — WRAP UP ============ -->
@@ -702,7 +850,7 @@ int main() {
     <span class="chip lg orange fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/rocket_FFFFFF.png"></span>
     <h1 class="fragment fade-up" style="font-size:1.7em">You wrote your first programs.</h1>
     <p class="fragment fade-in" style="max-width:640px;margin:10px auto 0">That's the hardest step — and you've taken it. See you next lecture.</p>
-    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Lecture 1 · Programming with C++ · Mir Hassan</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
   </div>
 </section>
 
@@ -716,5 +864,6 @@ int main() {
 <script src="../assets/js/live-code.js"></script>
 <script src="../assets/js/activities.js"></script>
 <script src="../assets/js/counter.js"></script>
+<script src="../assets/js/timer.js"></script>
 </body>
 </html>

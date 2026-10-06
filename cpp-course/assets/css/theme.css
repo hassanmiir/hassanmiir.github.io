@@ -231,3 +231,11 @@
 .tbadge{ display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.1);
   border:1px solid #2E4A63; color:#CADCEC; font-size:.5em; font-weight:700; padding:7px 16px;
   border-radius:20px; letter-spacing:1px; }
+
+/* ---------- full course outline grid ---------- */
+.outline-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px 26px; margin-top:16px; }
+.ol{ display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--line);
+  border-radius:12px; padding:11px 16px; box-shadow:0 3px 8px rgba(17,32,46,.05); }
+.ol b{ display:block; font-family:var(--r-main-font); font-size:.62em; color:var(--ink); }
+.ol small{ display:block; font-size:.5em; color:var(--grey); margin-top:1px; }
+.ol .chip.sm{ width:46px; height:46px; }

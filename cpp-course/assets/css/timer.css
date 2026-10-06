@@ -1,0 +1,39 @@
+/* timer.css — activity countdown timer */
+.reveal .timer{
+  display:inline-flex; flex-direction:column; align-items:center; gap:14px;
+  background:rgba(255,255,255,.05); border:1px solid #2E4A63; border-radius:18px;
+  padding:22px 34px; margin:10px 0;
+}
+.reveal .timer .tm-face{
+  font-family:'JetBrains Mono',monospace; font-weight:700; line-height:1;
+  font-size:78px; color:#CFE6FF; letter-spacing:1px;
+  padding:6px 10px; border-radius:12px; transition:color .3s, background .3s, transform .2s;
+}
+.reveal .timer .tm-face.warn .tm-digits{ color:#E0B24C; }
+.reveal .timer .tm-face.danger .tm-digits{ color:#E8776B; }
+.reveal .timer .tm-face.done .tm-digits{ color:#E06C5C; }
+.reveal .timer .tm-face.ring{ animation:tmRing .5s ease 0s 5; }
+@keyframes tmRing{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.08); } }
+
+.reveal .timer .tm-controls{ display:flex; gap:10px; }
+.reveal .timer .tm-btn{
+  font-family:'Inter',sans-serif; font-weight:700; font-size:15px; cursor:pointer;
+  border:none; border-radius:10px; padding:10px 18px; transition:filter .12s, transform .05s;
+}
+.reveal .timer .tm-btn:active{ transform:translateY(1px); }
+.reveal .timer .tm-start{ background:#1E824C; color:#fff; }
+.reveal .timer .tm-start:hover{ filter:brightness(1.12); }
+.reveal .timer .tm-reset{ background:#2b3b4d; color:#cdd9e6; }
+.reveal .timer .tm-reset:hover{ filter:brightness(1.2); }
+.reveal .timer .tm-add{ background:#2E6DA4; color:#fff; }
+.reveal .timer .tm-add:hover{ filter:brightness(1.1); }
+
+/* light-background slides: make the timer card readable too */
+.reveal section:not(.slide-title):not(.slide-handson) .timer{
+  background:#fff; border:1px solid var(--line);
+}
+.reveal section:not(.slide-title):not(.slide-handson) .timer .tm-digits{ color:var(--ink); }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal .timer .tm-face.ring{ animation:none; }
+}

@@ -161,6 +161,15 @@ https://abacus.jasoncameron.dev/get/hassanmiir-cpp-course/lecture1_2026-10-06
 
 (The namespace `hassanmiir-cpp-course` is set in `assets/js/counter.js`.)
 
+
+## Download-PDF button & regenerating the PDF
+
+Each lecture page has a **Download PDF** button (top-right) that downloads
+`lecture1-slides.pdf` — a clean, one-page-per-slide handout. The PDF is a
+**snapshot**, so after you edit slides, regenerate it before pushing, or the
+download will be stale. (Ask the assistant to regenerate it, or render the deck
+to PDF with your own tool. The committed PDF already matches the current deck.)
+
 ## Running it in class
 
 - **Project the deck:** open a lecture, press **F** for fullscreen. Arrow keys
