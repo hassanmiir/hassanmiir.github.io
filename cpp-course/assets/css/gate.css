@@ -1,0 +1,50 @@
+/* gate.css — password overlay for locked lectures */
+.gate-active, .gate-active body { overflow: hidden; }
+
+.gate-overlay{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(130deg,#0b2236,#13324f,#0b2236);
+  background-size:300% 300%; animation:gateBg 16s ease infinite;
+  font-family:'Inter',system-ui,sans-serif;
+}
+@keyframes gateBg{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.gate-overlay.gate-ok{ opacity:0; transition:opacity .4s ease; pointer-events:none; }
+
+.gate-card{
+  width:min(440px,90vw); background:rgba(255,255,255,.04);
+  border:1px solid rgba(93,169,233,.28); border-radius:20px;
+  padding:42px 40px; text-align:center; color:#EAF2FA;
+  box-shadow:0 24px 60px rgba(0,0,0,.4); backdrop-filter:blur(4px);
+}
+.gate-lock{ font-size:46px; margin-bottom:8px; }
+.gate-card h2{ font-family:Georgia,serif; font-size:26px; margin:0 0 8px; color:#fff; }
+.gate-card p{ color:#B9CCDD; font-size:15px; margin:0 0 22px; line-height:1.5; }
+
+.gate-form{ display:flex; gap:10px; }
+.gate-input{
+  flex:1; padding:14px 16px; border-radius:11px; border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06); color:#fff; font-size:16px; outline:none;
+  transition:border-color .15s;
+}
+.gate-input::placeholder{ color:#7f97ac; }
+.gate-input:focus{ border-color:#5DA9E9; }
+.gate-btn{
+  padding:14px 22px; border:none; border-radius:11px; cursor:pointer;
+  background:#1E824C; color:#fff; font-weight:700; font-size:15px; transition:filter .12s;
+}
+.gate-btn:hover{ filter:brightness(1.12); }
+.gate-btn:active{ transform:translateY(1px); }
+
+.gate-msg{ min-height:1.2em; margin-top:16px; color:#E8776B; font-size:14px; font-weight:600; }
+
+.gate-card.shake{ animation:gateShake .4s; }
+@keyframes gateShake{
+  0%,100%{ transform:translateX(0); }
+  20%,60%{ transform:translateX(-8px); }
+  40%,80%{ transform:translateX(8px); }
+}
+@media (prefers-reduced-motion: reduce){
+  .gate-overlay{ animation:none; background:#0F2A43; }
+  .gate-card.shake{ animation:none; }
+}
