@@ -36,7 +36,7 @@
       "handsOn": "Build a program that asks the user's name and age and prints a personalized sentence.",
       "icon": "boxes",
       "password": "cpp-L2",
-      "built": false
+      "built": true
     },
     {
       "id": "lecture3",

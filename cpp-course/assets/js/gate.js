@@ -36,6 +36,18 @@
   // Already unlocked this lecture this session? skip.
   try { if (sessionStorage.getItem(KEY) === "1") { clearPending(); return; } } catch (e) {}
 
+  // PRESENTER shortcut: if the URL carries ?present=<the correct password>,
+  // the instructor has already supplied it — unlock straight through, no retyping.
+  // (Only unlocks when the password actually matches, so it's no weaker than typing it.)
+  try {
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if (pm && decodeURIComponent(pm[1]) === PASS) {
+      try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+      clearPending();
+      return;
+    }
+  } catch (e) {}
+
   function buildOverlay() {
     var o = document.createElement("div");
     o.className = "gate-overlay";

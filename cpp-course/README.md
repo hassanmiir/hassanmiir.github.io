@@ -170,6 +170,34 @@ Each lecture page has a **Download PDF** button (top-right) that downloads
 download will be stale. (Ask the assistant to regenerate it, or render the deck
 to PDF with your own tool. The committed PDF already matches the current deck.)
 
+
+## Follow-the-presenter mode (students can't skip ahead)
+
+So students can't race ahead and see quiz answers, every lecture runs in
+**follow mode**: a student's screen is **locked to the slide YOU are on** and
+auto-advances when you move. They cannot navigate forward on their own.
+
+**How to present:** open the lecture with `?present=<lecture-password>` at the end
+of the URL, e.g.
+
+```
+https://hassanmiir.github.io/cpp-course/lecture2/?present=cpp-L2
+```
+
+- On the **presenter** link you have full control (arrows/clicker work) and a red
+  "Presenting" badge shows. As you change slides, every student's screen follows
+  within ~2 seconds.
+- On the **normal** link (what students scan) they get a "Following the presenter"
+  badge, forward navigation is disabled, and they land exactly where you are.
+  They can still run the live code and answer the quiz on the current slide — they
+  just can't jump ahead.
+- If a student's internet drops, their screen **freezes** on the current slide and
+  resumes following when back online (they can never skip ahead).
+- Switching presenter device? Add `&fresh=1` once (e.g. `?present=cpp-L2&fresh=1`)
+  to re-establish control from the new device.
+
+The sync uses the same free, no-signup service as the counter; nothing to set up.
+
 ## Running it in class
 
 - **Project the deck:** open a lecture, press **F** for fullscreen. Arrow keys

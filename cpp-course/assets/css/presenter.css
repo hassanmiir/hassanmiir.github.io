@@ -1,0 +1,14 @@
+/* presenter.css — status badge for follow-the-presenter sync */
+.sync-badge{
+  position:fixed; left:20px; bottom:40px; z-index:50;
+  font-family:'Inter',system-ui,sans-serif; font-size:12.5px; font-weight:700;
+  padding:7px 14px; border-radius:20px; letter-spacing:.2px;
+  background:rgba(15,42,67,.9); color:#CFE6FF; border:1px solid #2E4A63;
+  box-shadow:0 4px 12px rgba(0,0,0,.18); backdrop-filter:blur(3px);
+  transition:background .2s, color .2s;
+}
+.sync-badge.ok{ background:rgba(30,130,76,.92); color:#fff; border-color:#1E824C; }
+.sync-badge.live{ background:rgba(192,57,43,.92); color:#fff; border-color:#C0392B; }
+.sync-badge.wait{ background:rgba(230,126,34,.92); color:#fff; border-color:#E67E22; }
+.sync-badge.err{ background:rgba(224,108,92,.95); color:#fff; border-color:#E06C5C; }
+@media (max-width:640px){ .sync-badge{ left:10px; bottom:10px; font-size:11px; padding:6px 10px; } }

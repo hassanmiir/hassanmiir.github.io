@@ -1,0 +1,46 @@
+/* explain.css — click-to-reveal explanation bubbles */
+
+/* the tappable word */
+.reveal .xp{
+  cursor:pointer; border-bottom:2px dotted var(--blue,#2E6DA4);
+  padding-bottom:1px; transition:background .12s, color .12s;
+  border-radius:3px;
+}
+.reveal .xp:hover{ background:rgba(46,109,164,.12); }
+.reveal .xp.xp-active{ background:var(--blue,#2E6DA4); color:#fff; border-bottom-color:transparent; }
+/* on dark slides, lighten the underline */
+.reveal .slide-title .xp, .reveal .slide-handson .xp{ border-bottom-color:#6FA8DC; color:inherit; }
+.reveal .slide-title .xp:hover, .reveal .slide-handson .xp:hover{ background:rgba(111,168,220,.2); }
+
+/* a tiny hint icon after the word so students know it's clickable */
+.reveal .xp::after{
+  content:"\00a0?"; font-size:.7em; font-weight:700; color:var(--blue,#2E6DA4);
+  vertical-align:super; opacity:.7;
+}
+.reveal .xp.xp-active::after{ color:#fff; }
+.reveal .slide-title .xp::after, .reveal .slide-handson .xp::after{ color:#6FA8DC; }
+
+/* the bubble */
+.xp-bubble{
+  position:fixed; z-index:9998; max-width:360px;
+  background:#1B2733; color:#EAF2FA; font-family:'Inter',system-ui,sans-serif;
+  font-size:17px; line-height:1.45; font-weight:500;
+  padding:14px 18px; border-radius:12px; border:1px solid #2E4A63;
+  box-shadow:0 14px 34px rgba(0,0,0,.4);
+  opacity:0; transform:translateY(6px) scale(.97);
+  transition:opacity .16s ease, transform .16s cubic-bezier(.2,1.2,.4,1);
+  pointer-events:none;
+}
+.xp-bubble.show{ opacity:1; transform:translateY(0) scale(1); }
+.xp-bubble .xp-arrow{
+  position:absolute; bottom:-8px; width:16px; height:16px;
+  background:#1B2733; border-right:1px solid #2E4A63; border-bottom:1px solid #2E4A63;
+  transform:translateX(-50%) rotate(45deg);
+}
+.xp-bubble.below .xp-arrow{ bottom:auto; top:-8px; border:none;
+  border-left:1px solid #2E4A63; border-top:1px solid #2E4A63;
+  transform:translateX(-50%) rotate(45deg); }
+
+@media (prefers-reduced-motion: reduce){
+  .xp-bubble{ transition:opacity .1s; transform:none; }
+}

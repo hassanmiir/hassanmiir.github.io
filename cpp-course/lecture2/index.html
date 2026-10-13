@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 2 — Variables &amp; Data Types</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/live-code.css">
+<link rel="stylesheet" href="../assets/css/animations.css">
+<link rel="stylesheet" href="../assets/css/timer.css">
+<link rel="stylesheet" href="../assets/css/gate.css">
+<link rel="stylesheet" href="../assets/css/presenter.css">
+<link rel="stylesheet" href="../assets/css/explain.css">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]) === String(lec.password)) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js"></script>
+</head>
+<body data-lecture="lecture2">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture2-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 2</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ PART 0 — WELCOME & RECAP ============ -->
+
+<!-- 0 QR / SCAN-IN -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 2</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox fragment fade-up">hassanmiir.github.io/cpp-course/lecture2</div>
+        <div class="presenter fragment fade-up">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap fragment zoom-in"><img src="lecture2-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter fragment fade-in" data-lecture="lecture2"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students arrive and scan in. Password for this lecture is cpp-L2.</aside>
+</section>
+
+<!-- 1 BIG WELCOME -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 2 · Let's Continue</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">Teaching the computer<br>to <span class="shimmer">remember things</span></h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:16px">Variables &amp; Data Types — the building blocks of our University Portal project.</p>
+    <div class="welcome-badges fragment fade-up">
+      <span class="wbadge"><span class="chip sm bob"><img src="../assets/icons/boxes_FFFFFF.png"></span> Store data</span>
+      <span class="wbadge"><span class="chip sm teal bob"><img src="../assets/icons/calculator_FFFFFF.png"></span> Numbers &amp; text</span>
+      <span class="wbadge"><span class="chip sm red bob"><img src="../assets/icons/keyboard_FFFFFF.png"></span> Ask the user</span>
+      <span class="wbadge"><span class="chip sm green bob"><img src="../assets/icons/graduation_FFFFFF.png"></span> Model a Student</span>
+    </div>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:26px">A 2-hour hands-on session · building toward your project</p>
+  </div>
+  <aside class="notes">Last week: first program. Today: variables — so programs can hold and use data. We frame it around the University Portal both groups are building.</aside>
+</section>
+
+<!-- 2 RECAP OF LECTURE 1 -->
+<section>
+  <span class="kicker">Quick Recap</span>
+  <h2>What we learned last time</h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw">#include</span></h3><p>Load a library</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw">main</span></h3><p>Where it starts</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw">cout</span></h3><p>Print to screen</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw">;</span></h3><p>Ends a statement</p></div>
+  </div>
+  <div class="note tip fragment fade-in"><span class="lead">The gap</span>Last time our program could only print <em>fixed</em> text. It couldn't remember a name, a score, or a number. Today we fix that.</div>
+</section>
+
+<!-- 3 THE PROJECT CONNECTION -->
+<section>
+  <span class="kicker green">Why This Matters</span>
+  <h2>Our project needs to remember things</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">Your <strong>University Portal</strong> stores a lot of information:</p>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/graduation_FFFFFF.png"></span><div class="txt"><h3>A Student</h3><p>name, student number, year of study, GPA…</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/boxes_FFFFFF.png"></span><div class="txt"><h3>A Course</h3><p>course code, title, credits, semester…</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>A Grade</h3><p>marks, feedback, pass or fail…</p></div></div>
+    </div>
+    <div class="col center"><span class="chip lg green fragment zoom-in"><img src="../assets/icons/database_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.72em">Every one of these is <strong>data</strong> stored in <strong>variables</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3b TWO PROJECT TRACKS -->
+<section>
+  <span class="kicker green">Our Two Projects</span>
+  <h2>Both groups build the <span class="xp" data-tip="A University Portal: students, courses, assignments, grades and attendance — the system you drew in your UML diagrams.">University Portal</span></h2>
+  <p class="fragment fade-in" style="font-size:.76em">Same system, two focuses. Each group owns one side — then they connect.</p>
+  <div class="cards two" style="margin-top:14px">
+    <div class="card fragment fade-up" style="border-top:4px solid var(--blue)">
+      <span class="chip"><img src="../assets/icons/graduation_FFFFFF.png"></span>
+      <h3>Group A — Student &amp; Courses</h3>
+      <p>Registration &amp; login, enrolling in courses, viewing your courses, attendance. Centred on the <strong>Student</strong> and <strong>Enrollment</strong>.</p>
+    </div>
+    <div class="card fragment fade-up" style="border-top:4px solid var(--green)">
+      <span class="chip green"><img src="../assets/icons/pen_FFFFFF.png"></span>
+      <h3>Group B — Teaching &amp; Grades</h3>
+      <p>Creating assignments, collecting submissions, grading &amp; feedback, class reports. Centred on the <strong>Lecturer</strong> and <strong>Grade</strong>.</p>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em"><span class="lead">Today is shared</span>Both projects start from the same building block: storing a <strong>Student</strong> and a <strong>Course</strong> in variables. That's what we build now.</div>
+</section>
+
+<!-- 4 TODAY'S ROADMAP -->
+<section>
+  <span class="kicker orange">Today's Plan</span>
+  <h2>What you'll be able to do</h2>
+  <div class="cards four">
+    <div class="card fragment fade-up"><span class="chip"><img src="../assets/icons/boxes_FFFFFF.png"></span><h3>Variables</h3><p>Create named boxes that hold data.</p></div>
+    <div class="card fragment fade-up"><span class="chip teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><h3>Data types</h3><p>Pick int, double, char, bool, text.</p></div>
+    <div class="card fragment fade-up"><span class="chip red"><img src="../assets/icons/keyboard_FFFFFF.png"></span><h3>Input</h3><p>Read what the user types with cin.</p></div>
+    <div class="card fragment fade-up"><span class="chip green"><img src="../assets/icons/graduation_FFFFFF.png"></span><h3>Model a Student</h3><p>Combine it all into a real record.</p></div>
+  </div>
+  <div class="note tip fragment fade-in"><span class="lead">Look for this</span>The dark boxes with a green <strong>▶ Run</strong> button are yours — type and run real C++, right in the slide.</div>
+</section>
+
+<!-- ============ PART 1 — WHAT IS A VARIABLE ============ -->
+
+<!-- 5 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>What is a variable?</h2>
+      <p class="ph-sub">A named box where your program keeps a piece of data.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/boxes_FFFFFF.png"></span> A box with a name and a value</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/pen_FFFFFF.png"></span> Declare it, then use it anywhere</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Your first variable — live!</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/memory_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 6 the box analogy -->
+<section>
+  <span class="kicker">The Big Idea</span>
+  <h2>A variable is a labelled box</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.84em">Think of the computer's memory as a wall of boxes. A <strong>variable</strong> is one box that:</p>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/tag_FFFFFF.png"></span><div class="txt"><h3>Has a name</h3><p>So you can find it again — like <span class="kw">age</span> or <span class="kw">gpa</span>.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/boxes_FFFFFF.png"></span><div class="txt"><h3>Holds a value</h3><p>The data inside — like <span class="kw">20</span> or <span class="kw">3.75</span>.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/exchange_FFFFFF.png"></span><div class="txt"><h3>Can change</h3><p>That's why it's "variable" — the value can vary.</p></div></div>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/boxes_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.68em"><span class="kw">age</span> &rarr; [ 20 ]</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 declaring a variable -->
+<section>
+  <span class="kicker">Syntax</span>
+  <h2>How to make one</h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>int age = 20;</code></pre>
+  <div class="cards" style="margin-top:14px">
+    <div class="card fragment fade-up"><h3><span class="kw">int</span></h3><p>The <strong>type</strong> — what kind of data (a whole number).</p></div>
+    <div class="card fragment fade-up"><h3><span class="kw">age</span></h3><p>The <strong>name</strong> — how you refer to the box.</p></div>
+    <div class="card fragment fade-up"><h3><span class="kw">= 20</span></h3><p>The <strong>value</strong> — what goes inside.</p></div>
+  </div>
+  <div class="note fragment fade-in"><span class="lead">Read it as</span>"Make an integer box called age, and put 20 in it."</div>
+</section>
+
+<!-- 8 using a variable -->
+<section>
+  <span class="kicker">Using It</span>
+  <h2>Once it has a name, use it anywhere</h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>int age = 20;
+cout << "You are " << age << " years old." << endl;
+age = 21;                       // change the value
+cout << "Next year: " << age << endl;</code></pre>
+  <div class="note ok fragment fade-in"><span class="lead">Output</span>You are 20 years old.<br>Next year: 21</div>
+</section>
+
+<!-- 9 *** LIVE CODE #1 *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Your first variable</h2>
+  <p style="font-size:.66em" class="muted">Run it. Then change the number, and add a second variable of your own.</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int studentNumber = 1024;
+    cout << "Student number: " << studentNumber << endl;
+    return 0;
+}
+  </div>
+</section>
+
+<!-- ============ PART 2 — DATA TYPES ============ -->
+
+<!-- 10 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2>The main data types</h2>
+      <p class="ph-sub">Different data needs different boxes.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/hashtag_FFFFFF.png"></span> int &amp; double — numbers</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/font_FFFFFF.png"></span> char &amp; text — letters and words</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/toggleOn_FFFFFF.png"></span> bool — true or false</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/boxes_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 11 the five types overview -->
+<section>
+  <span class="kicker teal">Data Types</span>
+  <h2>Five types you'll use all the time</h2>
+  <div class="outline-grid">
+    <div class="ol fragment fade-up"><span class="chip sm"><img src="../assets/icons/hashtag_FFFFFF.png"></span><div><b>int</b><small>Whole numbers: 20, -5, 1024</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div><b>double</b><small>Decimals: 3.75, 99.9</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/font_FFFFFF.png"></span><div><b>char</b><small>One letter: 'A', 'B', 'F'</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><div><b>bool</b><small>true or false</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm green"><img src="../assets/icons/text_FFFFFF.png"></span><div><b>string</b><small>Words &amp; names: "Sara Khan"</small></div></div>
+    <div class="ol fragment fade-up"><span class="chip sm bluedark"><img src="../assets/icons/graduation_FFFFFF.png"></span><div><b>Together</b><small>= one Student record</small></div></div>
+  </div>
+</section>
+
+<!-- 12 int and double -->
+<section>
+  <span class="kicker">Numbers</span>
+  <h2><span class="kw">int</span> vs <span class="kw">double</span></h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>int credits = 6;        // whole number — no decimals
+double gpa = 3.75;      // decimal number
+int year = 2;
+double tuition = 1499.99;</code></pre>
+  <div class="cards two" style="margin-top:12px">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/hashtag_FFFFFF.png"></span><h3>Use int for…</h3><p>Counts: credits, year of study, number of students.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><h3>Use double for…</h3><p>Measurements: GPA, average mark, money.</p></div>
+  </div>
+</section>
+
+<!-- 13 char and bool -->
+<section>
+  <span class="kicker">Letters &amp; Yes/No</span>
+  <h2><span class="kw xp" data-tip="char = 'character'. It stores exactly ONE letter or symbol, written in single quotes like 'A' or 'F'. Great for a single grade letter.">char</span> and <span class="kw xp" data-tip="bool = 'boolean'. It stores only true or false — a yes/no switch. Perfect for 'is the student enrolled?'">bool</span></h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>char grade = 'A';          // ONE character, in single quotes
+bool isEnrolled = true;    // only true or false</code></pre>
+  <div class="cards two" style="margin-top:12px">
+    <div class="card fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/font_FFFFFF.png"></span><h3><span class="kw">char</span></h3><p>A single letter or symbol. Single quotes: <span class="kw">'A'</span>, not <span class="kw">"A"</span>.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><h3><span class="kw">bool</span></h3><p>A yes/no switch. Perfect for "is the student enrolled?"</p></div>
+  </div>
+  <p class="muted fragment fade-in" style="font-size:.6em;margin-top:8px">💡 Tip: click the <span class="xp" data-tip="Clickable words have a dotted underline and a small ? — click to reveal a short explanation.">underlined words</span> above for a quick explanation.</p>
+</section>
+
+<!-- 14 *** LIVE CODE #2 — all the types *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Experiment</span></span>
+  <h2>One student, four types</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change the values to describe <em>yourself</em> as a student.</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int    studentNumber = 1024;
+    int    yearOfStudy   = 2;
+    double gpa           = 3.75;
+    char   grade         = 'A';
+    bool   enrolled      = true;
+
+    cout << "Number:   " << studentNumber << endl;
+    cout << "Year:     " << yearOfStudy << endl;
+    cout << "GPA:      " << gpa << endl;
+    cout << "Grade:    " << grade << endl;
+    cout << "Enrolled: " << enrolled << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Point out: enrolled prints as 1 (true) or 0 (false) — that's normal. We'll make it print "Yes/No" in a later lecture with if/else.</aside>
+</section>
+
+<!-- ============ PART 3 — TEXT & STRINGS ============ -->
+
+<!-- 15 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 3</span>
+      <h2>Storing text</h2>
+      <p class="ph-sub">Names, titles, feedback — a Portal is full of text.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/font_FFFFFF.png"></span> A word in a char[] box</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/text_FFFFFF.png"></span> std::string — the better way</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Store a student's name — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/text_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 16 text with char[] -->
+<section>
+  <span class="kicker">Text</span>
+  <h2>A word fits in a <span class="kw">char[]</span> box</h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>char name[40] = "Sara";
+cout << "Student: " << name << endl;</code></pre>
+  <p class="fragment fade-up" style="font-size:.78em">A <span class="kw">char[40]</span> is a box that holds up to 40 characters — enough for a name. The <span class="kw">[40]</span> is the maximum size.</p>
+  <div class="note ok fragment fade-in"><span class="lead">Output</span>Student: Sara</div>
+</section>
+
+<!-- 17 std::string the better way -->
+<section>
+  <span class="kicker teal">The Better Way</span>
+  <h2>Meet <span class="kw">std::string</span></h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>#include &lt;string&gt;              // needed for string
+using namespace std;
+
+string name = "Sara Khan";     // holds a whole name, any length
+string course = "Software Engineering";</code></pre>
+  <div class="cards two" style="margin-top:12px">
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/text_FFFFFF.png"></span><h3>Any length</h3><p>No fixed <span class="kw">[40]</span> — it grows to fit the text.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/pen_FFFFFF.png"></span><h3>Easy to use</h3><p>Join, compare, and measure text simply. We'll go deep in Lecture 8.</p></div>
+  </div>
+  <div class="note tip fragment fade-in"><span class="lead">In class</span>The quick in-slide runner uses <span class="kw">char[]</span>; in your full compiler (OnlineGDB) use <span class="kw">string</span> — that's what our project will use.</div>
+</section>
+
+<!-- 18 *** LIVE CODE #3 — name with char[] *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Store a student's name</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change the name and add the student's <span class="kw">program</span> (e.g. "SoftwareEng").</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    char name[40]    = "Sara";
+    int  studentNo   = 1024;
+    double gpa       = 3.75;
+
+    cout << "=== Student Card ===" << endl;
+    cout << "Name:    " << name << endl;
+    cout << "Number:  " << studentNo << endl;
+    cout << "GPA:     " << gpa << endl;
+    return 0;
+}
+  </div>
+</section>
+
+<!-- ============ PART 4 — INPUT FROM THE USER ============ -->
+
+<!-- 19 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 4</span>
+      <h2>Asking the user</h2>
+      <p class="ph-sub">A Portal is only useful if real people can enter their data.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/keyboard_FFFFFF.png"></span> Read input with cin &gt;&gt;</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/exchange_FFFFFF.png"></span> cout sends out, cin brings in</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> A live registration form</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/keyboard_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 20 cin basics -->
+<section>
+  <span class="kicker">Input</span>
+  <h2>Read input with <span class="kw">cin</span></h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>int age;
+cout << "Enter your age: ";
+cin >> age;                      // store what they type into age
+cout << "You are " << age << endl;</code></pre>
+  <div class="cards two" style="margin-top:12px">
+    <div class="card fragment fade-up"><h3><span class="kw">cout &lt;&lt;</span></h3><p>Arrows point OUT — send to the screen.</p></div>
+    <div class="card fragment fade-up"><h3><span class="kw">cin &gt;&gt;</span></h3><p>Arrows point IN — read into a variable.</p></div>
+  </div>
+</section>
+
+<!-- 21 reading several values -->
+<section>
+  <span class="kicker">Input</span>
+  <h2>Read several values at once</h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>char name[40];
+int  year;
+cout << "Name and year of study: ";
+cin >> name >> year;
+cout << name << " is in year " << year << endl;</code></pre>
+  <p class="fragment fade-up" style="font-size:.76em">Chain <span class="kw">&gt;&gt;</span> to read several things in order. The user types them separated by spaces.</p>
+</section>
+
+<!-- 22 *** LIVE CODE #4 — registration form *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Interactive</span></span>
+  <h2>A mini registration form</h2>
+  <p style="font-size:.62em" class="muted">The input box is pre-filled (Sara 2 3.75). Run it — then change the welcome message.</p>
+  <div class="live-code" data-stdin="Sara 2 3.75">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    char name[40];
+    int  year;
+    double gpa;
+
+    cout << "Enter name, year, GPA: ";
+    cin >> name >> year >> gpa;
+
+    cout << "--- Welcome to the Portal ---" << endl;
+    cout << name << " (Year " << year << ", GPA " << gpa << ")" << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Explain the stdin box simulates the user typing. On their own machine / OnlineGDB they type it live. Order matters: name, then year, then gpa.</aside>
+</section>
+
+<!-- ============ PART 5 — RULES & GOOD HABITS ============ -->
+
+<!-- 23 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 5</span>
+      <h2>Rules &amp; good habits</h2>
+      <p class="ph-sub">A few things that save you from bugs.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span> Match the type to the data</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/tag_FFFFFF.png"></span> Name variables clearly</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/lock2_FFFFFF.png"></span> const — values that never change</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg red bob"><img src="../assets/icons/ruler_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 24 the int division trap -->
+<section>
+  <span class="kicker red">Watch Out</span>
+  <h2>The whole-number trap</h2>
+  <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+  <pre><code class="language-cpp" data-trim data-line-numbers>int total = 7;
+int count = 2;
+cout << total / count << endl;     // prints 3, not 3.5 !</code></pre>
+  <div class="note warn fragment fade-in"><span class="lead">Why?</span>Two <span class="kw">int</span>s divide as whole numbers — the <span class="kw">.5</span> is thrown away. For an average GPA, use <span class="kw">double</span>.</div>
+  <p class="fragment fade-up muted" style="font-size:.72em">Fix: make at least one a <span class="kw">double</span> &rarr; <span class="kw">7.0 / 2</span> gives <span class="kw">3.5</span>.</p>
+</section>
+
+<!-- 25 naming + const -->
+<section>
+  <span class="kicker">Good Habits</span>
+  <h2>Clear names &amp; <span class="kw">const</span></h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/tag_FFFFFF.png"></span><div class="txt"><h3>Name for meaning</h3><p><span class="kw">gpa</span> and <span class="kw">yearOfStudy</span> beat <span class="kw">x</span> and <span class="kw">y</span>. Future-you will thank you.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/lock2_FFFFFF.png"></span><div class="txt"><h3><span class="kw">const</span> = never changes</h3><p><span class="kw">const int PASS_MARK = 50;</span> — a value fixed for the whole program.</p></div></div>
+  <div class="note tip fragment fade-in"><span class="lead">In our project</span>Things like the pass mark or max credits are <span class="kw">const</span> — set once, used everywhere.</div>
+</section>
+
+<!-- 26 *** QUIZ — pick the type *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>Which type for a student's GPA?</h2>
+  <div class="quiz">
+    <div class="opts">
+      <div class="opt fragment fade-up" data-correct="0" data-msg="int can't hold 3.75 — the .75 would be lost."><span class="key">A</span> <span class="kw">int</span></div>
+      <div class="opt fragment fade-up" data-correct="1" data-msg="Correct! GPA has decimals, so double is right."><span class="key">B</span> <span class="kw">double</span></div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="char holds one letter, not a number."><span class="key">C</span> <span class="kw">char</span></div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="bool is only true/false."><span class="key">D</span> <span class="kw">bool</span></div>
+    </div>
+    <div class="verdict"></div>
+  </div>
+</section>
+
+<!-- 27 *** QUIZ — predict output *** -->
+<section>
+  <span class="kicker orange">Predict the Output <span class="badge">Think!</span></span>
+  <h2>What prints?</h2>
+  <pre><code class="language-cpp" data-trim>int credits = 6;
+credits = credits + 3;
+cout << credits;</code></pre>
+  <div class="quiz">
+    <div class="opts">
+      <div class="opt fragment fade-up" data-correct="0"><span class="key">A</span> 6</div>
+      <div class="opt fragment fade-up" data-correct="1" data-msg="Yes! credits becomes 6 + 3 = 9."><span class="key">B</span> 9</div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="It's not glued as text — these are numbers, so they add."><span class="key">C</span> 63</div>
+    </div>
+    <div class="verdict"></div>
+  </div>
+</section>
+
+<!-- ============ PART 6 — HANDS-ON: MODEL A STUDENT ============ -->
+
+<!-- 28 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 6</span>
+      <h2>Build it: a Student record</h2>
+      <p class="ph-sub">Put every type together — the first real piece of the Portal.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/graduation_FFFFFF.png"></span> Model one student with all types</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/calculator_FFFFFF.png"></span> Compute something from the data</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 29 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>The Student Record Card</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Build a program that stores a full student and prints a tidy card:</p>
+        <ol style="font-size:.9em">
+          <li>Store <b>name</b>, <b>student number</b>, <b>year</b>, and two test marks.</li>
+          <li><span style="color:#E8B98A">Think:</span> compute the <b>average</b> of the two marks — as a <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">double</span>!</li>
+          <li><span style="color:#E8B98A">Trickier:</span> a <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">bool passed</span> — did they average 50+?</li>
+          <li>Print it all inside a bordered card.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">The catch</span>Use <span class="kw">(m1 + m2) / 2.0</span> — the <span class="kw">.0</span> keeps the decimals. That's the whole-number trap from earlier!</div>
+</section>
+
+<!-- 30 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your Student Record Card</h2>
+  <p style="font-size:.58em" class="muted">Starter stores the data. <strong>You add</strong> the average and the pass check. (Input pre-filled: Sara 1024 2 80 60)</p>
+  <div class="live-code" data-stdin="Sara 1024 2 80 60">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    char name[40];
+    int  number, year, mark1, mark2;
+    cin >> name >> number >> year >> mark1 >> mark2;
+
+    // TODO 1: double average = (mark1 + mark2) / 2.0;
+    // TODO 2: bool passed = average >= 50;   (we'll print it next lecture)
+
+    cout << "==== STUDENT RECORD ====" << endl;
+    cout << "Name:    " << name << endl;
+    cout << "Number:  " << number << endl;
+    cout << "Year:    " << year << endl;
+    // print the average here
+    cout << "========================" << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Solution on next slide. Let pairs struggle with the /2.0 detail. Invite 2-3 pairs to demo their card.</aside>
+</section>
+
+<!-- 31 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How the record works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.44em"><code class="language-cpp" data-trim>double average = (mark1 + mark2) / 2.0;  // decimals kept
+bool passed = average >= 50;
+
+cout << "==== STUDENT RECORD ====" << endl;
+cout << "Name:    " << name << endl;
+cout << "Number:  " << number << endl;
+cout << "Year:    " << year << endl;
+cout << "Average: " << average << endl;
+cout << "========================" << endl;</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3><span class="kw">/ 2.0</span> keeps decimals</h3><p>80 and 60 average to 70.0, not 70 by luck.</p></div></div>
+      <div class="iconrow"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><div class="txt"><h3><span class="kw">bool passed</span></h3><p>A comparison gives true/false — the seed of decisions (Lecture 4).</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/graduation_FFFFFF.png"></span><div class="txt"><h3>That's a real record</h3><p>Group A's <strong>Student</strong> and Group B's gradebook row both start exactly here.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 7 — YOUR PROJECTS (University Portal) ============ -->
+
+<!-- P1 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#6FA8DC">PART 7</span>
+      <h2>Now: your two projects</h2>
+      <p class="ph-sub">You can store data. Let's turn that into the <span class="xp" data-tip="The one system both groups are building together: students, courses, assignments, grades and attendance — a real university management tool.">University Portal</span> you're building.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/graduation_FFFFFF.png"></span> Group A — Students &amp; Courses</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/pen_FFFFFF.png"></span> Group B — Teaching &amp; Grades</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/link_FFFFFF.png"></span> Every box above = variables you can write today</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/server_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- P2 the one system -->
+<section>
+  <span class="kicker">The Big Picture</span>
+  <h2>One Portal, two halves</h2>
+  <p style="font-size:.74em" class="muted">The same system seen from two sides. Each group owns one half — and they share the Student and the Course.</p>
+  <div class="row top" style="margin-top:6px">
+    <div class="col">
+      <div class="handson-box" style="background:rgba(46,109,164,.1);border:1px solid #BcD4E8;border-left:5px solid #2E6DA4;color:#1B2A38">
+        <h3 style="color:#2E6DA4;margin-bottom:6px"><img src="../assets/icons/graduation_2C3E50.png" style="height:.9em;vertical-align:-2px"> Group A — the student's side</h3>
+        <p style="font-size:.74em;color:#3A4A5A">Register, log in, browse &amp; enrol in courses, see your timetable, mark attendance.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="handson-box" style="background:rgba(30,130,76,.1);border:1px solid #BfDCCB;border-left:5px solid #1E824C;color:#1B2A38">
+        <h3 style="color:#1E824C;margin-bottom:6px"><img src="../assets/icons/pen_2C3E50.png" style="height:.9em;vertical-align:-2px"> Group B — the lecturer's side</h3>
+        <p style="font-size:.74em;color:#3A4A5A">Create assignments, collect submissions, grade them, give feedback, print class reports.</p>
+      </div>
+    </div>
+  </div>
+  <div class="note ok fragment fade-in" style="margin-top:12px"><span class="lead">The shared core</span>Both halves revolve around the same two things: a <strong>Student</strong> and a <strong>Course</strong>. That's exactly what you modelled a minute ago.</div>
+</section>
+
+<!-- ============ GROUP A ============ -->
+
+<!-- P3 Group A overview -->
+<section data-background-color="#122c48">
+  <span class="kicker" style="color:#6FA8DC">Group A · Student &amp; Courses</span>
+  <h2 style="color:#fff">What Group A is building</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)"><span class="chip sm"><img src="../assets/icons/idcard_FFFFFF.png"></span><h3 style="color:#fff">The student experience</h3><p style="color:#C7D6E5">A student signs up, logs in, finds courses, enrols, and checks their attendance — all from the console.</p></div>
+    <div class="card fragment fade-up" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)"><span class="chip sm teal"><img src="../assets/icons/clipboard_FFFFFF.png"></span><h3 style="color:#fff">What it must remember</h3><p style="color:#C7D6E5">Students, the courses on offer, who enrolled in what, and each day's attendance.</p></div>
+  </div>
+  <div class="note fragment fade-in" style="margin-top:10px;background:rgba(111,168,220,.14);border-color:#6FA8DC;color:#DCEAF7"><span class="lead" style="color:#fff">From your diagrams</span>Your class diagram already names these. Let's turn each class into variables you can write today.</div>
+</section>
+
+<!-- P4 Group A classes -->
+<section>
+  <span class="kicker" style="color:#2E6DA4">Group A · Your Classes</span>
+  <h2>Four things to model</h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><span class="chip sm"><img src="../assets/icons/graduation_FFFFFF.png"></span><h3>Student</h3><p>name, number, year, GPA</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/book_FFFFFF.png"></span><h3>Course</h3><p>code, title, credits, seats</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/link_FFFFFF.png"></span><h3>Enrollment</h3><p>which student, which course</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><h3>Attendance</h3><p>present today? yes / no</p></div>
+  </div>
+  <div class="note tip fragment fade-in"><span class="lead">The pattern</span>Each "class" is really a <strong>group of variables</strong> that belong together. Today: the variables. Lecture 9: bundling them into a real class.</div>
+</section>
+
+<!-- P5 Group A: a Student in variables -->
+<section>
+  <span class="kicker green">Group A · In Code</span>
+  <h2>A Student — as variables</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>// one student, using today's types
+string name   = "Sara Khan";   // text
+int    number = 1024;          // whole number
+int    year   = 2;             // year of study
+double gpa    = 3.75;          // decimals
+bool   active = true;          // enrolled now?</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/font_FFFFFF.png"></span><div class="txt"><h3><span class="kw">string</span> name</h3><p>Any text — in the full compiler.</p></div></div>
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/hashtag_FFFFFF.png"></span><div class="txt"><h3><span class="kw">int</span> number, year</h3><p>Counts — no decimals needed.</p></div></div>
+      <div class="iconrow"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><div class="txt"><h3><span class="kw">bool</span> active</h3><p>A yes/no flag — the start of real logic.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- P6 Group A: a Course in variables -->
+<section>
+  <span class="kicker green">Group A · In Code</span>
+  <h2>A Course — as variables</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>string code    = "CS101";      // course code
+string title   = "Intro to C++";
+int    credits = 6;            // ECTS credits
+int    seats   = 30;           // places available
+bool   isOpen  = true;         // can students still enrol?</code></pre>
+    </div>
+    <div class="col center" style="flex:.9">
+      <span class="chip lg teal bob"><img src="../assets/icons/book_FFFFFF.png"></span>
+      <div class="note tip" style="margin-top:14px;font-size:.62em"><span class="lead">Notice</span>Same five types, different meaning. That's the whole trick — pick the type that fits the data.</div>
+    </div>
+  </div>
+</section>
+
+<!-- P7 Group A sequence / user journey -->
+<section>
+  <span class="kicker" style="color:#2E6DA4">Group A · The User's Journey</span>
+  <h2>What happens when a student enrols</h2>
+  <p style="font-size:.66em" class="muted">Your <strong>sequence diagram</strong> is just this story, step by step. Each step reads or changes a variable.</p>
+  <div class="steps-flow">
+    <div class="iconrow fragment fade-right"><span class="chip sm"><img src="../assets/icons/idcard_FFFFFF.png"></span><div class="txt"><h3>1 · Log in</h3><p>Check the student's <span class="kw">number</span> and password.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/book_FFFFFF.png"></span><div class="txt"><h3>2 · Browse courses</h3><p>Show each Course where <span class="kw">isOpen == true</span> and <span class="kw">seats &gt; 0</span>.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/link_FFFFFF.png"></span><div class="txt"><h3>3 · Enrol</h3><p>Make an Enrollment, and do <span class="kw">seats = seats - 1</span>.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>4 · Mark attendance</h3><p>Each class: set <span class="kw">bool present</span> for the day.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ GROUP B ============ -->
+
+<!-- P8 Group B overview -->
+<section data-background-color="#113524">
+  <span class="kicker" style="color:#6FD6A6">Group B · Teaching &amp; Grades</span>
+  <h2 style="color:#fff">What Group B is building</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)"><span class="chip sm green"><img src="../assets/icons/pen_FFFFFF.png"></span><h3 style="color:#fff">The lecturer experience</h3><p style="color:#C7E5D4">A lecturer creates an assignment, students submit, the lecturer grades each one and gives feedback.</p></div>
+    <div class="card fragment fade-up" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)"><span class="chip sm orange"><img src="../assets/icons/chartbar_FFFFFF.png"></span><h3 style="color:#fff">What it must remember</h3><p style="color:#C7E5D4">Assignments, every submission, the grade and feedback, and a class report at the end.</p></div>
+  </div>
+  <div class="note fragment fade-in" style="margin-top:10px;background:rgba(111,214,166,.14);border-color:#6FD6A6;color:#DCF2E7"><span class="lead" style="color:#fff">From your diagrams</span>Your class diagram names the Lecturer, Assignment, Submission and Grade. Same move — classes become variables.</div>
+</section>
+
+<!-- P9 Group B classes -->
+<section>
+  <span class="kicker green">Group B · Your Classes</span>
+  <h2>Four things to model</h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><span class="chip sm green"><img src="../assets/icons/pen_FFFFFF.png"></span><h3>Lecturer</h3><p>name, staff ID</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm"><img src="../assets/icons/clipboard_FFFFFF.png"></span><h3>Assignment</h3><p>title, max marks, due</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/save_FFFFFF.png"></span><h3>Submission</h3><p>which student, when</p></div>
+    <div class="card center fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/percent_FFFFFF.png"></span><h3>Grade</h3><p>marks, feedback, pass?</p></div>
+  </div>
+  <div class="note tip fragment fade-in"><span class="lead">Same pattern</span>A Grade is just: a <span class="kw">double</span> mark, a <span class="kw">string</span> feedback, and a <span class="kw">bool</span> passed. You can write that <em>now</em>.</div>
+</section>
+
+<!-- P10 Group B: an Assignment in variables -->
+<section>
+  <span class="kicker green">Group B · In Code</span>
+  <h2>An Assignment — as variables</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>string title    = "Lab 1: Hello World";
+string course   = "CS101";
+int    maxMarks = 100;         // out of 100
+int    weight   = 10;          // % of final grade
+bool   isOpen   = true;        // still accepting work?</code></pre>
+    </div>
+    <div class="col center" style="flex:.9">
+      <span class="chip lg bob"><img src="../assets/icons/clipboard_FFFFFF.png"></span>
+      <div class="note tip" style="margin-top:14px;font-size:.62em"><span class="lead">Tie-in</span><span class="kw">course = "CS101"</span> is the <strong>same</strong> code Group A used. That's where the two halves meet.</div>
+    </div>
+  </div>
+</section>
+
+<!-- P11 Group B: a Grade in variables -->
+<section>
+  <span class="kicker green">Group B · In Code</span>
+  <h2>A Grade — as variables</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>int    studentNo = 1024;       // whose grade
+double marks     = 82.5;       // the score (decimals!)
+string feedback  = "Great work, tidy code.";
+bool   passed    = marks &gt;= 50;  // automatic pass check</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm orange"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3><span class="kw">double</span> marks</h3><p>82.5 — the <span class="kw">/2.0</span> lesson, for real.</p></div></div>
+      <div class="iconrow"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><div class="txt"><h3><span class="kw">bool</span> passed</h3><p>A comparison fills it in — no typing yes/no.</p></div></div>
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/quote_FFFFFF.png"></span><div class="txt"><h3><span class="kw">string</span> feedback</h3><p>Text back to the student.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- P12 Group B sequence / user journey -->
+<section>
+  <span class="kicker green">Group B · The User's Journey</span>
+  <h2>What happens when work is graded</h2>
+  <p style="font-size:.66em" class="muted">Your sequence diagram, in four steps — each one touches a variable.</p>
+  <div class="steps-flow">
+    <div class="iconrow fragment fade-right"><span class="chip sm"><img src="../assets/icons/clipboard_FFFFFF.png"></span><div class="txt"><h3>1 · Create assignment</h3><p>Set <span class="kw">title</span>, <span class="kw">maxMarks</span>, <span class="kw">isOpen = true</span>.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/save_FFFFFF.png"></span><div class="txt"><h3>2 · Student submits</h3><p>Record a Submission with the student's <span class="kw">number</span>.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>3 · Grade it</h3><p>Set <span class="kw">marks</span>, then <span class="kw">passed = marks &gt;= 50</span>.</p></div></div>
+    <div class="iconrow fragment fade-right"><span class="chip sm green"><img src="../assets/icons/chartbar_FFFFFF.png"></span><div class="txt"><h3>4 · Class report</h3><p>Average all <span class="kw">marks</span> — a <span class="kw">double</span>, of course.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ WHERE THEY MEET ============ -->
+
+<!-- P13 the handshake -->
+<section data-background-color="#0F2A43" class="slide-handson">
+  <span class="kicker">Both Groups</span>
+  <h2>Where your two projects meet</h2>
+  <div class="row top" style="margin-top:6px">
+    <div class="col center" style="flex:1">
+      <span class="chip lg bob"><img src="../assets/icons/graduation_FFFFFF.png"></span>
+      <p style="color:#9DB4CC;font-size:.62em;margin-top:8px">Group A owns the <strong>Student</strong></p>
+    </div>
+    <div class="col center" style="flex:.5"><span class="chip lg orange bob"><img src="../assets/icons/link_FFFFFF.png"></span></div>
+    <div class="col center" style="flex:1">
+      <span class="chip lg green bob"><img src="../assets/icons/percent_FFFFFF.png"></span>
+      <p style="color:#9DB4CC;font-size:.62em;margin-top:8px">Group B gives it a <strong>Grade</strong></p>
+    </div>
+  </div>
+  <div class="note ok fragment fade-in" style="margin-top:14px"><span class="lead">The shared key</span>A student's <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">number</span> and a course <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">code</span> link the two halves. If both groups use the same names, your Portals snap together.</div>
+</section>
+
+<!-- P14 variables → classes bridge -->
+<section>
+  <span class="kicker orange">The Road Ahead</span>
+  <h2>From loose variables to a real class</h2>
+  <div class="row top">
+    <div class="col">
+      <p style="font-size:.7em" class="muted">Today each thing is separate variables. Soon you'll bundle them so one <span class="kw">Student</span> carries all its data at once:</p>
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>struct Student {
+    string name;
+    int    number;
+    double gpa;
+    bool   active;
+};  // Lecture 9 — don't worry yet!</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/cube_FFFFFF.png"></span><div class="txt"><h3>Lecture 9</h3><p>Structs &amp; objects — bundle the variables.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/list_FFFFFF.png"></span><div class="txt"><h3>Lecture 7</h3><p>Vectors — a <em>list</em> of students, not just one.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/save_FFFFFF.png"></span><div class="txt"><h3>Lecture 10</h3><p>Files — save the Portal so it remembers.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- P15 your task this week -->
+<section>
+  <span class="kicker green">This Week · Both Groups</span>
+  <h2>Your task before we build more</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/listOl_FFFFFF.png"></span><h3>1 · List your variables</h3><p>For each class in your diagram, write down every piece of data and pick its C++ type (int / double / char / bool / string).</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/pen_FFFFFF.png"></span><h3>2 · Code one object</h3><p>Pick your main class (Student for A, Assignment for B) and store one real example in variables — like we just did.</p></div>
+  </div>
+  <div class="cards two" style="margin-top:12px">
+    <div class="card fragment fade-up"><span class="chip sm orange"><img src="../assets/icons/exchange_FFFFFF.png"></span><h3>3 · Agree on shared names</h3><p>Both groups: settle on <span class="kw">number</span> for a student and <span class="kw">code</span> for a course, so your halves connect.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm green"><img src="../assets/icons/folder_FFFFFF.png"></span><h3>4 · Save it</h3><p>Keep the file — it's the first real brick of your Portal.</p></div>
+  </div>
+</section>
+
+<!-- P16 discussion / talk to me -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Let's Talk <span class="badge">Open floor</span></span>
+  <h2>Project discussion</h2>
+  <p style="color:#C7D6E5;font-size:.68em;margin-bottom:6px">Bring your diagrams up. Let's go through these together:</p>
+  <div class="row top">
+    <div class="col">
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/question_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">Which classes did you choose?</h3><p style="color:#9DB4CC">Walk me through your class diagram.</p></div></div>
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/compass_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">What's the hardest piece of data?</h3><p style="color:#9DB4CC">Anything that doesn't fit a simple type?</p></div></div>
+    </div>
+    <div class="col">
+      <div class="iconrow"><span class="chip sm orange"><img src="../assets/icons/link_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">Where do A and B connect?</h3><p style="color:#9DB4CC">Agree the shared names right now.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/flag_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">What will you demo next week?</h3><p style="color:#9DB4CC">One small, runnable piece each.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 8 — WRAP UP ============ -->
+
+<!-- 32 recap -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you learned today</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/boxes_FFFFFF.png"></span><h3>Concepts</h3><p>Variables are named boxes. Each type (int, double, char, bool, string) fits a different kind of data.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm green"><img src="../assets/icons/keyboard_FFFFFF.png"></span><h3>Skills</h3><p>You declared variables, read input with <span class="kw">cin</span>, avoided the int-division trap, and modelled a real Student record.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Your programs can now remember and use data — the foundation of the whole Portal.</div>
+</section>
+
+<!-- 33 vocabulary -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's vocabulary <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any word for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="int = integer. A whole number with no decimals: 20, -5, 1024. Use it for counts like credits or year of study.">int</span></h3><p>Whole number</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="double = a number WITH decimals: 3.75, 99.9. Use it for a GPA, an average mark, or money.">double</span></h3><p>Decimal</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="char = one single character in single quotes, like 'A'. Good for a single grade letter.">char</span></h3><p>One letter</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="bool = true or false only. A yes/no switch, e.g. isEnrolled = true.">bool</span></h3><p>true / false</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="string = text of any length, like a name 'Sara Khan'. Needs #include <string>. We use it in the full compiler for the project.">string</span></h3><p>Text</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="cin >> reads what the user types into a variable. The arrows point IN (toward your variable).">cin</span></h3><p>Read input</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="const marks a value that never changes, like const int PASS_MARK = 50; Set once, used everywhere.">const</span></h3><p>Never changes</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="= puts a value INTO a variable (assignment). age = 20; means 'store 20 in age'. Not the same as 'equals' in maths.">=</span></h3><p>Assign a value</p></div>
+  </div>
+</section>
+
+<!-- 34 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>Model a Course</h3><p>Store course code, title, credits and semester in the right types, and print a course card.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Compute an average</h3><p>Three test marks &rarr; print the average as a <span class="kw">double</span>. Watch the <span class="kw">/ 3.0</span>!</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/folder_FFFFFF.png"></span><div class="txt"><h3>Save it</h3><p>Add these to your code folder — they're pieces of the project.</p></div></div>
+</section>
+
+<!-- 35 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 3 — Operators &amp; Expressions</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">Today you stored data. Next time you'll <strong>compute</strong> with it — the maths behind grades, averages and fees.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up">Arithmetic: + − × ÷ and remainder</li>
+        <li class="fragment fade-up">Comparisons: is this mark a pass?</li>
+        <li class="fragment fade-up">Build a grade calculator for the Portal</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/calculator_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 36 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/graduation_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">You built your first record.</h1>
+    <p class="fragment fade-in" style="max-width:640px;margin:10px auto 0">Your programs can remember data now — that's a real step toward the Portal. See you next lecture.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js"></script>
+<script src="../assets/js/live-code.js"></script>
+<script src="../assets/js/activities.js"></script>
+<script src="../assets/js/counter.js"></script>
+<script src="../assets/js/timer.js"></script>
+<script src="../assets/js/presenter.js"></script>
+<script src="../assets/js/explain.js"></script>
+</body>
+</html>

@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="../assets/css/animations.css">
 <link rel="stylesheet" href="../assets/css/timer.css">
 <link rel="stylesheet" href="../assets/css/gate.css">
+<link rel="stylesheet" href="../assets/css/presenter.css">
+<link rel="stylesheet" href="../assets/css/explain.css">
 <!-- Password gate: must load before the deck so it covers the page immediately -->
 <script src="../assets/js/course-data.js"></script>
 <script>
@@ -27,6 +29,8 @@
     if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
     var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
     if(!(lec && lec.password)) return;           // no password → open, no gate
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]) === String(lec.password)) return;  // presenter link
     document.documentElement.classList.add('gate-pending');
   }catch(e){}
 })();
@@ -859,5 +863,7 @@ cout &lt;&lt; "====================" &lt;&lt; endl;</code></pre>
 <script src="../assets/js/activities.js"></script>
 <script src="../assets/js/counter.js"></script>
 <script src="../assets/js/timer.js"></script>
+<script src="../assets/js/presenter.js"></script>
+<script src="../assets/js/explain.js"></script>
 </body>
 </html>

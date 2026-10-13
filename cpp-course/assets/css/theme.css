@@ -169,6 +169,9 @@
 
 /* icon-row item */
 .iconrow{ display:flex; gap:16px; align-items:flex-start; margin:16px 0; }
+/* a tight vertical stack of steps (project sequence slides) */
+.steps-flow{ margin-top:6px; }
+.steps-flow .iconrow{ margin:10px 0; }
 .iconrow .txt h3{ margin:0 0 2px; font-family:var(--r-main-font); font-size:.8em; }
 .iconrow .txt p{ margin:0; font-size:.62em; color:var(--grey); line-height:1.35; }
 
