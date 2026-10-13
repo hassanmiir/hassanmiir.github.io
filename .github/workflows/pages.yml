@@ -1,12 +1,12 @@
-# Deploys this repository to GitHub Pages.
-# Works from a PRIVATE repo: the source stays private, only the built
-# site is published. Serves at https://<user>.github.io/<repo-name>/
+# Publishes the whole repository (static site) to GitHub Pages on every
+# push to main. Works whether Pages "Source" is set to GitHub Actions
+# (it uses this workflow) — the robust, self-contained way to deploy.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:   # lets you trigger it manually from the Actions tab
+  workflow_dispatch:        # lets you run it manually from the Actions tab
 
 permissions:
   contents: read
@@ -30,10 +30,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload site
+      - name: Upload the whole site (static files, incl. .nojekyll)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .        # publish the whole repo root (static files)
+          path: .
 
       - name: Deploy
         id: deployment
