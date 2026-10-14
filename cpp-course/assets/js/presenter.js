@@ -112,7 +112,15 @@
       // Lock forward navigation. Allow looking back (left/up) only.
       Reveal.configure({ keyboard: false, touch: false, controls: false });
       // Block keys except Left/Up (review). Everything else: swallow.
+      // BUT never swallow typing in a text field (e.g. the password gate),
+      // or while the gate overlay is still up — otherwise students can't
+      // type the password.
       document.addEventListener("keydown", function (e) {
+        var t = e.target;
+        var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" ||
+                           t.isContentEditable);
+        var gateUp = !!document.querySelector(".gate-overlay");
+        if (typing || gateUp) return;            // let the keystroke through
         var review = (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp");
         if (!review) { e.stopPropagation(); e.preventDefault(); }
       }, true);
