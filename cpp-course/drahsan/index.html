@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Survey Research — Live Lecture</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/css/gate.css?v=4">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=4">
+<style>
+  :root{ --accent:#E8A24B; }
+  html,body{ background:#0b1b2b; }
+  .reveal .slides{ text-align:center; }
+  /* full-bleed slide images, letterboxed to fit */
+  .reveal .imgslide{ height:100%; display:flex; align-items:center; justify-content:center; }
+  .reveal .imgslide img{
+    max-width:100%; max-height:100%; width:auto; height:auto;
+    margin:0; border:0; box-shadow:0 10px 40px rgba(0,0,0,.45); border-radius:6px;
+  }
+  /* download-PDF button (top-right), matches the course decks */
+  .pdf-btn{ position:fixed; top:14px; right:14px; z-index:50; display:flex; gap:8px; align-items:center;
+    background:#1E824C; color:#fff; text-decoration:none; font:600 13px/1 'Inter',system-ui,sans-serif;
+    padding:9px 13px; border-radius:9px; box-shadow:0 4px 14px rgba(0,0,0,.3); }
+  .pdf-btn:hover{ filter:brightness(1.07); }
+  .pdf-btn svg{ width:15px; height:15px; }
+  .deck-footer{ position:fixed; left:14px; bottom:10px; z-index:40;
+    color:#8FA6BC; font:500 12px/1 'Inter',system-ui,sans-serif; }
+  @media print{ .pdf-btn,.deck-footer,.sync-badge{ display:none !important; } }
+</style>
+<!-- Password gate: load before the deck so it covers the page immediately.
+     This deck isn't in the C++ course list, so it declares its own id and
+     password via the body attributes below. -->
+<script src="../assets/js/course-data.js"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    // standalone deck: fixed id + password
+    var id = 'drahsan', pass = 'survey-2026';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    // presenter link already carries the correct password → don't hide the deck
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === pass.toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=4"></script>
+</head>
+<body data-lecture="drahsan" data-gate-password="survey-2026">
+
+<a class="pdf-btn" href="Survey_Research.pptx" download title="Download the original PowerPoint">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PPT</span>
+</a>
+<div class="deck-footer">Survey Research · Research Methods Lecture</div>
+
+<div class="reveal"><div class="slides">
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-01.png" alt="Slide 1">
+  <aside class="notes">Welcome. Today we walk through the full process of survey research using a questionnaire: planning, sampling, writing questions, ethical approval, piloting, collecting and analysing data, and reporting. By the end you should be able to plan your own small survey study.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-02.png" alt="Slide 2">
+  <aside class="notes">Survey research is the most widely used quantitative method in the social sciences, education, health and business. The key idea is standardisation: everyone answers the same questions in the same way, so answers can be counted and compared. A questionnaire is the instrument; the survey is the whole process. Mention the trade-off: breadth over depth. If you need deep &quot;why&quot; explanations, interviews or focus groups may be better, or a mixed-methods design.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-03.png" alt="Slide 3">
+  <aside class="notes">This is the roadmap for the rest of the lecture. Each step depends on the one before: poor objectives lead to poor questions, and a poor sample limits what you can conclude. Step 4, ethical approval, is highlighted because no data, not even pilot data, should be collected before approval. The one-line summary at the bottom is an easy way for students to remember the sequence.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-04.png" alt="Slide 4">
+  <aside class="notes">Everything in a survey flows from the research problem. Move from broad to specific: problem, aim, objectives, research questions (or hypotheses). Objectives should be specific and measurable, often starting with verbs like measure, compare, identify, examine. A useful exercise: ask students to draft one aim and two objectives for a topic of their choice. Also stress the literature review here: it shapes the problem and often provides existing validated scales.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-05.png" alt="Slide 5">
+  <aside class="notes">First define the target population precisely, for example &quot;full-time undergraduate students at University X in 2026&quot;. The sampling frame is the actual list you sample from. Probability methods allow you to generalise to the population; non-probability methods are cheaper and common in student projects but limit generalisation, which must be stated as a limitation. For sample size, Yamane&#x27;s formula gives a quick estimate; alternatives are Krejcie and Morgan&#x27;s table or an online sample-size calculator. Worked example: 2000 times 0.05 squared is 5, plus 1 is 6, and 2000 divided by 6 is about 333.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-06.png" alt="Slide 6">
+  <aside class="notes">Closed questions (the first four) are quick to answer and easy to analyse; open-ended questions give richer detail but take longer to code. Most questionnaires are mainly closed with one or two open questions. Likert scales usually have 5 or 7 points. Where possible, use existing validated scales from published studies rather than writing new ones, and cite them. Show students the &quot;Avoid&quot; examples and ask them to rewrite each one correctly. For example, the double-barrelled question becomes two separate questions.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-07.png" alt="Slide 7">
+  <aside class="notes">Order matters: early questions set the tone and affect whether people finish. Put demographics at the end because they are boring and can feel personal. Keep the questionnaire as short as possible; around 10 to 15 minutes is a good target for most student surveys. For mode, online tools such as Google Forms, Microsoft Forms or Qualtrics are most common today, but think about who might be excluded. Mixed modes, for example online plus paper, can improve coverage.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-08.png" alt="Slide 8">
+  <aside class="notes">Any research involving human participants needs ethical review, and this includes student projects and pilot studies. The exact process, forms and names differ between institutions: it may be called a Research Ethics Committee, Ethics Review Board or, in the United States, an Institutional Review Board. Some low-risk anonymous surveys may get a fast-track or exemption, but the committee decides that, not the researcher. The participant information sheet explains the purpose, what participation involves, risks, how data will be stored and used, and who to contact. In online surveys, consent is often a tick box on the first page. Extra care and parental consent are needed for children and vulnerable groups. Under GDPR in the EU, collect only the personal data you need and say how long you will keep it.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-09.png" alt="Slide 9">
+  <aside class="notes">The pilot is a rehearsal. Pilot respondents should resemble the real sample but are usually not included in the final data. Ask them which questions were confusing, missing or uncomfortable. Validity: content validity is checked by experts reviewing the items against the objectives; construct validity can be checked statistically, for example with factor analysis. Reliability: for multi-item Likert scales, Cronbach&#x27;s alpha of 0.70 or higher is the usual rule of thumb. During collection, report the response rate; for example 250 completed out of 500 invited is 50 percent. Low response rates raise the risk of non-response bias.</aside>
+</section>
+
+<section data-background-color="#0b1b2b" class="imgslide">
+  <img src="slides/slide-10.png" alt="Slide 10">
+  <aside class="notes">Before analysis, build a codebook that lists each variable, its question and its codes, and remember to reverse-code negatively worded items. Descriptive statistics summarise what respondents said; inferential statistics test whether differences or relationships are likely to hold in the population, which is only fully justified with probability samples. Choose the test by variable type: chi-square for two categorical variables, t-test or ANOVA to compare group means, correlation or regression for relationships. In the report, the methods section must state the sampling method, sample size, response rate, the questionnaire source and the ethics approval reference. Always discuss limitations honestly. Close by inviting questions, and perhaps set an exercise: design a 10-question survey on a campus topic.</aside>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: 'c/t',
+    width: 1280, height: 720,
+    margin: 0.02,
+    center: true,
+    transition: 'slide',
+    plugins: [ RevealNotes ]
+  });
+</script>
+<script src="../assets/js/presenter.js?v=4"></script>
+<script src="../assets/js/explain.js?v=4"></script>
+</body>
+</html>

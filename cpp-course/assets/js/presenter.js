@@ -26,6 +26,10 @@
   var NS = "hassanmiir-cpp-sync";
 
   function lectureId() {
+    // Prefer an explicit <body data-lecture="..."> (lets non-"lectureN" folders
+    // like /drahsan/ have their own sync namespace); fall back to the URL.
+    var attr = document.body && document.body.getAttribute("data-lecture");
+    if (attr) return attr;
     return (location.pathname.match(/\/(lecture\d+)\/?/) || [])[1] || "lecture";
   }
   function qs(name) {

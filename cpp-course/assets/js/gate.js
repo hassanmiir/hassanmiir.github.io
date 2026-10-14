@@ -6,7 +6,10 @@
    re-prompt. This is a "don't open early" deterrent, not
    strong security: a static site cannot truly hide a secret.
    ============================================================ */
-(function () {
+// This script may run from <head>, where document.body is not yet available.
+// Pages that declare id/password on <body> (standalone decks like /drahsan/)
+// therefore need us to wait for the body before reading those attributes.
+function cppGateStart() {
   function clearPending() {
     document.documentElement.classList.remove("gate-pending");
   }
@@ -27,7 +30,10 @@
   // in class. (A lecture with no password set is left open.)
   var lec = null;
   try { lec = (window.COURSE.lectures || []).filter(function (l) { return l.id === lectureId; })[0]; } catch (e) {}
-  var PASS = lec && lec.password ? String(lec.password) : "";
+  // A page can also set its own password directly via <body data-gate-password="...">
+  // (used by standalone decks like /drahsan/ that aren't in the course lecture list).
+  var ownPass = document.body && document.body.getAttribute("data-gate-password");
+  var PASS = (lec && lec.password) ? String(lec.password) : (ownPass ? String(ownPass) : "");
   if (!PASS) { clearPending(); return; }   // no password defined → open
 
   // Forgiving compare: ignore case and surrounding spaces, so "cpp-l2",
@@ -107,4 +113,12 @@
 
   if (document.readyState !== "loading") mount();
   else document.addEventListener("DOMContentLoaded", mount);
+}
+
+// Run as soon as <body> is available. If this script is in <head>, document.body
+// is still null, so defer to DOMContentLoaded; the pre-hide CSS keeps the deck
+// covered until then, so there is no early flash of content.
+(function () {
+  if (document.body) { cppGateStart(); }
+  else { document.addEventListener("DOMContentLoaded", cppGateStart); }
 })();

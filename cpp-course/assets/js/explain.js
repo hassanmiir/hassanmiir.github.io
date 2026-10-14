@@ -19,7 +19,7 @@
 (function () {
   var BASE = "https://abacus.jasoncameron.dev";
   var NS = "hassanmiir-cpp-sync";
-  function lectureId(){ return (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1]||"lecture"; }
+  function lectureId(){ var a=document.body&&document.body.getAttribute("data-lecture"); if(a) return a; return (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1]||"lecture"; }
   function qs(n){ var m=new RegExp("[?&]"+n+"=([^&]*)").exec(location.search); return m?decodeURIComponent(m[1]):null; }
 
   var lec = lectureId();
