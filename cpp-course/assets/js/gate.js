@@ -30,6 +30,12 @@
   var PASS = lec && lec.password ? String(lec.password) : "";
   if (!PASS) { clearPending(); return; }   // no password defined → open
 
+  // Forgiving compare: ignore case and surrounding spaces, so "cpp-l2",
+  // "CPP-L2 " and "cpp-L2" all work. (The capital L and phone autocapitalise
+  // trip people up otherwise.)
+  function norm(s) { return String(s == null ? "" : s).trim().toLowerCase(); }
+  function matches(val) { return norm(val) === norm(PASS); }
+
   // Remember unlock per-lecture, so unlocking one doesn't unlock the next.
   var KEY = "cpp_gate_ok_" + lectureId;
 
@@ -41,7 +47,7 @@
   // (Only unlocks when the password actually matches, so it's no weaker than typing it.)
   try {
     var pm = /[?&]present=([^&]*)/.exec(location.search);
-    if (pm && decodeURIComponent(pm[1]) === PASS) {
+    if (pm && matches(decodeURIComponent(pm[1]))) {
       try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
       clearPending();
       return;
@@ -80,7 +86,7 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var val = (input.value || "").trim();
-      if (val === PASS) {
+      if (matches(val)) {
         try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
         o.classList.add("gate-ok");
         document.documentElement.classList.remove("gate-active");
