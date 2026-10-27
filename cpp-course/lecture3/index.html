@@ -178,6 +178,36 @@ double avg = total / 2.0;   // another expression → 70.0</code></pre>
   </div>
 </section>
 
+<!-- 6b WORK IT OUT — division & remainder table (paper) -->
+<section>
+  <span class="kicker orange">Work It Out <span class="badge">On paper · 2 min</span></span>
+  <h2>Fill in the table — no computer</h2>
+  <p style="font-size:.72em;color:var(--grey)">Both numbers are <span class="kw">int</span>. Write the quotient <span class="kw">/</span> and the remainder <span class="kw">%</span> for each row.</p>
+  <div class="worksheet">
+    <div class="ws-rows">
+      <div class="ws-row fragment fade-up"><span class="expr">13 / 4</span> <span>quotient =</span> <span class="blank">?</span> <span style="margin-left:18px">13 % 4</span> <span>remainder =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="expr">20 / 5</span> <span>quotient =</span> <span class="blank">?</span> <span style="margin-left:18px">20 % 5</span> <span>remainder =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="expr">7 / 10</span> <span>quotient =</span> <span class="blank">?</span> <span style="margin-left:18px">7 % 10</span> <span>remainder =</span> <span class="blank">?</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px"><span class="penpill fragment fade-in">Pens down when you have all six. Then we check — and run it.</span></div>
+  <aside class="notes">Give them ~2 minutes of silence to actually write. Walk around. Ask one student per row before advancing. Answers on the next slide, then the live calculator confirms.</aside>
+</section>
+
+<!-- 6c ANSWER — division & remainder -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Check your six</h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ws-rows">
+      <div class="ws-row"><span class="expr">13 / 4</span> <span>=</span> <span class="ans">3</span> <span style="margin-left:18px">13 % 4</span> <span>=</span> <span class="ans">1</span> <span style="color:var(--grey);margin-left:10px">(4×3 + 1 = 13)</span></div>
+      <div class="ws-row"><span class="expr">20 / 5</span> <span>=</span> <span class="ans">4</span> <span style="margin-left:18px">20 % 5</span> <span>=</span> <span class="ans">0</span> <span style="color:var(--grey);margin-left:10px">(divides evenly)</span></div>
+      <div class="ws-row"><span class="expr">7 / 10</span> <span>=</span> <span class="ans">0</span> <span style="margin-left:18px">7 % 10</span> <span>=</span> <span class="ans">7</span> <span style="color:var(--grey);margin-left:10px">(10 doesn't fit — all 7 left over)</span></div>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em"><span class="lead">The surprising one</span><span class="kw">7 / 10 = 0</span> catches everyone. Fewer than one "10" fits, so the whole-number quotient is 0 and the remainder is the lot.</div>
+</section>
+
 <!-- 7 *** LIVE CODE #1 — calculator *** -->
 <section>
   <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
@@ -266,6 +296,38 @@ int main() {
   </div>
 </section>
 
+<!-- 11b WORK IT OUT — evaluate the conditions (paper) -->
+<section>
+  <span class="kicker orange">Work It Out <span class="badge">On paper · 2 min</span></span>
+  <h2>True or false? Work each one out</h2>
+  <p style="font-size:.72em;color:var(--grey)">Take <span class="kw">mark = 72</span>, <span class="kw">attended = true</span>, <span class="kw">isStaff = false</span>. Write T or F for each.</p>
+  <div class="worksheet">
+    <div class="ws-rows">
+      <div class="ws-row fragment fade-up"><span class="expr">mark &gt;= 50</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="expr">mark &gt;= 50 &amp;&amp; attended</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="expr">mark &gt; 90 || isStaff</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="expr">!attended</span> <span class="blank">?</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px"><span class="penpill fragment fade-in">Reason it step by step — evaluate each side, then combine.</span></div>
+  <aside class="notes">Silence, pens moving. The tricky one is row 3: mark>90 is false, isStaff is false, OR of two falses is false. Row 4: attended is true, so !attended is false. Ask the room to vote T/F per row before revealing.</aside>
+</section>
+
+<!-- 11c ANSWER — evaluate the conditions -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>How each one resolves</h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ws-rows">
+      <div class="ws-row"><span class="expr">mark &gt;= 50</span> <span class="ans">true</span> <span style="color:var(--grey);margin-left:10px">72 ≥ 50 ✓</span></div>
+      <div class="ws-row"><span class="expr">mark &gt;= 50 &amp;&amp; attended</span> <span class="ans">true</span> <span style="color:var(--grey);margin-left:10px">true AND true</span></div>
+      <div class="ws-row"><span class="expr">mark &gt; 90 || isStaff</span> <span class="ans" style="color:var(--red)">false</span> <span style="color:var(--grey);margin-left:10px">false OR false — needs <em>one</em> true</span></div>
+      <div class="ws-row"><span class="expr">!attended</span> <span class="ans" style="color:var(--red)">false</span> <span style="color:var(--grey);margin-left:10px">attended is true, ! flips it</span></div>
+    </div>
+  </div>
+  <div class="note ok fragment fade-in" style="font-size:.64em"><span class="lead">That's the pass rule</span>Row 2 is exactly the condition your program builds next — a <span class="kw">bool</span> straight from the operators you just evaluated.</div>
+</section>
+
 <!-- 12 *** LIVE CODE #2 — pass check *** -->
 <section>
   <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
@@ -345,6 +407,41 @@ int main() {
   </div>
 </section>
 
+<!-- 15b WORK IT OUT — fix the average bug (paper) -->
+<section>
+  <span class="kicker orange">Work It Out <span class="badge">On paper · 2 min</span></span>
+  <h2>This average is wrong. Fix it.</h2>
+  <p style="font-size:.72em;color:var(--grey)">A student scored <span class="kw">80</span> and <span class="kw">60</span>. This line should give <span class="kw">70.0</span> — but it doesn't.</p>
+  <div class="worksheet">
+    <pre style="margin:0;background:#1B2733;color:#E6EDF3;border-radius:10px;padding:16px 18px;font-size:.62em"><code class="language-cpp" data-trim>double avg = 80 + 60 / 2;</code></pre>
+    <div class="ws-rows" style="margin-top:16px">
+      <div class="ws-row fragment fade-up"><span>1 · What does this actually compute?</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span>2 · Rewrite it so it gives 70.0</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px"><span class="penpill fragment fade-in">Two things are wrong — the order <em>and</em> the decimals. Find both.</span></div>
+  <aside class="notes">Let them struggle. Hint only if stuck: "which runs first, + or / ?" The bug: 60/2 runs first = 30, then 80+30 = 110. And even bracketed, (80+60)/2 is int/int = 70 by luck here but / 2.0 is the safe habit. Reveal next.</aside>
+</section>
+
+<!-- 15c ANSWER — fix the average bug -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Two bugs, one line</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>// WRONG — / runs before +, so:
+80 + 60 / 2   // = 80 + 30 = 110  ✗
+
+// RIGHT — bracket the sum, keep decimals:
+(80 + 60) / 2.0   // = 140 / 2.0 = 70.0  ✓</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span><div class="txt"><h3>Bug 1 — order</h3><p><span class="kw">/</span> beats <span class="kw">+</span>, so only 60 got halved. Brackets fix it.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Bug 2 — decimals</h3><p><span class="kw">/ 2.0</span> keeps the fraction, so averages never silently round.</p></div></div>
+    </div>
+  </div>
+</section>
+
 <!-- 16 *** QUIZ — precedence *** -->
 <section>
   <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
@@ -400,6 +497,38 @@ int main() {
     </div>
   </div>
   <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">The catch</span>Use <span class="kw">0.4</span> and <span class="kw">0.6</span> (decimals) so the weighting isn't rounded to zero — the division trap, again in disguise.</div>
+</section>
+
+<!-- 18b WORK IT OUT — predict the grade before coding (paper) -->
+<section>
+  <span class="kicker orange">Work It Out First <span class="badge">On paper · 3 min</span></span>
+  <h2>Predict the result before you write a line</h2>
+  <p style="font-size:.72em;color:var(--grey)">Coursework = <span class="kw">70</span>, exam = <span class="kw">40</span>, rule = <span class="kw">40% + 60%</span>, pass = <span class="kw">&gt;= 50</span>. Work it out by hand.</p>
+  <div class="worksheet">
+    <div class="ws-rows">
+      <div class="ws-row fragment fade-up"><span>1 · coursework × 0.4 =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span>2 · exam × 0.6 =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span>3 · final mark (add them) =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span>4 · passed? (final ≥ 50) =</span> <span class="blank">?</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px"><span class="penpill fragment fade-in">Agree your four answers in your pair. Then code it — and check the machine matches your paper.</span></div>
+  <aside class="notes">This is the key one for understanding: they compute the expected output BY HAND, then write code to confirm. When the program prints what their paper said, the operators click. Answer: 28, 24, 52.0, passed = true.</aside>
+</section>
+
+<!-- 18c ANSWER — predicted grade -->
+<section>
+  <span class="kicker green">Your Target</span>
+  <h2>What your program must print</h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ws-rows">
+      <div class="ws-row"><span>coursework × 0.4 =</span> <span class="ans">28.0</span> <span style="color:var(--grey);margin-left:10px">70 × 0.4</span></div>
+      <div class="ws-row"><span>exam × 0.6 =</span> <span class="ans">24.0</span> <span style="color:var(--grey);margin-left:10px">40 × 0.6</span></div>
+      <div class="ws-row"><span>final =</span> <span class="ans">52.0</span> <span style="color:var(--grey);margin-left:10px">28 + 24</span></div>
+      <div class="ws-row"><span>passed =</span> <span class="ans">true</span> <span style="color:var(--grey);margin-left:10px">52 ≥ 50 ✓</span></div>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em"><span class="lead">Now build it</span>You know the answer. Write the code on the next slide and make the computer agree with your paper.</div>
 </section>
 
 <!-- 19 build canvas -->

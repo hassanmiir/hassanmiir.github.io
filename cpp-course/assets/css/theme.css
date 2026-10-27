@@ -143,6 +143,22 @@
 }
 .handson-box ol{ margin:0; } .handson-box li{ margin:.5em 0; }
 
+/* ---------- "work it out on paper" worksheet ---------- */
+/* a light panel for a hand-worked puzzle on a white slide */
+.worksheet{ background:var(--bg,#F4F7FA); border:1px solid var(--line,#E6ECF2);
+  border-left:5px solid var(--blue,#2E6DA4); border-radius:14px; padding:20px 24px; margin-top:14px; }
+.worksheet .ws-rows{ display:grid; gap:10px; margin-top:10px; }
+.worksheet .ws-row{ display:flex; align-items:center; gap:14px; font-size:.82em; }
+.worksheet .ws-row .expr{ font-family:'JetBrains Mono',monospace; font-weight:600;
+  background:#fff; border:1px solid var(--line,#E6ECF2); border-radius:8px; padding:7px 12px; min-width:140px; }
+.worksheet .ws-row .blank{ font-family:'JetBrains Mono',monospace; color:var(--blue,#2E6DA4);
+  border-bottom:2px dashed var(--blue,#2E6DA4); min-width:70px; display:inline-block; text-align:center; padding-bottom:2px; }
+.worksheet .ws-row .ans{ font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--green,#1E824C); }
+/* the pen prompt pill */
+.penpill{ display:inline-flex; align-items:center; gap:8px; background:#FCEFE1; color:#9a5a16;
+  border-radius:999px; padding:7px 16px; font-size:.62em; font-weight:700; letter-spacing:.3px; }
+.penpill::before{ content:"✏️"; font-size:1.1em; }
+
 /* ---------- badge ---------- */
 .badge{
   display:inline-block; background:var(--orange); color:#fff; font-weight:700;
