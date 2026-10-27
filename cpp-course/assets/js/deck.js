@@ -7,11 +7,13 @@ window.addEventListener('DOMContentLoaded', function () {
     slideNumber: 'c/t',
     controls: true,
     progress: true,
-    center: false,
+    center: false,         // slides are laid out top-aligned (theme design)
     transition: 'slide',
     width: 1280,
     height: 720,
-    margin: 0,
+    margin: 0,             // fill the screen edge-to-edge (no letterbox gaps)
+    minScale: 0.2,
+    maxScale: 2.0,
     plugins: (window.RevealHighlight ? [RevealHighlight] : [])
       .concat(window.RevealNotes ? [RevealNotes] : [])
   });

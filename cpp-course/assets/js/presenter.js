@@ -90,10 +90,13 @@
     function startBroadcast() {
       waitForReveal(function () {
         badge("● Presenting — students are following you", "live");
-        setSlide(Reveal.getState().indexh);
-        Reveal.on("slidechanged", function (e) { setSlide(e.indexh); });
+        // Broadcast slide index + 1, so the value is always >= 1 while a
+        // presenter is live (0 is reserved for "no presenter"). Students
+        // subtract 1. This lets the first slide (index 0) still lock students.
+        setSlide(Reveal.getState().indexh + 1);
+        Reveal.on("slidechanged", function (e) { setSlide(e.indexh + 1); });
         // also re-push every 5s so late-joining students catch up
-        setInterval(function () { setSlide(Reveal.getState().indexh); }, 5000);
+        setInterval(function () { setSlide(Reveal.getState().indexh + 1); }, 5000);
       });
     }
 
@@ -107,52 +110,86 @@
   function runStudent() {
     waitForReveal(function () {
       var lastKnown = 0;
-      var synced = false;
+      var locked = false;       // only lock ONCE a live presenter is seen
+      var lastSeen = 0;         // last slide index the presenter broadcast
+      var missedPolls = 0;      // consecutive polls with no live presenter
 
-      // Lock forward navigation. Allow looking back (left/up) only.
-      Reveal.configure({ keyboard: false, touch: false, controls: false });
-      // Block keys except Left/Up (review). Everything else: swallow.
-      // BUT never swallow typing in a text field (e.g. the password gate),
-      // or while the gate overlay is still up — otherwise students can't
-      // type the password.
+      // Reveal all fragments on the current slide (students can't advance them).
+      function showAllFragments() {
+        try { var g = 0; while (g++ < 60 && Reveal.nextFragment()) {} } catch (e) {}
+      }
+
+      // Engage the follow-lock the first time we detect a live presenter.
+      function engageLock() {
+        if (locked) return;
+        locked = true;
+        Reveal.configure({ keyboard: false, touch: false, controls: false });
+      }
+      // Release the lock if the presenter goes away for a while, so the deck
+      // is viewable again (never leaves a student stuck on a frozen screen).
+      function releaseLock() {
+        if (!locked) return;
+        locked = false;
+        Reveal.configure({ keyboard: true, touch: true, controls: true });
+      }
+
+      // Block forward keys only while locked; always let text input through
+      // (e.g. the password gate) and always allow looking back.
       document.addEventListener("keydown", function (e) {
+        if (!locked) return;
         var t = e.target;
-        var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" ||
-                           t.isContentEditable);
+        var typing = t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable);
         var gateUp = !!document.querySelector(".gate-overlay");
-        if (typing || gateUp) return;            // let the keystroke through
+        if (typing || gateUp) return;
         var review = (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp");
         if (!review) { e.stopPropagation(); e.preventDefault(); }
       }, true);
-      // If a student scrolls back, they may never go PAST lastKnown.
+
+      // While locked, a student may not move PAST the presenter's slide.
       Reveal.on("slidechanged", function (e) {
-        if (e.indexh > lastKnown) { Reveal.slide(lastKnown); }
+        if (locked && e.indexh > lastKnown) { Reveal.slide(lastKnown); }
       });
 
-      badge("🔒 Following the presenter", "wait");
-
-      function showAllFragments() {
-        // Students can't advance fragments themselves, so reveal them all
-        // when they land on (or are already on) the presenter's slide.
-        try { var g = 0; while (g++ < 40 && Reveal.nextFragment()) {} } catch (e) {}
-      }
+      badge("🔓 Open — browse freely", "ok");
 
       function poll() {
         getVal().then(function (v) {
-          if (typeof v === "number") {
-            lastKnown = v; synced = true;
+          // A live presenter is "present" when the broadcast slide is > 0,
+          // OR it stays at a steady value we can follow. Treat 0 as "no
+          // presenter yet" so an idle counter never traps the student on slide 1.
+          if (typeof v === "number" && v > 0) {
+            // presenter is live (value is slide index + 1) → follow + lock
+            var target = v - 1;
+            missedPolls = 0; lastSeen = v; lastKnown = target;
+            engageLock();
             badge("🟢 Following the presenter", "ok");
-            if (Reveal.getState().indexh !== v) {
-              Reveal.slide(v);
+            if (Reveal.getState().indexh !== target) {
+              Reveal.slide(target);
               setTimeout(showAllFragments, 60);
             } else {
               showAllFragments();
             }
+          } else {
+            // v === 0 (or none) → no live presenter
+            if (locked) {
+              // presenter paused on the first slide or stopped; after a few
+              // quiet polls, let students browse rather than sit frozen.
+              missedPolls++;
+              if (missedPolls >= 6) { releaseLock(); badge("🔓 Open — browse freely", "ok"); }
+            } else {
+              badge("🔓 Open — browse freely", "ok");
+            }
           }
         }).catch(function () {
-          // offline → freeze on current slide (do not unlock)
-          if (synced) badge("⚠ Reconnecting… (screen is frozen)", "err");
-          else badge("⚠ Waiting for the presenter…", "wait");
+          // network error: if we were following, say reconnecting but don't
+          // trap them forever; if we never locked, just stay freely browsable.
+          if (locked) {
+            missedPolls++;
+            badge("⚠ Reconnecting…", "wait");
+            if (missedPolls >= 8) { releaseLock(); badge("🔓 Open — browse freely", "ok"); }
+          } else {
+            badge("🔓 Open — browse freely", "ok");
+          }
         });
       }
       poll();
