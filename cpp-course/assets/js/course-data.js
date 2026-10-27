@@ -52,7 +52,7 @@ window.COURSE = {
       "handsOn": "Create a simple calculator that takes two numbers and prints all basic operations.",
       "icon": "calculator",
       "password": "cpp-L3",
-      "built": false
+      "built": true
     },
     {
       "id": "lecture4",
@@ -170,13 +170,13 @@ window.COURSE = {
   "projects": [
     {
       "id": "student-tool",
-      "title": "Project A — The Student Study Buddy",
+      "title": "Project A \u2014 The Student Study Buddy",
       "audience": "A console tool built FOR students",
       "summary": "A menu-driven program a student would actually use to stay organized: track subjects, log study hours, store grades, and get a simple summary of progress."
     },
     {
       "id": "teacher-tool",
-      "title": "Project B — The Teacher Gradebook",
+      "title": "Project B \u2014 The Teacher Gradebook",
       "audience": "A console tool built FOR teachers",
       "summary": "A menu-driven program a teacher would use to manage a class: add students, record scores, compute class averages, find top and struggling students, and save the gradebook to a file."
     }

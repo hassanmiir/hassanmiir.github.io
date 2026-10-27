@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lecture 3 — Operators &amp; Expressions</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css?v=5">
+<link rel="stylesheet" href="../assets/css/live-code.css?v=5">
+<link rel="stylesheet" href="../assets/css/animations.css?v=5">
+<link rel="stylesheet" href="../assets/css/timer.css?v=5">
+<link rel="stylesheet" href="../assets/css/gate.css?v=5">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=5">
+<link rel="stylesheet" href="../assets/css/explain.css?v=5">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js?v=5"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === String(lec.password).trim().toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=5"></script>
+</head>
+<body data-lecture="lecture3">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture3-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 3</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ OPENER ============ -->
+
+<!-- 0 QR / SCAN-IN -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 3</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox fragment fade-up">hassanmiir.github.io/cpp-course/lecture3</div>
+        <div class="presenter fragment fade-up">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap fragment zoom-in"><img src="lecture3-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter fragment fade-in" data-lecture="lecture3"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students scan in. Password for this lecture is cpp-L3.</aside>
+</section>
+
+<!-- 1 TITLE / THE BRIDGE (recap + today in one, no separate plan slide) -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 3 · Operators &amp; Expressions</span>
+    <h1 class="fragment fade-up" style="font-size:2.2em;line-height:1.04;margin:6px 0 2px">Now let's <span class="shimmer">do maths</span><br>with our data</h1>
+    <p class="fragment fade-in" style="font-size:.9em;color:#CADCEC;margin-top:16px;max-width:680px">Last time you <em>stored</em> a student's marks. Today you'll <em>compute</em> with them — averages, percentages, and the pass/fail decision itself.</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:24px">A 2-hour hands-on session · you'll build a working calculator</p>
+  </div>
+  <aside class="notes">Bridge from Lecture 2: variables held data; now expressions turn that data into answers. Keep this quick — one line of recap, then move. The project tie-in (grade calculator) comes once, at the hands-on, not repeated throughout.</aside>
+</section>
+
+<!-- 2 WHAT'S AN EXPRESSION (the one framing idea) -->
+<section>
+  <span class="kicker">The Big Idea</span>
+  <h2>An expression is a question the computer answers</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.84em">You write a small sum; C++ works it out and hands back <strong>one value</strong>.</p>
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>int total = 80 + 60;      // expression on the right → 140
+double avg = total / 2.0;   // another expression → 70.0</code></pre>
+      <p class="fragment fade-in" style="font-size:.72em;color:var(--grey)">An <strong>operator</strong> (<span class="kw">+</span>, <span class="kw">/</span>…) combines <strong>operands</strong> (the values) into a result.</p>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/function_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.66em"><span class="kw">80 + 60</span> &rarr; [ 140 ]</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1 — ARITHMETIC ============ -->
+
+<!-- 3 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>The arithmetic operators</h2>
+      <p class="ph-sub">Five symbols for the everyday maths your programs need.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/calculator_FFFFFF.png"></span> Add, subtract, multiply, divide</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span> The remainder operator — the surprising one</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Run a calculator — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/calculator_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 4 the five operators (reference, each shown ONCE) -->
+<section>
+  <span class="kicker">Reference</span>
+  <h2>Four everyday operators</h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3 style="font-size:1.3em"><span class="kw">+</span></h3><p>Add<br><span style="color:var(--grey)">7 + 2 → 9</span></p></div>
+    <div class="card center fragment fade-up"><h3 style="font-size:1.3em"><span class="kw">-</span></h3><p>Subtract<br><span style="color:var(--grey)">7 - 2 → 5</span></p></div>
+    <div class="card center fragment fade-up"><h3 style="font-size:1.3em"><span class="kw">*</span></h3><p>Multiply<br><span style="color:var(--grey)">7 * 2 → 14</span></p></div>
+    <div class="card center fragment fade-up"><h3 style="font-size:1.3em"><span class="kw">/</span></h3><p>Divide<br><span style="color:var(--grey)">7 / 2 → ?</span></p></div>
+  </div>
+  <div class="note tip fragment fade-in" style="margin-top:14px"><span class="lead">Hold on</span>What does <span class="kw">7 / 2</span> give? Not 3.5, if both numbers are <span class="kw">int</span>. That trap is the next slide.</div>
+</section>
+
+<!-- 5 integer vs float division (the key gotcha — taught once, deeply) -->
+<section>
+  <span class="kicker orange">The Division Trap</span>
+  <h2>Two whole numbers divide to a whole number</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>7 / 2        // → 3    (not 3.5! the .5 is dropped)
+7.0 / 2      // → 3.5  (one decimal makes it a real divide)
+7 / 2.0      // → 3.5
+(double)7/2  // → 3.5  (force it)</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span><div class="txt"><h3>int ÷ int = int</h3><p>C++ throws away the fraction. 7/2 is 3, 1/2 is 0.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>The fix</h3><p>Make <strong>one side</strong> a decimal: <span class="kw">/ 2.0</span>. Now you keep the decimals.</p></div></div>
+    </div>
+  </div>
+  <div class="note warn fragment fade-in" style="font-size:.64em"><span class="lead">Why it matters</span>An average of marks with <span class="kw">/ 2</span> silently loses accuracy. Grades must use <span class="kw">/ 2.0</span>.</div>
+</section>
+
+<!-- 6 modulo (the genuinely new operator) -->
+<section>
+  <span class="kicker">New Operator</span>
+  <h2><span class="xp" data-tip="Modulo (%) gives the REMAINDER after integer division. 17 % 5 = 2, because 17 = 3×5 + 2. Only works on whole numbers.">Modulo</span> <span class="kw">%</span> — the leftover</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.8em"><span class="kw">%</span> gives what's <strong>left over</strong> after dividing whole numbers.</p>
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>17 / 5   // → 3   (how many fit)
+17 % 5   // → 2   (what's left over)</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/branch_FFFFFF.png"></span><div class="txt"><h3>Even or odd?</h3><p><span class="kw">n % 2 == 0</span> → even. The classic use.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/users_FFFFFF.png"></span><div class="txt"><h3>Split into groups</h3><p>30 students, groups of 4 → <span class="kw">30 % 4 = 2</span> left over.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 *** LIVE CODE #1 — calculator *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>A two-number calculator</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change the numbers — try 7 and 2, and watch <span class="kw">/</span> vs <span class="kw">% </span>. (Input pre-filled: 17 5)</p>
+  <div class="live-code" data-stdin="17 5">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a, b;
+    cin >> a >> b;
+    cout << "Sum:        " << a + b << endl;
+    cout << "Difference: " << a - b << endl;
+    cout << "Product:    " << a * b << endl;
+    cout << "Quotient:   " << a / b << endl;
+    cout << "Remainder:  " << a % b << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Let them run it, then ask: change 17/5 to 7/2. Why is the quotient 3, not 3.5? Leads into the next quiz.</aside>
+</section>
+
+<!-- 8 *** QUIZ — division *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What does <span class="kw">9 / 4</span> print, if both are <span class="kw">int</span>?</h2>
+  <div class="quiz">
+    <div class="opts">
+      <div class="opt fragment fade-up" data-correct="0" data-msg="That's 9.0/4 — but both are int here, so the .25 is dropped."><span class="key">A</span> 2.25</div>
+      <div class="opt fragment fade-up" data-correct="1" data-msg="Right! int ÷ int drops the fraction, so 9/4 = 2."><span class="key">B</span> 2</div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="Rounding up isn't what C++ does — it truncates toward zero."><span class="key">C</span> 3</div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="1 is the remainder (9 % 4), not the quotient."><span class="key">D</span> 1</div>
+    </div>
+    <div class="verdict"></div>
+  </div>
+</section>
+
+<!-- ============ PART 2 — COMPARISON & LOGIC ============ -->
+
+<!-- 9 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2>Comparing &amp; combining</h2>
+      <p class="ph-sub">Operators that answer true or false — the seed of every decision.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/equals_FFFFFF.png"></span> Compare two values</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/branch_FFFFFF.png"></span> Combine conditions with and / or</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span> The <span class="kw">=</span> vs <span class="kw">==</span> mix-up</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/toggleOn_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 10 comparison operators (each once) -->
+<section>
+  <span class="kicker">Reference</span>
+  <h2>Comparisons give a <span class="kw">bool</span></h2>
+  <p class="fragment fade-in" style="font-size:.74em;color:var(--grey)">Each of these asks a yes/no question and returns <span class="kw">true</span> or <span class="kw">false</span>.</p>
+  <div class="cards four" style="margin-top:8px">
+    <div class="card center fragment fade-up"><h3><span class="kw">&gt;</span> &nbsp; <span class="kw">&lt;</span></h3><p>greater / less</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw">&gt;=</span> &nbsp; <span class="kw">&lt;=</span></h3><p>or equal to</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="== asks 'are these equal?' and gives true/false. It does NOT change anything. One = assigns; two == compares.">==</span></h3><p>is equal?</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw">!=</span></h3><p>is not equal?</p></div>
+  </div>
+  <div class="note warn fragment fade-in" style="margin-top:14px"><span class="lead">The #1 beginner bug</span><span class="kw">=</span> puts a value in a box. <span class="kw">==</span> asks a question. <span class="kw">mark == 50</span> checks; <span class="kw">mark = 50</span> overwrites!</div>
+</section>
+
+<!-- 11 logical operators (and / or / not) -->
+<section>
+  <span class="kicker">Combine Conditions</span>
+  <h2>and <span class="kw">&amp;&amp;</span>, or <span class="kw">||</span>, not <span class="kw">!</span></h2>
+  <div class="row top">
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3><span class="kw">&amp;&amp;</span> — both must be true</h3><p><span class="kw">mark &gt;= 50 &amp;&amp; attended</span> → passed <em>and</em> showed up.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/branch_FFFFFF.png"></span><div class="txt"><h3><span class="kw">||</span> — at least one is true</h3><p><span class="kw">isStaff || isAdmin</span> → either one grants access.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/exchange_FFFFFF.png"></span><div class="txt"><h3><span class="kw">!</span> — flips it</h3><p><span class="kw">!isOpen</span> → true when it's closed.</p></div></div>
+    </div>
+    <div class="col center"><span class="chip lg teal bob fragment zoom-in"><img src="../assets/icons/toggleOn_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.62em">These build the pass/fail rule you'll use in Lecture 4.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 *** LIVE CODE #2 — pass check *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Did the student pass?</h2>
+  <p style="font-size:.62em" class="muted">A real condition: average ≥ 50 <strong>and</strong> attended. Change the marks and the attendance flag. (Input: 80 55 1)</p>
+  <div class="live-code" data-stdin="80 55 1">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int mark1, mark2;
+    bool attended;
+    cin >> mark1 >> mark2 >> attended;
+
+    double average = (mark1 + mark2) / 2.0;   // keep the decimals!
+    bool passed = (average >= 50) && attended;
+
+    cout << "Average: " << average << endl;
+    cout << "Passed:  " << passed << endl;     // 1 = true, 0 = false
+    return 0;
+}
+  </div>
+  <aside class="notes">Point out: passed is a bool built entirely from operators — comparison (>=) combined with && . This is exactly the logic Group B's gradebook needs. Prints 1/0; in Lecture 4 we'll turn that into "PASS"/"FAIL" with if.</aside>
+</section>
+
+<!-- 13 *** QUIZ — = vs == / logic *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>Which line <em>checks</em> whether <span class="kw">score</span> is 100?</h2>
+  <div class="quiz">
+    <div class="opts">
+      <div class="opt fragment fade-up" data-correct="0" data-msg="One = ASSIGNS 100 into score, overwriting it. It doesn't check."><span class="key">A</span> <span class="kw">score = 100</span></div>
+      <div class="opt fragment fade-up" data-correct="1" data-msg="Yes! Two == compares and gives true/false."><span class="key">B</span> <span class="kw">score == 100</span></div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="=< isn't valid C++. The operator is <=, and it's not an equality check anyway."><span class="key">C</span> <span class="kw">score =&lt; 100</span></div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="! means NOT; alone it doesn't compare to 100."><span class="key">D</span> <span class="kw">score ! 100</span></div>
+    </div>
+    <div class="verdict"></div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — PRECEDENCE ============ -->
+
+<!-- 14 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 3</span>
+      <h2>Order of operations</h2>
+      <p class="ph-sub">Which part runs first — and how brackets put you in control.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/listOl_FFFFFF.png"></span> × and ÷ before + and −</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/bullseye_FFFFFF.png"></span> Brackets always win</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#E8B98A"><img src="../assets/icons/listOl_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 15 precedence (the "BODMAS" moment) -->
+<section>
+  <span class="kicker">The Rule</span>
+  <h2>C++ follows the maths order you know</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>2 + 3 * 4        // → 14, not 20  (× first)
+(2 + 3) * 4      // → 20          (brackets first)
+80 + 60 / 2      // → 110, not 70 (÷ first!)
+(80 + 60) / 2    // → 70          (what you meant)</code></pre>
+      <p class="fragment fade-in" style="font-size:.7em;color:var(--grey);margin-top:8px"><span class="kw">%</span> ranks with <span class="kw">*</span> and <span class="kw">/</span>; comparisons and <span class="kw">&amp;&amp;</span>/<span class="kw">||</span> come after the arithmetic.</p>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/bullseye_FFFFFF.png"></span><div class="txt"><h3>When in doubt, bracket</h3><p>Extra <span class="kw">( )</span> never hurt — they make your intent obvious and bug-proof.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>The average bug</h3><p><span class="kw">a + b / 2</span> only halves <span class="kw">b</span>. You need <span class="kw">(a + b) / 2.0</span>.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 *** QUIZ — precedence *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What is <span class="kw">10 + 20 * 2</span>?</h2>
+  <div class="quiz">
+    <div class="opts">
+      <div class="opt fragment fade-up" data-correct="0" data-msg="That would be (10+20)*2. But * runs before +, so no brackets means 20*2 first."><span class="key">A</span> 60</div>
+      <div class="opt fragment fade-up" data-correct="1" data-msg="Correct! 20 * 2 = 40 first, then + 10 = 50."><span class="key">B</span> 50</div>
+      <div class="opt fragment fade-up" data-correct="0" data-msg="Check the multiply: 20 * 2 is 40, not 30."><span class="key">C</span> 40</div>
+    </div>
+    <div class="verdict"></div>
+  </div>
+</section>
+
+<!-- ============ PART 4 — HANDS-ON: GRADE CALCULATOR ============ -->
+
+<!-- 17 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 4</span>
+      <h2>Build it: a grade calculator</h2>
+      <p class="ph-sub">Put every operator together — the real piece Group B's gradebook needs.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span> Weighted final mark</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span> A pass/fail bool from your conditions</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 18 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>The weighted grade</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">A course grade is <b>40% coursework + 60% exam</b>. Compute it and decide pass/fail:</p>
+        <ol style="font-size:.9em">
+          <li>Read <b>coursework</b> and <b>exam</b> marks (0–100).</li>
+          <li><span style="color:#E8B98A">Weight them:</span> <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">final = cw*0.4 + exam*0.6</span> — watch the decimals!</li>
+          <li><span style="color:#E8B98A">Decide:</span> a <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">bool passed</span> — is <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">final &gt;= 50</span>?</li>
+          <li>Print the final mark and whether they passed.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">The catch</span>Use <span class="kw">0.4</span> and <span class="kw">0.6</span> (decimals) so the weighting isn't rounded to zero — the division trap, again in disguise.</div>
+</section>
+
+<!-- 19 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your grade calculator</h2>
+  <p style="font-size:.58em" class="muted">Starter reads the marks. <strong>You add</strong> the weighted final and the pass check. (Input pre-filled: 70 40)</p>
+  <div class="live-code" data-stdin="70 40">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int coursework, exam;
+    cin >> coursework >> exam;
+
+    // TODO 1: double final = coursework * 0.4 + exam * 0.6;
+    // TODO 2: bool passed = final >= 50;
+
+    cout << "==== GRADE ====" << endl;
+    cout << "Coursework: " << coursework << endl;
+    cout << "Exam:       " << exam << endl;
+    // print the final mark and passed here
+    cout << "===============" << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Solution next slide. Let pairs wrestle with the 0.4/0.6 weighting and the >= comparison. Invite 2-3 pairs to demo. 70 cw / 40 exam → 0.4*70 + 0.6*40 = 28 + 24 = 52 → passed.</aside>
+</section>
+
+<!-- 20 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How the calculator works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.44em"><code class="language-cpp" data-trim>double final = coursework * 0.4 + exam * 0.6;  // decimals keep accuracy
+bool passed = final >= 50;
+
+cout << "==== GRADE ====" << endl;
+cout << "Coursework: " << coursework << endl;
+cout << "Exam:       " << exam << endl;
+cout << "Final:      " << final << endl;
+cout << "Passed:     " << passed << endl;
+cout << "===============" << endl;</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Weighting = multiply + add</h3><p>70·0.4 + 40·0.6 = 28 + 24 = <strong>52.0</strong>.</p></div></div>
+      <div class="iconrow"><span class="chip sm red"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><div class="txt"><h3><span class="kw">final &gt;= 50</span> → true</h3><p>A comparison gives the pass bool — no "if" needed yet.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>That's a gradebook row</h3><p>Group B computes exactly this for every student.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP UP ============ -->
+
+<!-- 21 recap (concise, non-overlapping with vocab) -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you can do now</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/calculator_FFFFFF.png"></span><h3>Arithmetic</h3><p>The five operators, the <span class="kw">int ÷ int</span> trap, and <span class="kw">%</span> for remainders.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/toggleOn_FFFFFF.png"></span><h3>Logic</h3><p>Comparisons and <span class="kw">&amp;&amp;</span>/<span class="kw">||</span> that produce a <span class="kw">bool</span> — and precedence you control with brackets.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Your programs now turn data into answers — a working calculator and a real pass/fail rule.</div>
+</section>
+
+<!-- 22 vocabulary (click to reveal — only the new operators, no repeats of L2) -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's operators <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any one for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="% = modulo, the remainder after integer division. 17 % 5 = 2. Great for even/odd and grouping.">%</span></h3><p>Remainder</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="== compares two values and gives true/false. Two equals signs. Never confuse with one = (assign).">==</span></h3><p>Is equal?</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="&& = logical AND. The whole thing is true only when BOTH sides are true. e.g. passed && attended.">&amp;&amp;</span></h3><p>And</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="|| = logical OR. True when AT LEAST ONE side is true. e.g. isStaff || isAdmin.">||</span></h3><p>Or</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="! = logical NOT. Flips true to false and back. !isOpen is true when isOpen is false.">!</span></h3><p>Not</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="/ 2.0 = divide keeping decimals. If both sides are int, the fraction is lost — make one a decimal.">/ 2.0</span></h3><p>Real divide</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="Brackets ( ) force what runs first, overriding precedence. (a + b) / 2 averages correctly.">( )</span></h3><p>Order</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="An expression is any piece of code that produces a value: a + b, mark >= 50, x % 2.">expression</span></h3><p>Makes a value</p></div>
+  </div>
+</section>
+
+<!-- 23 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Temperature converter</h3><p>Read Celsius, print Fahrenheit: <span class="kw">F = C * 9.0 / 5.0 + 32</span>. Mind the decimals.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Odd or even</h3><p>Read a number; print whether <span class="kw">n % 2 == 0</span>. (It prints 1 or 0 for now.)</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/folder_FFFFFF.png"></span><div class="txt"><h3>Extend your calculator</h3><p>Add the weighted grade to your project folder — Group B will reuse it.</p></div></div>
+</section>
+
+<!-- 24 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 4 — Making Decisions</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">Today your pass check printed <span class="kw">1</span> or <span class="kw">0</span>. Next time, <span class="kw">if</span> turns that bool into real branches — <strong>"PASS"</strong> or <strong>"FAIL"</strong>, different paths for different data.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up"><span class="kw">if</span> / <span class="kw">else</span> — choose what runs</li>
+        <li class="fragment fade-up">Turn today's conditions into decisions</li>
+        <li class="fragment fade-up">A grade classifier: A, B, C, fail</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/branch_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 25 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/calculator_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">You built a calculator.</h1>
+    <p class="fragment fade-in" style="max-width:640px;margin:10px auto 0">Operators turn stored data into real answers — grades, averages, pass or fail. Next: decisions.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js?v=5"></script>
+<script src="../assets/js/live-code.js?v=5"></script>
+<script src="../assets/js/activities.js?v=5"></script>
+<script src="../assets/js/counter.js?v=5"></script>
+<script src="../assets/js/timer.js?v=5"></script>
+<script src="../assets/js/presenter.js?v=5"></script>
+<script src="../assets/js/explain.js?v=5"></script>
+</body>
+</html>
