@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lecture 4 — Making Decisions</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css?v=8">
+<link rel="stylesheet" href="../assets/css/live-code.css?v=8">
+<link rel="stylesheet" href="../assets/css/animations.css?v=8">
+<link rel="stylesheet" href="../assets/css/timer.css?v=8">
+<link rel="stylesheet" href="../assets/css/gate.css?v=8">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=8">
+<link rel="stylesheet" href="../assets/css/explain.css?v=8">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js?v=8"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === String(lec.password).trim().toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=8"></script>
+</head>
+<body data-lecture="lecture4">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture4-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 4</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ OPENER ============ -->
+
+<!-- 0 QR / SCAN-IN (everything visible, no clicks) -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 4</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox">hassanmiir.github.io/cpp-course/lecture4/</div>
+        <div class="presenter">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap"><img src="lecture4-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter" data-lecture="lecture4"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students scan in. Password for this lecture is cpp-L4.</aside>
+</section>
+
+<!-- 1 HOOK — big, catchy -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 4 · Making Decisions</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">Teach your program<br>to <span class="shimmer">choose</span></h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:18px;max-width:720px">Pass or fail. Login allowed or denied. Discount or full price.<br>Every app you've ever used is making <strong>thousands of choices a second</strong> — with one keyword: <span class="kw" style="background:rgba(255,255,255,.14);color:#fff">if</span>.</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:24px">A 2-hour hands-on session · you'll build a grade classifier</p>
+  </div>
+  <aside class="notes">Hook them: decisions are everywhere in software. Today one keyword unlocks all of it. Keep it energetic.</aside>
+</section>
+
+<!-- 2 THE BRIDGE from L3 -->
+<section>
+  <span class="kicker">Where We Left Off</span>
+  <h2>Last time your pass check printed <span class="kw">1</span> or <span class="kw">0</span></h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>bool passed = average >= 50;
+cout << passed;     // prints 1 or 0 — not very friendly</code></pre>
+      <p class="fragment fade-in" style="font-size:.78em;margin-top:10px">A <span class="kw">bool</span> is a <em>yes/no</em>. But the program still did the <strong>same thing</strong> either way. Today we make it <strong>act</strong> on that answer.</p>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/branch_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.66em">yes → print "PASS"<br>no → print "FAIL"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1 — IF ============ -->
+
+<!-- 3 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>The <span class="shimmer">if</span> statement</h2>
+      <p class="ph-sub">Run some code — but only when a condition is true.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/branch_FFFFFF.png"></span> One condition, one path</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/toggleOn_FFFFFF.png"></span> Built from the bool you already know</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Run your first decision — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/branch_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 4 the shape of if + flow visual -->
+<section>
+  <span class="kicker">The Shape</span>
+  <h2>A condition, then a block</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>if (average >= 50) {
+    cout << "PASS";
+}</code></pre>
+      <p class="fragment fade-in" style="font-size:.74em;margin-top:8px">Read it: <em>"if this is true, run what's in the braces."</em> If it's false, C++ just skips the block.</p>
+    </div>
+    <div class="col">
+      <div class="flow fragment fade-up">
+        <div class="diamond">average &gt;= 50 ?</div>
+        <div class="stem"></div>
+        <div class="branches">
+          <div class="branch yes"><span class="tag">TRUE</span><div class="box">print "PASS"</div></div>
+          <div class="branch no"><span class="tag">FALSE</span><div class="box" style="color:var(--grey)">skip &rarr;</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 *** LIVE CODE #1 — first if *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Your first decision</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change the mark to 40 and run again — watch the message disappear. (Input: 72)</p>
+  <div class="live-code" data-stdin="72">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int mark;
+    cin >> mark;
+
+    if (mark >= 50) {
+        cout << "PASS" << endl;
+    }
+
+    cout << "Done." << endl;   // this always runs
+    return 0;
+}
+  </div>
+  <aside class="notes">Run with 72 → PASS + Done. Change to 40 → only Done. The point: the if-block is conditional, the rest isn't.</aside>
+</section>
+
+<!-- ============ PART 2 — IF / ELSE / ELSE IF ============ -->
+
+<!-- 6 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2>else, and the ladder</h2>
+      <p class="ph-sub">Give the "no" path something to do — and chain many choices.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/exchange_FFFFFF.png"></span> else — the other path</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/listOl_FFFFFF.png"></span> else if — a ladder of choices</div>
+        <div class="pp fragment fade-right"><span class="chip sm orange"><img src="../assets/icons/graduation_FFFFFF.png"></span> Build a grade classifier</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/exchange_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 7 if / else -->
+<section>
+  <span class="kicker">Two Paths</span>
+  <h2>if … <span class="kw">else</span> … — always one or the other</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>if (mark >= 50) {
+    cout << "PASS";
+} else {
+    cout << "FAIL";
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="flow fragment fade-up">
+        <div class="diamond">mark &gt;= 50 ?</div>
+        <div class="stem"></div>
+        <div class="branches">
+          <div class="branch yes"><span class="tag">TRUE</span><div class="box">"PASS"</div></div>
+          <div class="branch no"><span class="tag">FALSE</span><div class="box">"FAIL"</div></div>
+        </div>
+      </div>
+      <div class="note ok fragment fade-in" style="font-size:.6em;margin-top:14px"><span class="lead">Exactly one runs</span>Never both, never neither. That's the guarantee <span class="kw">else</span> gives you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 else if ladder -->
+<section>
+  <span class="kicker">Many Paths</span>
+  <h2>The <span class="kw">else if</span> ladder — checked top to bottom</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>if (score >= 90) {
+    grade = 'A';
+} else if (score >= 75) {
+    grade = 'B';
+} else if (score >= 50) {
+    grade = 'C';
+} else {
+    grade = 'F';
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/listOl_FFFFFF.png"></span><div class="txt"><h3>Top to bottom</h3><p>C++ tries each test in order and stops at the <strong>first</strong> true one.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/flag_FFFFFF.png"></span><div class="txt"><h3>Order matters!</h3><p>Put the strictest test first. 95 is ≥90 and ≥75 — but only 'A' runs.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>else = catch-all</h3><p>If nothing matched, the final <span class="kw">else</span> handles it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 *** YOU BE THE COMPUTER — trace game (paper) *** -->
+<section>
+  <span class="kicker orange">You Be the Computer <span class="badge">On paper · 3 min</span></span>
+  <h2>Trace the ladder — which grade?</h2>
+  <p style="font-size:.72em;color:var(--grey)">Run the ladder above <strong>in your head</strong> for each score. Write the letter it lands on.</p>
+  <div class="worksheet">
+    <div class="ws-rows">
+      <div class="ws-row fragment fade-up"><span class="trace-chip">score = 95</span> <span>grade =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="trace-chip">score = 75</span> <span>grade =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="trace-chip">score = 49</span> <span>grade =</span> <span class="blank">?</span></div>
+      <div class="ws-row fragment fade-up"><span class="trace-chip">score = 50</span> <span>grade =</span> <span class="blank">?</span></div>
+    </div>
+  </div>
+  <div style="margin-top:16px"><span class="penpill fragment fade-in">Go line by line. Stop at the FIRST test that's true — that's the trick.</span></div>
+  <aside class="notes">Let them trace silently. The sneaky one is 75 (lands on B, boundary) and 50 (exactly C, not F). 49 falls to else = F. Ask the room before revealing.</aside>
+</section>
+
+<!-- 9b ANSWER — trace -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Check your four</h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ws-rows">
+      <div class="ws-row"><span class="expr">score = 95</span> <span>&rarr;</span> <span class="ans">'A'</span> <span style="color:var(--grey);margin-left:10px">95 ≥ 90, stops immediately</span></div>
+      <div class="ws-row"><span class="expr">score = 75</span> <span>&rarr;</span> <span class="ans">'B'</span> <span style="color:var(--grey);margin-left:10px">not ≥90, but 75 ≥ 75 ✓</span></div>
+      <div class="ws-row"><span class="expr">score = 49</span> <span>&rarr;</span> <span class="ans" style="color:var(--red)">'F'</span> <span style="color:var(--grey);margin-left:10px">fails every test → else</span></div>
+      <div class="ws-row"><span class="expr">score = 50</span> <span>&rarr;</span> <span class="ans">'C'</span> <span style="color:var(--grey);margin-left:10px">50 ≥ 50 ✓ (the boundary!)</span></div>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em"><span class="lead">Boundaries bite</span>Beginners trip on <span class="kw">&gt;=</span> vs <span class="kw">&gt;</span>. 50 passes because the test is <span class="kw">&gt;= 50</span>, not <span class="kw">&gt; 50</span>.</div>
+</section>
+
+<!-- 10 *** LIVE CODE #2 — grade classifier (the hands-on) *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>The grade classifier</h2>
+  <p style="font-size:.62em" class="muted">The real tool Group B's gradebook needs. Run it, then feed it 95, 60, 30. (Input: 72)</p>
+  <div class="live-code" data-stdin="72">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score;
+    cin >> score;
+    char grade;
+
+    if (score >= 90)      grade = 'A';
+    else if (score >= 75) grade = 'B';
+    else if (score >= 50) grade = 'C';
+    else                  grade = 'F';
+
+    cout << "Score " << score << " -> grade " << grade << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Note single-line if/else (no braces) is fine for one statement. Try 95→A, 60→C, 30→F. This IS the hands-on core — students extend it next.</aside>
+</section>
+
+<!-- 11 *** QUIZ — order matters *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What does this print for <span class="kw">score = 95</span>?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>if (score >= 50)      cout << "C";
+else if (score >= 75) cout << "B";
+else if (score >= 90) cout << "A";</code></pre>
+      <p style="font-size:.6em;color:var(--grey)">Careful — look at the <em>order</em> of the tests.</p>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Yes! 95 ≥ 50 is the FIRST true test, so it stops at C. Order is wrong — strictest must come first."><span class="key">A</span> C</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="That's what we WANT, but the ladder checks >= 50 first and stops there."><span class="key">B</span> A</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="It never reaches the B test — 95 ≥ 50 already matched."><span class="key">C</span> B</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — SWITCH ============ -->
+
+<!-- 12 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 3</span>
+      <h2>switch — the menu</h2>
+      <p class="ph-sub">A clean way to pick one of many fixed options.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/list_FFFFFF.png"></span> One value, many cases</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span> Don't forget <span class="kw">break</span>!</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#E8B98A"><img src="../assets/icons/list_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 13 switch -->
+<section>
+  <span class="kicker">The Menu</span>
+  <h2><span class="kw">switch</span> — pick a case by value</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.2">
+      <pre style="font-size:.48em"><code class="language-cpp" data-trim>switch (grade) {
+  case 'A': cout << "Excellent"; break;
+  case 'B': cout << "Good";      break;
+  case 'C': cout << "Passed";    break;
+  default:  cout << "Try again";
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/bullseye_FFFFFF.png"></span><div class="txt"><h3>When to use it</h3><p>One variable, compared to several <strong>exact</strong> values — menus, grades, commands.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span><div class="txt"><h3>The <span class="kw">break</span> trap</h3><p>Forget <span class="kw">break</span> and it "falls through" into the next case. The #1 switch bug.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3><span class="kw">default</span></h3><p>The catch-all, like the final <span class="kw">else</span>.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 *** QUIZ — switch fall-through *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>No <span class="kw">break</span>! What prints for <span class="kw">'A'</span>?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>switch (grade) {
+  case 'A': cout << "Excellent";
+  case 'B': cout << "Good";
+  default:  cout << "!";
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="0" data-msg="If there were breaks, yes. But there aren't — so it keeps going."><span class="key">A</span> Excellent</div>
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Right! With no break it FALLS THROUGH every case below: Excellent + Good + !"><span class="key">B</span> ExcellentGood!</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="default only runs on its own when nothing matched — here A matched and fell through."><span class="key">C</span> !</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 4 — HANDS-ON ============ -->
+
+<!-- 15 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 4</span>
+      <h2>Build it: smart grade report</h2>
+      <p class="ph-sub">Turn a score into a grade AND a message — your real classifier.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/graduation_FFFFFF.png"></span> Score &rarr; letter grade</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/quote_FFFFFF.png"></span> A message for each grade</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 16 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>The smart grade report</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Read a score and print a full report:</p>
+        <ol style="font-size:.9em">
+          <li>Use an <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">if / else if</span> ladder to set a letter grade (A/B/C/F).</li>
+          <li><span style="color:#E8B98A">Then</span> use a <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">switch</span> on that grade to print a message.</li>
+          <li><span style="color:#E8B98A">Guard it:</span> if the score is below 0 or above 100, print <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">"Invalid score"</span> and nothing else.</li>
+          <li>Print: the score, the grade, and the message.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">Don't forget</span>A <span class="kw">break</span> after every <span class="kw">case</span>, and check the valid range <em>first</em> with an <span class="kw">if</span>.</div>
+</section>
+
+<!-- 17 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your grade report</h2>
+  <p style="font-size:.58em" class="muted">Starter reads the score &amp; sets the grade. <strong>You add</strong> the switch message and the range guard. (Input: 82)</p>
+  <div class="live-code" data-stdin="82">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score;
+    cin >> score;
+
+    // TODO: if (score < 0 || score > 100) { print "Invalid score"; return 0; }
+
+    char grade;
+    if (score >= 90)      grade = 'A';
+    else if (score >= 75) grade = 'B';
+    else if (score >= 50) grade = 'C';
+    else                  grade = 'F';
+
+    cout << "Score: " << score << "  Grade: " << grade << endl;
+
+    // TODO: switch (grade) { case 'A': ... print a message ... }
+    return 0;
+}
+  </div>
+  <aside class="notes">Solution next slide. Let pairs wire the switch and the guard. 82 → B. Invite demos. Common bug: missing break, or guard placed after the ladder.</aside>
+</section>
+
+<!-- 18 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How the report works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.4">
+      <pre style="font-size:.4em"><code class="language-cpp" data-trim>if (score < 0 || score > 100) {
+    cout << "Invalid score"; return 0;   // guard FIRST
+}
+char grade;
+if (score >= 90) grade = 'A';
+else if (score >= 75) grade = 'B';
+else if (score >= 50) grade = 'C';
+else grade = 'F';
+
+cout << "Score: " << score << "  Grade: " << grade << endl;
+switch (grade) {
+  case 'A': cout << "Outstanding!"; break;
+  case 'B': cout << "Well done";    break;
+  case 'C': cout << "You passed";   break;
+  default:  cout << "Keep going";
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span><div class="txt"><h3>Guard first, return early</h3><p>Reject bad input before any grading runs.</p></div></div>
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/listOl_FFFFFF.png"></span><div class="txt"><h3>Ladder sets the grade</h3><p>Strictest test on top, catch-all <span class="kw">else</span> at the bottom.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>switch speaks to the user</h3><p>One message per grade — every <span class="kw">case</span> has its <span class="kw">break</span>.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP UP ============ -->
+
+<!-- 19 recap -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you can do now</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/branch_FFFFFF.png"></span><h3>Branch</h3><p><span class="kw">if</span> / <span class="kw">else</span> / <span class="kw">else if</span> — run different code for different data, checked top to bottom.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/list_FFFFFF.png"></span><h3>Switch</h3><p>Pick one of many fixed values cleanly — with a <span class="kw">break</span> after each case.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Your programs now <strong>react</strong> — they take different paths for different input. That's real logic.</div>
+</section>
+
+<!-- 20 vocabulary (click to reveal — only the new words) -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's keywords <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any one for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="if (condition) { ... } runs the block only when the condition is true. The foundation of every decision.">if</span></h3><p>Run if true</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="else { ... } runs when the if was false. With if, exactly one of the two blocks always runs.">else</span></h3><p>Otherwise</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="else if chains more tests. C++ checks them top to bottom and stops at the first true one. Order matters!">else if</span></h3><p>Next test</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="switch picks one case by an exact value. Clean for menus and fixed options. Needs break after each case.">switch</span></h3><p>Pick a case</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="break ends the current switch case so it doesn't fall through into the next one. Forgetting it is the #1 switch bug.">break</span></h3><p>Stop the case</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="default is the switch catch-all: it runs when no case matched, like the final else.">default</span></h3><p>Catch-all</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A condition is any expression that is true or false — like score >= 50. It decides which branch runs.">condition</span></h3><p>true / false test</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A boundary is an edge value like exactly 50. Beginners trip on >= vs > — always test the edges.">boundary</span></h3><p>The edge case</p></div>
+  </div>
+</section>
+
+<!-- 21 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/branch_FFFFFF.png"></span><div class="txt"><h3>Leap year checker</h3><p>Read a year; print "Leap" if divisible by 4 (and your rule) — great <span class="kw">if</span> + <span class="kw">%</span> practice.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/list_FFFFFF.png"></span><div class="txt"><h3>Day of the week</h3><p>Read a number 1–7; use a <span class="kw">switch</span> to print the day name (default: "Invalid").</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/folder_FFFFFF.png"></span><div class="txt"><h3>Upgrade your classifier</h3><p>Add A+ and A- bands to your grade report — Group B will reuse it.</p></div></div>
+</section>
+
+<!-- 22 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 5 — Loops</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">Today you chose a path <em>once</em>. Next time you'll <strong>repeat</strong> work — grade a whole class of students, not just one, without copying code.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up"><span class="kw">while</span> and <span class="kw">for</span> — do it again and again</li>
+        <li class="fragment fade-up">Loop over every student's score</li>
+        <li class="fragment fade-up">Sum, average, and find the top mark</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/loop_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 23 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/branch_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">Your program can decide.</h1>
+    <p class="fragment fade-in" style="max-width:640px;margin:10px auto 0">From a yes/no to real branching paths — that's the leap from a calculator to a program. Next: doing it again and again.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js?v=8"></script>
+<script src="../assets/js/live-code.js?v=8"></script>
+<script src="../assets/js/activities.js?v=8"></script>
+<script src="../assets/js/counter.js?v=8"></script>
+<script src="../assets/js/timer.js?v=8"></script>
+<script src="../assets/js/presenter.js?v=8"></script>
+<script src="../assets/js/explain.js?v=8"></script>
+</body>
+</html>

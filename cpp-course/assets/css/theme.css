@@ -159,6 +159,39 @@
   border-radius:999px; padding:7px 16px; font-size:.62em; font-weight:700; letter-spacing:.3px; }
 .penpill::before{ content:"✏️"; font-size:1.1em; }
 
+/* ---------- decision / flowchart visuals (Lecture 4) ---------- */
+/* a condition "diamond" that branches into true / false paths */
+.flow{ display:flex; flex-direction:column; align-items:center; gap:0; margin-top:10px; }
+.flow .diamond{ background:linear-gradient(135deg,#2E6DA4,#174A7C); color:#fff;
+  padding:16px 30px; border-radius:14px; font-family:'JetBrains Mono',monospace; font-weight:700;
+  font-size:.8em; box-shadow:0 8px 22px rgba(23,74,124,.28); position:relative; }
+.flow .stem{ width:3px; height:26px; background:#9DB4CC; }
+.flow .branches{ display:flex; gap:60px; margin-top:4px; }
+.flow .branch{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+.flow .branch .tag{ font-size:.6em; font-weight:800; letter-spacing:1px; padding:3px 12px; border-radius:999px; }
+.flow .branch.yes .tag{ background:#E7F3EC; color:var(--green); }
+.flow .branch.no .tag{ background:var(--redbg); color:var(--red); }
+.flow .branch .box{ background:#fff; border:2px solid var(--line); border-radius:12px;
+  padding:12px 18px; font-size:.72em; min-width:150px; text-align:center; }
+.flow .branch.yes .box{ border-color:var(--green); }
+.flow .branch.no .box{ border-color:var(--red); }
+
+/* "choose your path" cards — big, tappable-looking option tiles */
+.paths{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-top:16px; }
+.path-card{ border:2px solid var(--line); border-radius:16px; padding:20px 18px; text-align:center;
+  transition:transform .15s, box-shadow .15s, border-color .15s; background:#fff; }
+.path-card:hover{ transform:translateY(-4px); box-shadow:0 12px 28px rgba(17,32,46,.12); border-color:var(--blue); }
+.path-card .big{ font-size:1.6em; font-weight:800; font-family:'JetBrains Mono',monospace; margin-bottom:4px; }
+.path-card.g .big{ color:var(--green); } .path-card.o .big{ color:var(--orange); }
+.path-card.b .big{ color:var(--blue); } .path-card.r .big{ color:var(--red); }
+.path-card .lbl{ font-size:.66em; color:var(--grey); }
+
+/* a glowing "YOU be the computer" trace chip */
+.trace-chip{ display:inline-flex; align-items:center; gap:8px; background:#101E2E; color:#9FE3C0;
+  border:1px solid #2E4A63; border-radius:10px; padding:8px 14px; font-family:'JetBrains Mono',monospace;
+  font-size:.7em; animation:tracepulse 2.2s ease-in-out infinite; }
+@keyframes tracepulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(110,214,166,.0); } 50%{ box-shadow:0 0 0 6px rgba(110,214,166,.14); } }
+
 /* ---------- badge ---------- */
 .badge{
   display:inline-block; background:var(--orange); color:#fff; font-weight:700;

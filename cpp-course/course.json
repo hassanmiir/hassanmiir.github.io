@@ -68,7 +68,7 @@
       "handsOn": "Build a grade classifier: enter a score, print the letter grade.",
       "icon": "branch",
       "password": "cpp-L4",
-      "built": false
+      "built": true
     },
     {
       "id": "lecture5",
