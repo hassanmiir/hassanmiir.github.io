@@ -146,3 +146,9 @@
 .part-preview .pp{ display:flex; align-items:center; gap:14px; color:#DCE7F0; font-size:.68em;
   background:rgba(255,255,255,.05); border:1px solid #2E4A63; border-radius:12px; padding:10px 16px; }
 .part-num-big{ font-family:'Georgia',serif; font-weight:700; font-size:.55em; color:#6FA8DC; letter-spacing:2px; }
+
+/* Show every slide's full content at once — fragments are always visible
+   (we navigate slide-to-slide, not click-by-click). This is a safety net on
+   top of reveal's fragments:false so content never stays hidden. */
+.reveal .fragment{ opacity:1 !important; visibility:visible !important; transform:none !important; }
+.reveal .fragment.fade-out{ display:none !important; }

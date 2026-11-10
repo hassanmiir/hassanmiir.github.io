@@ -236,29 +236,56 @@
       playing = false; if (timer) { clearInterval(timer); timer = null; }
       playBtn.innerHTML = "▶ Play"; playBtn.classList.remove("playing");
     }
-    function reset() {
+    function reset(msg) {
       stop(); pos = -1; clearLines(); out.innerHTML = "";
       cval.textContent = steps.length ? steps[0].vars : "i = 1";
       cond.className = "lvz-cond lvz-cond-idle"; condtxt.textContent = "condition";
       flowtag.textContent = ""; flowtag.className = "lvz-flowtag";
-      bubble.textContent = "Press ▶ Play (or Step) to watch the loop run.";
+      bubble.textContent = msg || "The loop runs automatically — watch each step.";
     }
 
     playBtn.addEventListener("click", function(){ playing ? stop() : play(); });
     stepBtn.addEventListener("click", function(){ stop(); step(); });
-    resetBtn.addEventListener("click", reset);
+    resetBtn.addEventListener("click", function(){ reset(); });
 
-    // Pause when the slide is left (reveal.js), so it doesn't run off-screen.
-    if (window.Reveal && Reveal.on) {
-      Reveal.on("slidechanged", function(){ stop(); });
-    }
+    // Expose controls so the auto-runner can start/stop this widget.
+    widget.__lvz = {
+      autorun: function(){ reset(); setTimeout(function(){ play(); }, 550); },
+      stop: stop,
+      reset: reset
+    };
+    // Start idle (auto-run is triggered when its slide becomes active).
+    reset();
   }
 
   function initAll() {
     document.querySelectorAll(".loopviz-widget").forEach(build);
   }
+
+  // Auto-run the visualizer(s) on whichever slide is now showing, and stop any
+  // others — so arriving on a visualizer slide plays it with NO click needed.
+  var lastRun = null;
+  function runActiveSlide() {
+    var cur = (window.Reveal && Reveal.getCurrentSlide) ? Reveal.getCurrentSlide() : document;
+    document.querySelectorAll(".loopviz-widget").forEach(function(w){
+      if (!w.__lvz) return;
+      if (cur && cur.contains(w)) {
+        if (lastRun !== w) { lastRun = w; w.__lvz.autorun(); }
+      } else {
+        w.__lvz.stop();
+      }
+    });
+  }
+
   if (document.readyState !== "loading") initAll();
   else document.addEventListener("DOMContentLoaded", initAll);
-  if (window.Reveal && Reveal.on) Reveal.on("ready", initAll);
+  if (window.Reveal && Reveal.on) {
+    Reveal.on("ready", function(){ initAll(); runActiveSlide(); });
+    Reveal.on("slidechanged", function(){ lastRun = null; runActiveSlide(); });
+  } else {
+    // No reveal (plain page): just run any visualizer present.
+    window.addEventListener("load", function(){ initAll(); document.querySelectorAll(".loopviz-widget").forEach(function(w){ if(w.__lvz) w.__lvz.autorun(); }); });
+  }
   window.LoopVizInit = initAll;
+  window.LoopVizRun = runActiveSlide;
 })();
