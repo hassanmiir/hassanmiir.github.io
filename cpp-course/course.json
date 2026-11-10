@@ -84,7 +84,7 @@
       "handsOn": "Print a multiplication table and sum the numbers from 1 to N.",
       "icon": "loop",
       "password": "cpp-L5",
-      "built": false
+      "built": true
     },
     {
       "id": "lecture6",

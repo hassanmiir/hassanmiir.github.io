@@ -192,6 +192,26 @@
   font-size:.7em; animation:tracepulse 2.2s ease-in-out infinite; }
 @keyframes tracepulse{ 0%,100%{ box-shadow:0 0 0 0 rgba(110,214,166,.0); } 50%{ box-shadow:0 0 0 6px rgba(110,214,166,.14); } }
 
+/* ---------- loop visual (Lecture 5): body → check → back ---------- */
+.loopviz{ display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:8px; }
+.loopviz .lv-step{ background:#fff; border:2px solid var(--line); border-radius:12px;
+  padding:11px 20px; font-size:.74em; text-align:center; min-width:190px; position:relative; }
+.loopviz .lv-step.cond{ background:linear-gradient(135deg,#2E6DA4,#174A7C); color:#fff; border:none;
+  font-family:'JetBrains Mono',monospace; font-weight:700; box-shadow:0 8px 20px rgba(23,74,124,.26); }
+.loopviz .lv-step.body{ border-color:var(--green); }
+.loopviz .lv-arrow{ color:#9DB4CC; font-size:1.1em; line-height:1; }
+/* the "loop back" ribbon */
+.loopviz .lv-back{ display:flex; align-items:center; gap:8px; color:var(--blue); font-weight:700;
+  font-size:.62em; letter-spacing:.3px; animation:loopspin 3s linear infinite; }
+@keyframes loopspin{ 0%{ opacity:.55 } 50%{ opacity:1 } 100%{ opacity:.55 } }
+.loopviz .lv-exit{ color:var(--red); font-weight:700; font-size:.6em; letter-spacing:.5px; }
+
+/* a live "counter ticker" chip row for showing a loop running */
+.ticker{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.ticker .tk{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:.8em;
+  background:#EAF2FA; color:var(--blue); border-radius:9px; padding:8px 13px; }
+.ticker .tk.last{ background:var(--blue); color:#fff; }
+
 /* ---------- badge ---------- */
 .badge{
   display:inline-block; background:var(--orange); color:#fff; font-weight:700;

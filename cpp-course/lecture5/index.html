@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lecture 5 — Loops</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css?v=9">
+<link rel="stylesheet" href="../assets/css/live-code.css?v=9">
+<link rel="stylesheet" href="../assets/css/animations.css?v=9">
+<link rel="stylesheet" href="../assets/css/timer.css?v=9">
+<link rel="stylesheet" href="../assets/css/gate.css?v=9">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=9">
+<link rel="stylesheet" href="../assets/css/explain.css?v=9">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js?v=9"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === String(lec.password).trim().toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=9"></script>
+</head>
+<body data-lecture="lecture5">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture5-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 5</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ OPENER ============ -->
+
+<!-- 0 QR / SCAN-IN (all visible, no clicks) -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 5</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox">hassanmiir.github.io/cpp-course/lecture5/</div>
+        <div class="presenter">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap"><img src="lecture5-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter" data-lecture="lecture5"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students scan in. Password for this lecture is cpp-L5.</aside>
+</section>
+
+<!-- 1 HOOK -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 5 · Loops</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">Never write the<br>same line <span class="shimmer">twice</span></h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:18px;max-width:720px">Grade 200 students by copy-pasting <span class="kw" style="background:rgba(255,255,255,.14);color:#fff">cout</span> 200 times? Never.<br>A <strong>loop</strong> does the same work again and again — 5 times or 5 million — from <strong>three lines</strong>.</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:24px">A 2-hour hands-on session · you'll build a multiplication table</p>
+  </div>
+  <aside class="notes">Hook: repetition by hand is absurd; the computer was built for it. One loop scales from 5 to 5 million with no extra code. Energetic open.</aside>
+</section>
+
+<!-- 2 BRIDGE from L4 -->
+<section>
+  <span class="kicker">Where We Left Off</span>
+  <h2>Last time your program chose a path <em>once</em></h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">An <span class="kw">if</span> runs its block <strong>zero or one</strong> time. But a gradebook has 30 students, a table has 12 rows, a game runs every frame…</p>
+      <p class="fragment fade-in" style="font-size:.82em;margin-top:8px">You need to do something <strong>many</strong> times. That's a <span class="kw">loop</span> — and it's three ideas: <strong>start</strong>, <strong>keep going while…</strong>, <strong>step</strong>.</p>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/loop_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.66em">1 → 2 → 3 → … → done</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1 — WHILE ============ -->
+
+<!-- 3 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>The <span class="shimmer">while</span> loop</h2>
+      <p class="ph-sub">Keep repeating as long as a condition stays true.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/sync_FFFFFF.png"></span> Check, run, repeat</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/infinity_FFFFFF.png"></span> The infinite-loop trap</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Run a countdown — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/sync_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 4 the while shape + loop visual -->
+<section>
+  <span class="kicker">The Shape</span>
+  <h2>Check the condition, run the body, repeat</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code class="language-cpp" data-trim>int i = 1;                 // start
+while (i &lt;= 3) {            // keep going while true
+    cout &lt;&lt; i &lt;&lt; " ";
+    i = i + 1;             // step — or it never ends!
+}</code></pre>
+      <p class="fragment fade-in" style="font-size:.72em;color:var(--grey);margin-top:8px">Prints <span class="kw">1 2 3</span>. When <span class="kw">i</span> becomes 4, the test is false and the loop exits.</p>
+    </div>
+    <div class="col">
+      <div class="loopviz fragment fade-up">
+        <div class="lv-step cond">i &lt;= 3 ?</div>
+        <div class="lv-arrow">↓ true</div>
+        <div class="lv-step body">print i, then i = i + 1</div>
+        <div class="lv-back">⟲ loop back to the check</div>
+        <div class="lv-exit">when false → exit ↓</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 *** LIVE CODE #1 — countdown *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>A countdown</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change the start number. What happens if you delete the <span class="kw">n = n - 1</span> line? (Don't — that's the infinite loop!) (Input: 5)</p>
+  <div class="live-code" data-stdin="5">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    while (n > 0) {
+        cout << n << "... ";
+        n = n - 1;          // the step that ends the loop
+    }
+    cout << "Liftoff!" << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Run with 5 → 5... 4... 3... 2... 1... Liftoff! Ask: what if we removed n=n-1? It would print 5 forever. That's the infinite loop — the single most common loop bug.</aside>
+</section>
+
+<!-- 6 *** YOU BE THE COMPUTER — trace (paper) *** -->
+<section>
+  <span class="kicker orange">You Be the Computer <span class="badge">On paper · 3 min</span></span>
+  <h2>Trace it — what does it print?</h2>
+  <p style="font-size:.72em;color:var(--grey)">Run this loop <strong>in your head</strong>. Write every value of <span class="kw">i</span> that gets printed, in order.</p>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.52em"><code class="language-cpp" data-trim>int i = 2;
+while (i &lt; 10) {
+    cout &lt;&lt; i &lt;&lt; " ";
+    i = i + 3;
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="worksheet">
+        <div class="ws-rows">
+          <div class="ws-row fragment fade-up"><span>Output:</span> <span class="blank" style="min-width:220px">? ? ? ?</span></div>
+          <div class="ws-row fragment fade-up"><span>How many numbers print?</span> <span class="blank">?</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px"><span class="penpill fragment fade-in">Track i each time: 2, then +3, then +3… stop when i &lt; 10 is false.</span></div>
+    </div>
+  </div>
+  <aside class="notes">Silence, pens moving. i: 2 (print), 5 (print), 8 (print), 11 → 11<10 false, stop. So 2 5 8 — three numbers. The trap: 11 is NOT printed. Reveal next.</aside>
+</section>
+
+<!-- 6b ANSWER -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Three numbers: <span class="kw">2 5 8</span></h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ticker">
+      <span class="tk">i = 2 ✓ print</span>
+      <span class="tk">i = 5 ✓ print</span>
+      <span class="tk">i = 8 ✓ print</span>
+      <span class="tk last">i = 11 ✗ stop</span>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em;margin-top:14px"><span class="lead">The off-by-one trap</span>After printing 8, <span class="kw">i</span> becomes 11. The check <span class="kw">11 &lt; 10</span> is false, so 11 never prints. Always ask: <em>what's the last value that passes the test?</em></div>
+</section>
+
+<!-- ============ PART 2 — FOR ============ -->
+
+<!-- 7 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2>The <span class="shimmer">for</span> loop</h2>
+      <p class="ph-sub">The same three ideas — start, test, step — on one tidy line.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/listOl_FFFFFF.png"></span> Count a known number of times</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/table_FFFFFF.png"></span> Build a multiplication table</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/loop_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 8 for dissected -->
+<section>
+  <span class="kicker">Three Parts, One Line</span>
+  <h2><span class="kw">for</span> — start, test, step together</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>for (int i = 1; i &lt;= 5; i++) {
+    cout &lt;&lt; i &lt;&lt; " ";
+}
+// prints 1 2 3 4 5</code></pre>
+      <p class="fragment fade-in" style="font-size:.7em;color:var(--grey);margin-top:6px"><span class="kw">i++</span> is shorthand for <span class="kw">i = i + 1</span>.</p>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/flag_FFFFFF.png"></span><div class="txt"><h3><span class="kw">int i = 1</span> — start</h3><p>Runs once, before the loop begins.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3><span class="kw">i &lt;= 5</span> — test</h3><p>Checked before every pass. True → run; false → stop.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/arrowRight_FFFFFF.png"></span><div class="txt"><h3><span class="kw">i++</span> — step</h3><p>Runs after each pass. Moves you toward the end.</p></div></div>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.6em"><span class="lead">while vs for</span>Same three ideas. Use <span class="kw">for</span> when you know <em>how many times</em>; <span class="kw">while</span> when you loop <em>until something happens</em>.</div>
+</section>
+
+<!-- 9 *** LIVE CODE #2 — multiplication table *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>A multiplication table</h2>
+  <p style="font-size:.62em" class="muted">The 7× table, built by a loop. Change <span class="kw">7</span> to your favourite number and run. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int table = 7;
+    for (int i = 1; i <= 10; i++) {
+        cout << table << " x " << i << " = " << table * i << endl;
+    }
+    return 0;
+}
+  </div>
+  <aside class="notes">One loop prints 10 lines. Point out: change i<=10 to i<=12 for a bigger table, change 'table' for a different one. This is the hands-on core — students make a FULL table next.</aside>
+</section>
+
+<!-- 10 *** QUIZ — how many times *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>How many times does this loop run?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>for (int i = 0; i &lt; 5; i++) {
+    cout &lt;&lt; "*";
+}</code></pre>
+      <p style="font-size:.6em;color:var(--grey)">Careful with the start value and the <span class="kw">&lt;</span>.</p>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="0" data-msg="Close, but i starts at 0, not 1 — count the values: 0,1,2,3,4."><span class="key">A</span> 4 times</div>
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Right! i = 0,1,2,3,4 → that's 5 passes. Then i=5 fails i<5."><span class="key">B</span> 5 times</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="i=5 would need i<=5. With i<5 it stops at 4, so 5 passes (0–4)."><span class="key">C</span> 6 times</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 3 — BREAK / CONTINUE / TRAPS ============ -->
+
+<!-- 11 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 3</span>
+      <h2>break, continue &amp; traps</h2>
+      <p class="ph-sub">Escape early, skip a turn — and dodge the loops that never end.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/hand_FFFFFF.png"></span> break — leave now</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/arrowRight_FFFFFF.png"></span> continue — skip to next</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/infinity_FFFFFF.png"></span> the infinite loop</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#E8B98A"><img src="../assets/icons/hand_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 12 break & continue -->
+<section>
+  <span class="kicker">Two Escape Hatches</span>
+  <h2><span class="kw">break</span> leaves · <span class="kw">continue</span> skips</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>for (int i = 1; i &lt;= 10; i++) {
+    if (i == 5) break;      // stop the whole loop at 5
+    cout &lt;&lt; i;              // prints 1234
+}
+
+for (int i = 1; i &lt;= 5; i++) {
+    if (i == 3) continue;   // skip just this turn
+    cout &lt;&lt; i;              // prints 1245
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/hand_FFFFFF.png"></span><div class="txt"><h3><span class="kw">break</span></h3><p>Exits the loop entirely — found what you wanted, stop looking.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/arrowRight_FFFFFF.png"></span><div class="txt"><h3><span class="kw">continue</span></h3><p>Skips the rest of <em>this</em> pass, jumps to the next one.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 infinite loop danger -->
+<section data-background-color="#2a1416">
+  <span class="kicker" style="color:#FF9B8A">Danger Zone</span>
+  <h2 style="color:#fff">The loop that never ends</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.48em"><code class="language-cpp" data-trim>int i = 1;
+while (i &lt;= 5) {
+    cout &lt;&lt; i;
+    // forgot i++  →  i is ALWAYS 1
+}   // prints 1 1 1 1 1 1 ... forever</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/infinity_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">Why it hangs</h3><p style="color:#F0C9C2">If the condition never becomes false, the loop runs forever and your program freezes.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">The rule</h3><p style="color:#F0C9C2">Every loop must <strong>change something</strong> that moves the condition toward false.</p></div></div>
+    </div>
+  </div>
+  <div class="note warn fragment fade-in" style="font-size:.6em;margin-top:10px"><span class="lead">If it ever hangs</span>Press <span class="kw">Ctrl + C</span> (or close the tab) to stop it — then find the missing step.</div>
+</section>
+
+<!-- 14 *** QUIZ — break output *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What does this print?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.48em"><code class="language-cpp" data-trim>for (int i = 1; i &lt;= 6; i++) {
+    if (i == 4) break;
+    cout &lt;&lt; i;
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Right! It prints 1, 2, 3, then i==4 hits break and the loop stops — 4 never prints."><span class="key">A</span> 123</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="break STOPS the loop at 4 — it doesn't just skip 4. Nothing after prints."><span class="key">B</span> 1235 6</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="That would be 'continue' skipping 4. break leaves the loop entirely."><span class="key">C</span> 12356</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 4 — HANDS-ON ============ -->
+
+<!-- 15 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 4</span>
+      <h2>Build it: sum &amp; table</h2>
+      <p class="ph-sub">Add up 1…N, then print a full times-table — pure loop power.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span> Sum 1 + 2 + … + N</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/table_FFFFFF.png"></span> The full multiplication table</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 16 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>Sum, then the table</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Read a number <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">N</span>, then:</p>
+        <ol style="font-size:.9em">
+          <li><span style="color:#E8B98A">Sum:</span> use a loop to add <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">1 + 2 + … + N</span> and print the total.</li>
+          <li><span style="color:#E8B98A">Table:</span> print the full <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">N × table</span> (N×1 up to N×10), one line each.</li>
+          <li><span style="color:#E8B98A">Stretch:</span> print only the <strong>even</strong> numbers from 1 to N (hint: <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">i % 2 == 0</span>).</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">Watch the bounds</span>For the sum, loop <span class="kw">i &lt;= N</span> (not <span class="kw">&lt; N</span>) so N itself is included. Start your running total at 0.</div>
+</section>
+
+<!-- 17 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your sum &amp; table</h2>
+  <p style="font-size:.58em" class="muted">Starter reads N. <strong>You add</strong> the sum loop and the table loop. (Input: 5)</p>
+  <div class="live-code" data-stdin="5">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+
+    // TODO 1 — SUM: start total = 0, loop i from 1 to N, total += i
+    int total = 0;
+    for (int i = 1; i <= N; i++) {
+        total = total + i;
+    }
+    cout << "Sum 1.." << N << " = " << total << endl;
+
+    // TODO 2 — TABLE: loop i from 1 to 10, print N * i
+    // (write your table loop here)
+
+    return 0;
+}
+  </div>
+  <aside class="notes">Sum loop is given as a worked example; the table loop is theirs. 5 → Sum = 15. Invite pairs to add the table and the even-numbers stretch. Solution next.</aside>
+</section>
+
+<!-- 18 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How it works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.42em"><code class="language-cpp" data-trim>int total = 0;
+for (int i = 1; i <= N; i++)   // 1..N inclusive
+    total += i;                // running sum
+cout << "Sum = " << total << endl;
+
+for (int i = 1; i <= 10; i++)  // the table
+    cout << N << " x " << i << " = " << N * i << endl;
+
+// stretch: even numbers
+for (int i = 1; i <= N; i++)
+    if (i % 2 == 0) cout << i << " ";</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Running total</h3><p>Start at 0, add <span class="kw">i</span> each pass. <span class="kw">+=</span> is "add to".</p></div></div>
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/table_FFFFFF.png"></span><div class="txt"><h3>One loop, ten lines</h3><p>The loop variable <span class="kw">i</span> becomes the multiplier.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Even filter</h3><p><span class="kw">i % 2 == 0</span> inside the loop — last lecture's trick, reused.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP UP ============ -->
+
+<!-- 19 recap -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you can do now</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/sync_FFFFFF.png"></span><h3>Repeat</h3><p><span class="kw">while</span> loops until a condition turns false; <span class="kw">for</span> counts a known number of times — same three ideas.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/hand_FFFFFF.png"></span><h3>Control</h3><p><span class="kw">break</span> leaves early, <span class="kw">continue</span> skips a turn — and every loop must move toward its end.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Your programs now scale — the same few lines handle 5 students or 5 million. That's the power of a loop.</div>
+</section>
+
+<!-- 20 vocabulary (click to reveal) -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's keywords <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any one for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="while (condition) { ... } repeats the body as long as the condition is true. Checks BEFORE each pass.">while</span></h3><p>Loop while true</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="for (start; test; step) bundles the three loop ideas on one line. Best when you know how many times.">for</span></h3><p>Counting loop</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="i++ means i = i + 1. The step that moves a loop toward its end. (i-- subtracts one.)">i++</span></h3><p>Add one</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="break immediately exits the whole loop — not just one pass. Use it when you've found what you need.">break</span></h3><p>Exit the loop</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="continue skips the rest of the current pass and jumps straight to the next one.">continue</span></h3><p>Skip a turn</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="An infinite loop never stops because its condition never turns false — usually a missing step. Freezes the program.">infinite loop</span></h3><p>Never ends</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="An off-by-one error is looping one time too many or too few — usually < vs <=. Check the last value.">off-by-one</span></h3><p>The ±1 bug</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="The loop variable (often i) counts the passes and usually controls the condition and the step.">i</span></h3><p>Loop counter</p></div>
+  </div>
+</section>
+
+<!-- 21 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Factorial</h3><p>Read N, compute <span class="kw">N! = 1×2×…×N</span> with a loop (start the product at 1, not 0!).</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/star_FFFFFF.png"></span><div class="txt"><h3>A triangle of stars</h3><p>Print a right triangle: row 1 has one <span class="kw">*</span>, row 2 has two… up to N. (A loop inside a loop!)</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/folder_FFFFFF.png"></span><div class="txt"><h3>Loop your gradebook</h3><p>Read 5 scores in a loop and print the average — Group B needs this for a whole class.</p></div></div>
+</section>
+
+<!-- 22 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 6 — Functions</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">Loops repeat lines in <em>one</em> place. Next you'll wrap code in a <strong>function</strong> — name it once, call it anywhere, as many times as you like.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up">Write your own functions</li>
+        <li class="fragment fade-up">Pass in values, get a result back</li>
+        <li class="fragment fade-up">Turn your calculator into reusable tools</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/function_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 23 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/loop_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">Three lines, a million times.</h1>
+    <p class="fragment fade-in" style="max-width:640px;margin:10px auto 0">Loops are how a short program does enormous work. You just unlocked scale. Next: naming and reusing your code.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js?v=9"></script>
+<script src="../assets/js/live-code.js?v=9"></script>
+<script src="../assets/js/activities.js?v=9"></script>
+<script src="../assets/js/counter.js?v=9"></script>
+<script src="../assets/js/timer.js?v=9"></script>
+<script src="../assets/js/presenter.js?v=9"></script>
+<script src="../assets/js/explain.js?v=9"></script>
+</body>
+</html>
