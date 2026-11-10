@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="../assets/css/gate.css?v=9">
 <link rel="stylesheet" href="../assets/css/presenter.css?v=9">
 <link rel="stylesheet" href="../assets/css/explain.css?v=9">
+<link rel="stylesheet" href="../assets/css/loopviz.css?v=9">
 <!-- Password gate: must load before the deck so it covers the page immediately -->
 <script src="../assets/js/course-data.js?v=9"></script>
 <script>
@@ -150,6 +151,15 @@ while (i &lt;= 3) {            // keep going while true
   </div>
 </section>
 
+<!-- 4b ANIMATED VISUALIZER — while -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#8FD0FF">Watch It Run <span class="badge green">Press ▶ Play</span></span>
+  <h2 style="color:#fff">See a <span class="kw">while</span> loop step through</h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">The counter ticks, the condition flashes <span style="color:#7DE6A8">TRUE</span>/<span style="color:#FF9E90">FALSE</span>, the output fills, and it loops back — with a note at each step.</p>
+  <div class="loopviz-widget" data-kind="while"></div>
+  <aside class="notes">Press Play and let it auto-step (~1.1s each), or use Step to go one at a time and talk through each frame. Watch the loop-back arrow and the condition turning false at i=4. Students can replay it on their own screens.</aside>
+</section>
+
 <!-- 5 *** LIVE CODE #1 — countdown *** -->
 <section>
   <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
@@ -255,6 +265,15 @@ while (i &lt; 10) {
   <div class="note tip fragment fade-in" style="font-size:.6em"><span class="lead">while vs for</span>Same three ideas. Use <span class="kw">for</span> when you know <em>how many times</em>; <span class="kw">while</span> when you loop <em>until something happens</em>.</div>
 </section>
 
+<!-- 8b ANIMATED VISUALIZER — for -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#8FD0FF">Watch It Run <span class="badge green">Press ▶ Play</span></span>
+  <h2 style="color:#fff">See a <span class="kw">for</span> loop step through</h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">Same loop, tidier. Watch the <strong>start → test → body → step</strong> cycle repeat four times, then the test fail.</p>
+  <div class="loopviz-widget" data-kind="for"></div>
+  <aside class="notes">Point out that the SAME header line lights up for both the test and the i++ step — that's the 'three parts on one line' idea made visible. Play it, then relate to the while version they just saw.</aside>
+</section>
+
 <!-- 9 *** LIVE CODE #2 — multiplication table *** -->
 <section>
   <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
@@ -340,6 +359,24 @@ for (int i = 1; i &lt;= 5; i++) {
       <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/arrowRight_FFFFFF.png"></span><div class="txt"><h3><span class="kw">continue</span></h3><p>Skips the rest of <em>this</em> pass, jumps to the next one.</p></div></div>
     </div>
   </div>
+</section>
+
+<!-- 12b ANIMATED VISUALIZER — break -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#FF9B8A">Watch It Run <span class="badge">Press ▶ Play</span></span>
+  <h2 style="color:#fff">See <span class="kw">break</span> escape the loop</h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">The loop prints 1, 2, 3 — then at <span class="kw">i == 4</span> the flow <strong>jumps straight out</strong>. 4, 5, 6 never run.</p>
+  <div class="loopviz-widget" data-kind="break"></div>
+  <aside class="notes">The 'break out!' tag shakes when it fires — pause there and ask: how many numbers printed? (Three.) Contrast with continue on the next slide.</aside>
+</section>
+
+<!-- 12c ANIMATED VISUALIZER — continue -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#FFC877">Watch It Run <span class="badge">Press ▶ Play</span></span>
+  <h2 style="color:#fff">See <span class="kw">continue</span> skip one pass</h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">At <span class="kw">i == 3</span> the body is <strong>skipped</strong> (no 3 printed) — but the loop keeps going. Output: 1 2 4 5.</p>
+  <div class="loopviz-widget" data-kind="continue"></div>
+  <aside class="notes">Key contrast with break: continue skips just THIS pass and loops back; break abandons the whole loop. Watch 3 get skipped but 4 and 5 still print.</aside>
 </section>
 
 <!-- 13 infinite loop danger -->
@@ -564,5 +601,6 @@ for (int i = 1; i <= N; i++)
 <script src="../assets/js/timer.js?v=9"></script>
 <script src="../assets/js/presenter.js?v=9"></script>
 <script src="../assets/js/explain.js?v=9"></script>
+<script src="../assets/js/loopviz.js?v=9"></script>
 </body>
 </html>

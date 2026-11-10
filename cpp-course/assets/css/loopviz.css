@@ -1,0 +1,68 @@
+/* loopviz.css — animated loop visualizer */
+
+.loopviz-widget{
+  background:#0E2033; border:1px solid #244056; border-radius:16px;
+  padding:16px 18px; margin-top:10px; box-shadow:0 10px 30px rgba(0,0,0,.28);
+  font-family:'Inter',system-ui,sans-serif; color:#E6EEF6;
+}
+.lvz-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.lvz-title{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:.8em;
+  background:#18304A; color:#8FD0FF; padding:5px 12px; border-radius:8px; }
+.lvz-ctrls{ display:flex; gap:8px; }
+.lvz-btn{ border:0; cursor:pointer; font-family:'Inter',sans-serif; font-weight:700; font-size:.66em;
+  padding:8px 14px; border-radius:9px; background:#24405A; color:#DCEAF7; transition:background .12s, transform .1s; }
+.lvz-btn:hover{ background:#2E5273; } .lvz-btn:active{ transform:scale(.96); }
+.lvz-play{ background:#1E824C; color:#fff; } .lvz-play:hover{ background:#249159; }
+.lvz-play.playing{ background:#B4541E; } .lvz-play.playing:hover{ background:#C96426; }
+
+.lvz-body{ display:flex; gap:18px; align-items:stretch; }
+.lvz-left{ flex:1.15; min-width:0; }
+.lvz-right{ flex:1; display:flex; flex-direction:column; gap:10px; }
+
+/* code with highlighted current line */
+.lvz-code{ margin:0; background:#0A1724; border:1px solid #1E3650; border-radius:12px;
+  padding:14px 14px; font-family:'JetBrains Mono',monospace;
+  font-size:.62em; line-height:1.7; overflow:auto; }
+.lvz-line{ display:block; padding:2px 10px; margin:0 -4px; border-radius:6px;
+  color:#AFC3D6; white-space:pre; transition:background .18s, color .18s, box-shadow .18s; }
+.lvz-line.on{ background:#13426b; color:#fff; box-shadow:inset 3px 0 0 #58B0F0; font-weight:600; }
+
+/* counter box */
+.lvz-counter{ display:flex; align-items:center; justify-content:space-between;
+  background:#13263B; border:1px solid #244056; border-radius:12px; padding:10px 16px; }
+.lvz-clabel{ font-size:.58em; letter-spacing:1px; text-transform:uppercase; color:#7E9AB4; }
+.lvz-cval{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:1.05em; color:#FFD79A; }
+
+/* condition box flashes true/false */
+.lvz-cond{ border-radius:12px; padding:12px 16px; text-align:center; font-family:'JetBrains Mono',monospace;
+  font-weight:700; font-size:.82em; border:2px solid #2A496A; transition:all .2s; }
+.lvz-cond-idle{ background:#13263B; color:#9FB6CC; border-color:#2A496A; }
+.lvz-cond-true{ background:#13432B; color:#7DE6A8; border-color:#1E824C; box-shadow:0 0 0 4px rgba(30,130,76,.18); }
+.lvz-cond-false{ background:#431A1A; color:#FF9E90; border-color:#B4351F; box-shadow:0 0 0 4px rgba(180,53,31,.18); }
+
+/* flow tag (loop back / break / skip / exit) */
+.lvz-flowtag{ min-height:22px; text-align:center; font-weight:800; font-size:.66em; letter-spacing:.4px; color:#9FB6CC; }
+.lvz-flowtag.act-back{ color:#8FD0FF; animation:lvzpulse .9s ease; }
+.lvz-flowtag.act-break{ color:#FF8A78; animation:lvzshake .5s ease; font-size:.78em; }
+.lvz-flowtag.act-skip{ color:#FFC877; animation:lvzpulse .9s ease; }
+.lvz-flowtag.act-exit{ color:#C7D6E5; }
+.lvz-flowtag.act-step{ color:#7DE6A8; }
+.lvz-flowtag.act-body{ color:#8FD0FF; }
+@keyframes lvzpulse{ 0%{ transform:translateY(-4px); opacity:0 } 100%{ transform:none; opacity:1 } }
+@keyframes lvzshake{ 0%,100%{ transform:translateX(0) } 25%{ transform:translateX(-5px) } 75%{ transform:translateX(5px) } }
+
+/* output strip */
+.lvz-outwrap{ background:#13263B; border:1px solid #244056; border-radius:12px; padding:10px 14px; }
+.lvz-olabel{ font-size:.58em; letter-spacing:1px; text-transform:uppercase; color:#7E9AB4; display:block; margin-bottom:6px; }
+.lvz-out{ display:flex; gap:6px; flex-wrap:wrap; min-height:30px; align-items:center; }
+.lvz-chip{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:.8em;
+  background:#1E824C; color:#fff; border-radius:8px; padding:5px 11px; animation:lvzpop .3s cubic-bezier(.2,1.3,.4,1); }
+@keyframes lvzpop{ 0%{ transform:scale(.4); opacity:0 } 100%{ transform:scale(1); opacity:1 } }
+
+/* bubble explanation */
+.lvz-bubble{ margin-top:12px; background:#18304A; border:1px solid #2A496A; border-left:4px solid #58B0F0;
+  border-radius:10px; padding:11px 16px; font-size:.68em; line-height:1.45; color:#E6EEF6; min-height:20px; }
+
+@media (prefers-reduced-motion: reduce){
+  .lvz-chip, .lvz-flowtag{ animation:none !important; }
+}
