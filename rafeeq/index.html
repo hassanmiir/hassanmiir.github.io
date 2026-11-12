@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#073B31">
+<meta name="robots" content="noindex">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Rafeeq">
+<title>Rafeeq Partner Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10201C; --muted:#5A6A65; --bg:#E7EEEB; --surface:#FFFFFF; --soft:#F3F7F5; --line:#D9E2DE;
+  --brand:#0B6B57; --brand-deep:#073B31; --accent:#E9A23B; --danger:#C8372D; --ok:#1E8E5A; --info:#2563A8;
+  --display:'Readex Pro','IBM Plex Sans Arabic',system-ui,sans-serif;
+  --body:'IBM Plex Sans Arabic','Readex Pro',system-ui,sans-serif;
+  /* layout: one phone-sized app; on wide screens it sits in a device frame beside partner notes */
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+.stage{min-height:100%;display:flex;justify-content:center;align-items:center;gap:48px;padding:24px 16px}
+.phone{width:390px;height:844px;max-height:calc(100vh - 48px);background:var(--surface);border-radius:44px;box-shadow:0 0 0 10px #0d1513,0 30px 60px rgba(7,59,49,.25);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.notes{max-width:340px;display:flex;flex-direction:column;gap:16px}
+.notes h2{font-size:24px;color:var(--brand-deep)}
+.notes p,.notes li{color:var(--muted);font-size:14px}
+.notes ol{padding-inline-start:18px;margin:0;display:grid;gap:6px}
+.notes .box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+@media (max-width:860px){.notes{display:none}.stage{padding:0;display:block;height:100%}.phone{width:100%;height:100%;max-height:none;border-radius:0;box-shadow:none;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}.tag-demo{top:calc(10px + env(safe-area-inset-top))}}
+#app{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+.scroll{flex:1;overflow-y:auto;min-height:0}
+.pad{padding:20px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.tiny{font-size:11.5px}
+.num{font-variant-numeric:tabular-nums}
+.top{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
+.top h2{font-size:17px;flex:1}
+.icon-btn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--soft)}
+[dir=rtl] .flip{transform:scaleX(-1)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 16px;border-radius:14px;background:var(--brand);color:#fff;font-weight:600;font-family:var(--display)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:var(--soft);color:var(--brand-deep)}
+.btn.danger{background:var(--danger)}
+.btn.amber{background:var(--accent);color:#2b1b03}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:99px;font-size:11.5px;font-weight:600;background:var(--soft);color:var(--brand-deep);white-space:nowrap}
+.chip.ok{background:#E2F4EA;color:#14653F}
+.chip.warn{background:#FCEFD9;color:#7A4B07}
+.chip.bad{background:#FBE4E2;color:#8E231B}
+.chip.info{background:#E3EDF9;color:#1D4C82}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;padding:8px 6px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--brand-deep);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+/* welcome */
+.hero{background:var(--brand-deep);color:#fff;padding:28px 22px 26px;position:relative;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.hero > *{position:relative}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:44px;height:44px;border-radius:12px;display:block}
+.logo b{font-family:var(--display);font-size:26px;letter-spacing:.2px}
+.hero h1{font-size:28px;margin-top:22px}
+.hero p{color:#CFE3DC;margin:8px 0 0}
+.entry{display:flex;gap:12px;align-items:center;text-align:start;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface);width:100%}
+.entry:hover{border-color:var(--brand)}
+.entry .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.entry b{font-family:var(--display);display:block;font-size:15.5px}
+details.install{border:1px dashed var(--line);border-radius:14px;padding:10px 14px}
+details.install summary{font-weight:600;cursor:pointer;color:var(--brand-deep)}
+details.install ol{margin:8px 0 0;padding-inline-start:18px;color:var(--muted);font-size:13px;display:grid;gap:4px}
+/* forms */
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--muted)}
+.input{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--surface)}
+.input input{border:0;outline:0;font:inherit;flex:1;min-width:0;background:none;color:var(--ink)}
+.otp{display:flex;gap:8px;justify-content:center;direction:ltr}
+.otp span{width:46px;height:54px;border:1.5px solid var(--brand);border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-size:22px;font-weight:600}
+.nafath-num{font-family:var(--display);font-size:64px;font-weight:700;color:var(--brand);text-align:center;line-height:1}
+.scanner{width:180px;height:220px;margin:0 auto;border-radius:50% / 45%;border:3px solid var(--brand);position:relative;overflow:hidden;background:linear-gradient(#F3F7F5,#E3ECE8)}
+.scanner svg{position:absolute;inset:0;margin:auto}
+.scanner .beam{position:absolute;inset-inline:0;height:3px;background:var(--accent);box-shadow:0 0 14px var(--accent);animation:beam 1.6s ease-in-out infinite}
+@keyframes beam{0%{top:8%}50%{top:90%}100%{top:8%}}
+.steps{display:grid;gap:10px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .s-ic{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;flex:none;margin-top:1px;background:var(--surface)}
+.step.run .s-ic{border-color:var(--accent);border-top-color:transparent;animation:spin .8s linear infinite}
+.step.done .s-ic{background:var(--ok);border-color:var(--ok);color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* map + sheet */
+.mapwrap{position:relative;flex:1;min-height:0;background:#EAF0EC}
+.mapwrap > svg{width:100%;height:100%;display:block}
+.floating{position:absolute;inset-inline-start:12px;inset-inline-end:76px;top:12px;display:flex;gap:8px;align-items:center}
+.floating .pill{background:var(--surface);border-radius:12px;padding:8px 12px;box-shadow:0 2px 10px rgba(0,0,0,.1);font-size:13px;font-weight:600;flex:1;display:flex;gap:8px;align-items:center}
+.sheet{background:var(--surface);border-radius:22px 22px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.08);padding:12px 16px 18px;margin-top:-18px;position:relative;z-index:2;max-height:62%;overflow-y:auto}
+.grab{width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 12px}
+.dest{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line);width:100%;text-align:start}
+.dest:last-child{border-bottom:0}
+.dest.on{background:var(--soft);border-radius:10px}
+.opt{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1.5px solid var(--line);border-radius:14px;width:100%;text-align:start}
+.opt.on{border-color:var(--brand);background:#F0F8F5}
+.opt[disabled]{opacity:.5}
+.opt .car{width:44px;height:30px;flex:none}
+.opt b{font-family:var(--display);font-size:14.5px}
+.price{font-family:var(--display);font-weight:600;margin-inline-start:auto;white-space:nowrap}
+.ai-btn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:linear-gradient(90deg,#073B31,#0B6B57);color:#fff;width:100%;text-align:start}
+.ai-btn b{font-family:var(--display)}
+/* driver card */
+.drv{display:flex;gap:12px;align-items:center}
+.avatar{width:52px;height:52px;border-radius:50%;background:#D7E6E0;display:grid;place-items:center;flex:none;font-family:var(--display);font-weight:700;color:var(--brand-deep);font-size:18px}
+.plate{font-family:var(--display);font-weight:700;border:2px solid var(--ink);border-radius:6px;padding:1px 8px;font-size:13px;direction:ltr;display:inline-block}
+.pinbox{display:flex;align-items:center;justify-content:space-between;background:var(--brand-deep);color:#fff;border-radius:14px;padding:12px 14px}
+.pinbox .digits{font-family:var(--display);font-size:26px;letter-spacing:6px;font-weight:700;direction:ltr}
+.actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.actions button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:12px;background:var(--soft);font-size:12.5px;font-weight:600}
+.actions .sos{background:#FBE4E2;color:var(--danger)}
+.radar{width:150px;height:150px;margin:6px auto;position:relative}
+.radar span{position:absolute;inset:0;border-radius:50%;border:2px solid var(--brand);animation:ping 2s ease-out infinite;opacity:0}
+.radar span:nth-child(2){animation-delay:.66s}.radar span:nth-child(3){animation-delay:1.33s}
+.radar i{position:absolute;inset:58px;border-radius:50%;background:var(--brand)}
+@keyframes ping{0%{transform:scale(.3);opacity:.9}100%{transform:scale(1);opacity:0}}
+.log{display:grid;gap:6px;font-size:12.5px}
+.log div{display:flex;gap:8px;align-items:flex-start;animation:fade .35s ease}
+.log time{color:var(--muted);font-variant-numeric:tabular-nums;flex:none;direction:ltr}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.alert{border:2px solid var(--danger);background:#FFF6F5}
+.alert.calm{border-color:var(--ok);background:#F2FBF6}
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;padding:16px}
+.msg{max-width:84%;padding:10px 13px;border-radius:16px;font-size:14.5px}
+.msg.bot{background:var(--soft);border-start-start-radius:4px;align-self:flex-start}
+.msg.me{background:var(--brand);color:#fff;border-start-end-radius:4px;align-self:flex-end}
+.typing{display:inline-flex;gap:4px}.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:bob 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.sugg{display:flex;gap:8px;overflow-x:auto;padding:8px 16px}
+.sugg button{flex:none;border:1.5px solid var(--brand);color:var(--brand-deep);border-radius:99px;padding:7px 12px;font-size:13px;font-weight:500;background:var(--surface)}
+.composer{display:flex;gap:8px;padding:10px 16px 16px;border-top:1px solid var(--line)}
+.composer .input{flex:1;padding:10px 12px}
+/* console */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--soft);border-radius:14px;padding:12px}
+.kpi b{font-family:var(--display);font-size:22px;display:block}
+.agent{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.agent:last-child{border-bottom:0}
+.agent .a-ic{width:34px;height:34px;border-radius:10px;background:#E2F4EA;display:grid;place-items:center;flex:none;color:var(--ok)}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}
+.countdown{height:4px;background:var(--line);border-radius:4px;overflow:hidden}.countdown i{display:block;height:100%;background:var(--accent);animation:shrink 12s linear forwards}
+@keyframes shrink{from{width:100%}to{width:0}}
+.stars{display:flex;gap:6px;justify-content:center}.stars button{font-size:30px;color:#D3DAD7}.stars button.on{color:var(--accent)}
+.tag-demo{position:absolute;top:10px;inset-inline-end:12px;z-index:5;background:rgba(233,162,59,.95);color:#2b1b03;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:99px;letter-spacing:.3px;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <aside class="notes" aria-label="About this demo">
+    <div class="logo"><img class="logo-mark" src="data:image/png;base64,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" alt="" width="44" height="44" style="padding:0"><b style="color:var(--brand-deep)">Rafeeq · رفيق</b></div>
+    <p style="margin:-8px 0 0">by FederaMind · 4% driver commission</p>
+    <h2>Partner demo</h2>
+    <p>A clickable preview of Rafeeq, the AI-run ride-hailing app launching in Saudi Arabia, with a beta in Sindh, Pakistan. Everything is simulated: no real accounts, payments or government checks.</p>
+    <div class="box">
+      <h3 style="font-size:15px;margin-bottom:8px">Try it on your phone</h3>
+      <ol>
+        <li><b>iPhone:</b> open this link in Safari, tap Share, then "Add to Home Screen". It opens full-screen like an app.</li>
+        <li><b>Android:</b> open it in Chrome, tap ⋮, then "Add to Home screen".</li>
+      </ol>
+    </div>
+    <div class="box">
+      <h3 style="font-size:15px;margin-bottom:8px">What to look at</h3>
+      <ol>
+        <li>Rider: Nafath sign-in, booking by chat, trip PIN, and the safety agent handing over to a human.</li>
+        <li>Driver: automatic onboarding checks and the face check at the start of every shift.</li>
+        <li>Partner console: the AI agents running operations live.</li>
+        <li>Switch the market to Sindh beta to see CNIC checks and PKR fares.</li>
+      </ol>
+    </div>
+  </aside>
+  <main class="phone" aria-label="Rafeeq app">
+    <div class="tag-demo" id="demoTag">DEMO</div>
+    <div id="app"></div>
+  </main>
+</div>
+
+<script>
+const I = {
+en:{
+ tagline:'Your companion on every road', by:'by FederaMind', heroP:'AI runs the operations. Every driver is verified against the national ID, every shift.',
+ demo:'Partner demo · simulated data', market:'Market', ksa:'Saudi Arabia', ksaS:'Launch', sindh:'Sindh, Pakistan', sindhS:'Beta', lang:'Language',
+ rider:'Ride with Rafeeq', riderSub:'Sign in, book by chat, stay safe on the trip', driver:'Drive with Rafeeq', driverSub:'Automatic onboarding and shift face check', partner:'Partner console', partnerSub:'Watch the AI agents run operations',
+ installT:'Add Rafeeq to your home screen', installI:'iPhone: open in Safari → Share → Add to Home Screen', installA:'Android: open in Chrome → ⋮ → Add to Home screen',
+ signin:'Sign in', phone:'Mobile number', sendCode:'Send code', codeSent:'We sent a 6-digit code to', verify:'Verify', idStep:'Confirm your identity',
+ nafathOpen:'Open the Nafath app and tap this number', nafathWhy:'Nafath is Saudi Arabia\'s national digital ID. Rafeeq never sees your password or biometrics.', approveSim:'Simulate approval in Nafath', waiting:'Waiting for Nafath…',
+ verified:'Identity verified', continue_:'Continue', visitor:'Visiting Saudi Arabia? Use your passport', passport:'Passport check', passportScan:'Hold the passport chip to the back of your phone', selfie:'Now look at the camera', runCheck:'Run check',
+ cnicTitle:'CNIC and selfie check', cnicBody:'Photograph the front and back of your CNIC, then take a selfie. Your SIM is already linked to your CNIC.', cnicSim:'Simulate CNIC + selfie',
+ whereTo:'Where to?', pickup:'Pickup', askAI:'Ask Rafeeq', askAISub:'Book by chatting in Arabic, English, Urdu or Sindhi',
+ go_:'Rafeeq Go', goS:'Everyday rides', comfort:'Comfort', comfortS:'Newer cars, more room', women:'Rafeeqa', womenS:'Women drivers for women riders', pilgrim:'Pilgrim', pilgrimS:'Drivers who speak your language', robo:'Robotaxi', roboS:'Driverless, coming 2027', soon:'Soon', min:'min', away:'away', book:'Book', pickDest:'Pick a destination',
+ matching:'Finding your driver', matchingS:'The dispatch agent is checking verified drivers near you', found:'Your driver is on the way',
+ nafathV:'Nafath verified', cnicV:'CNIC verified', faceToday:'Face check today', lic:'TGA licensed', licS:'Police certificate',
+ pin:'Trip PIN', pinS:'Say this number to the driver before you get in', share:'Share trip', call:'Call', sos:'SOS', start:'Driver arrived · start trip', shared:'Live trip link sent to your family contact',
+ called:'Calling through Rafeeq. Your number stays hidden.',
+ onWay:'On the way', safetyOn:'The safety agent is watching this trip', simDev:'Simulate an unexpected turn', devT:'We noticed an unexpected turn', devB:'The car left the planned route. Are you okay?', fine:"I'm fine", help:'Get help now',
+ human:'Connected to the safety desk', humanB:'is on the line. Your live location and the driver\'s details are shared.', respTime:'Answered in 6 seconds', resolved:'Safety officer confirmed. Continuing the trip.', finish:'Simulate arrival',
+ arrived:'You have arrived', rate:'How was your ride?', total:'Total', paid:'Paid with', done:'Done', fare:'Fare',
+ chatT:'Rafeeq assistant', chatHi:'Hello! Where would you like to go? Type, or pick one of the suggestions below.', typeMsg:'Type a message', confirm:'Confirm and book', unknown:'In the full app I understand free text. For this demo, please tap one of the suggestions.',
+ onb:'Driver onboarding', onbS:'Every check runs automatically. A person only reviews unclear cases.', startShift:'Start shift', faceT:'Shift face check', faceS:'Confirms the registered driver is the one driving today', matchPct:'match with the ID photo', faceOk:'Face check passed',
+ online:"You're online", req:'New ride request', accept:'Accept', decline:'Decline', today:'Today', trips:'trips', hrs:'hours online', earned:'earned', commission:'Rafeeq commission', goPickup:'Navigate to pickup', endShift:'End shift',
+ console:'Operations console', live:'Live', agents:'AI agents', desk:'Human safety desk', log:'Live agent log', kTrips:'Trips today', kPickup:'Avg pickup', kHuman:'Needed a human', kAlerts:'Safety alerts', onDuty:'on duty', open:'Open cases', autonomy:'Actions per hour', back:'Back', home:'Home', running:'Running',
+ deskCase1:'Route deviation · trip 8841 · rider confirmed safe', deskCase2:'Driver ban appeal · face check failed 3 times', deskCase3:'Refund above threshold · 140', reviewing:'Reviewing', waitingS:'Waiting'
+},
+ar:{
+ tagline:'رفيقك في كل طريق', by:'من تطوير FederaMind', heroP:'الذكاء الاصطناعي يدير العمليات، وكل سائق يتم التحقق من هويته الوطنية في كل وردية.',
+ demo:'عرض للشركاء · بيانات تجريبية', market:'السوق', ksa:'المملكة العربية السعودية', ksaS:'الإطلاق', sindh:'إقليم السند، باكستان', sindhS:'تجريبي', lang:'اللغة',
+ rider:'اركب مع رفيق', riderSub:'سجّل الدخول، احجز بالمحادثة، وابقَ آمناً', driver:'انضم كسائق في رفيق', driverSub:'تسجيل آلي وتحقق بالوجه في كل وردية', partner:'لوحة الشركاء', partnerSub:'شاهد وكلاء الذكاء الاصطناعي يديرون العمليات',
+ installT:'أضف رفيق إلى الشاشة الرئيسية', installI:'آيفون: افتح في Safari ← مشاركة ← إضافة إلى الشاشة الرئيسية', installA:'أندرويد: افتح في Chrome ← ⋮ ← إضافة إلى الشاشة الرئيسية',
+ signin:'تسجيل الدخول', phone:'رقم الجوال', sendCode:'إرسال الرمز', codeSent:'أرسلنا رمزاً من 6 أرقام إلى', verify:'تحقق', idStep:'أكّد هويتك',
+ nafathOpen:'افتح تطبيق نفاذ واضغط على هذا الرقم', nafathWhy:'نفاذ هو الهوية الرقمية الوطنية. رفيق لا يرى كلمة مرورك أو بياناتك الحيوية.', approveSim:'محاكاة الموافقة في نفاذ', waiting:'بانتظار نفاذ…',
+ verified:'تم التحقق من الهوية', continue_:'متابعة', visitor:'زائر للمملكة؟ استخدم جواز سفرك', passport:'التحقق من الجواز', passportScan:'ضع شريحة الجواز على ظهر الجوال', selfie:'الآن انظر إلى الكاميرا', runCheck:'بدء التحقق',
+ cnicTitle:'التحقق بالبطاقة والصورة', cnicBody:'صوّر وجهي البطاقة الوطنية ثم التقط صورة شخصية. شريحتك مرتبطة ببطاقتك مسبقاً.', cnicSim:'محاكاة التحقق',
+ whereTo:'إلى أين؟', pickup:'نقطة الانطلاق', askAI:'اسأل رفيق', askAISub:'احجز بالمحادثة بالعربية أو الإنجليزية أو الأردية أو السندية',
+ go_:'رفيق اقتصادي', goS:'مشاوير يومية', comfort:'رفيق مريح', comfortS:'سيارات أحدث ومساحة أكبر', women:'رفيقة', womenS:'سائقات للراكبات', pilgrim:'ضيوف الرحمن', pilgrimS:'سائقون يتحدثون لغتك', robo:'سيارة ذاتية القيادة', roboS:'بدون سائق، قريباً 2027', soon:'قريباً', min:'دقيقة', away:'تبعد', book:'احجز', pickDest:'اختر الوجهة',
+ matching:'نبحث عن سائقك', matchingS:'وكيل التوزيع يراجع السائقين الموثقين بالقرب منك', found:'سائقك في الطريق',
+ nafathV:'موثّق عبر نفاذ', cnicV:'موثّق بالبطاقة', faceToday:'تم التحقق من الوجه اليوم', lic:'مرخّص من الهيئة', licS:'شهادة حسن سيرة',
+ pin:'رمز الرحلة', pinS:'قل هذا الرقم للسائق قبل الركوب', share:'مشاركة الرحلة', call:'اتصال', sos:'طوارئ', start:'وصل السائق · ابدأ الرحلة', shared:'تم إرسال رابط الرحلة المباشر لجهة الاتصال',
+ called:'الاتصال عبر رفيق. رقمك يبقى مخفياً.',
+ onWay:'في الطريق', safetyOn:'وكيل السلامة يراقب هذه الرحلة', simDev:'محاكاة انعطاف غير متوقع', devT:'لاحظنا انعطافاً غير متوقع', devB:'خرجت السيارة عن المسار المخطط. هل أنت بخير؟', fine:'أنا بخير', help:'أحتاج مساعدة',
+ human:'تم الاتصال بمكتب السلامة', humanB:'على الخط. تمت مشاركة موقعك وبيانات السائق.', respTime:'تم الرد خلال 6 ثوانٍ', resolved:'أكد موظف السلامة. نكمل الرحلة.', finish:'محاكاة الوصول',
+ arrived:'وصلت إلى وجهتك', rate:'كيف كانت رحلتك؟', total:'الإجمالي', paid:'الدفع عبر', done:'تم', fare:'الأجرة',
+ chatT:'مساعد رفيق', chatHi:'أهلاً! إلى أين تريد الذهاب؟ اكتب أو اختر من الاقتراحات.', typeMsg:'اكتب رسالة', confirm:'تأكيد الحجز', unknown:'في التطبيق الكامل أفهم أي نص. في هذا العرض اختر أحد الاقتراحات.',
+ onb:'تسجيل السائق', onbS:'كل فحص يتم آلياً. يراجع موظف الحالات غير الواضحة فقط.', startShift:'ابدأ الوردية', faceT:'تحقق الوجه للوردية', faceS:'للتأكد من أن السائق المسجل هو من يقود اليوم', matchPct:'تطابق مع صورة الهوية', faceOk:'نجح التحقق بالوجه',
+ online:'أنت متاح لاستقبال الطلبات', req:'طلب رحلة جديد', accept:'قبول', decline:'رفض', today:'اليوم', trips:'رحلات', hrs:'ساعات اتصال', earned:'الدخل', commission:'عمولة رفيق', goPickup:'التوجه لنقطة الانطلاق', endShift:'إنهاء الوردية',
+ console:'لوحة العمليات', live:'مباشر', agents:'وكلاء الذكاء الاصطناعي', desk:'مكتب السلامة البشري', log:'سجل الوكلاء المباشر', kTrips:'رحلات اليوم', kPickup:'متوسط الوصول', kHuman:'احتاجت موظفاً', kAlerts:'تنبيهات السلامة', onDuty:'مناوبون', open:'حالات مفتوحة', autonomy:'إجراء/ساعة', back:'رجوع', home:'الرئيسية', running:'يعمل',
+ deskCase1:'انحراف مسار · رحلة 8841 · الراكب بخير', deskCase2:'اعتراض على إيقاف سائق · فشل التحقق 3 مرات', deskCase3:'استرداد يتجاوز الحد · 140', reviewing:'قيد المراجعة', waitingS:'بالانتظار'
+}};
+
+const REG = {
+ ksa:{cur:{en:v=>'SAR '+v,ar:v=>v+' ر.س'}, base:6, perKm:1.8, phone:'+966 5• ••• 4821', idName:'Nafath', city:{en:'Riyadh',ar:'الرياض'},
+  pickup:{en:'Al Olaya, Riyadh',ar:'العليا، الرياض'},
+  places:[{en:'King Abdullah Financial District',ar:'مركز الملك عبدالله المالي',km:9},{en:'King Khalid International Airport',ar:'مطار الملك خالد الدولي',km:31},{en:'Riyadh Park',ar:'الرياض بارك',km:12},{en:'Boulevard City',ar:'بوليفارد سيتي',km:15}],
+  drv:{n:{en:'Faisal A.',ar:'فيصل ع.'},i:'ف',car:{en:'Toyota Camry 2023 · White',ar:'تويوتا كامري 2023 · أبيض'},plate:'4821 HTB',rating:'4.92'},
+  drvW:{n:{en:'Noura S.',ar:'نورة س.'},i:'ن',car:{en:'Hyundai Sonata 2024 · Silver',ar:'هيونداي سوناتا 2024 · فضي'},plate:'7310 RSA',rating:'4.97'},
+  officer:{en:'Abdulrahman (safety officer)',ar:'عبدالرحمن (موظف السلامة)'}, pay:{en:'Apple Pay',ar:'Apple Pay'},
+  checks:[{en:'Nafath sign-in (biometric)',ar:'الدخول عبر نفاذ (بيومتري)',s:{en:'National ID confirmed',ar:'تم تأكيد الهوية الوطنية'}},{en:'Citizenship check via Yakeen',ar:'التحقق من الجنسية عبر يقين',s:{en:'Saudi national · required by TGA',ar:'مواطن سعودي · متطلب الهيئة'}},{en:'Driving licence',ar:'رخصة القيادة',s:{en:'Valid until 2029',ar:'سارية حتى 2029'}},{en:'Vehicle registration and insurance',ar:'استمارة المركبة والتأمين',s:{en:'Toyota Camry 2023 · insured',ar:'تويوتا كامري 2023 · مؤمّنة'}},{en:'TGA driver registration',ar:'تسجيل السائق لدى هيئة النقل',s:{en:'Registered on the TGA platform',ar:'مسجل في منصة الهيئة'}}],
+  sugg:[
+   {q:{en:'Take me to KAFD',ar:'Take me to KAFD'},lang:'en',a:'Done. Rafeeq Go to King Abdullah Financial District, about 22 minutes. Faisal is 4 minutes away.',d:0,t:'go'},
+   {q:{en:'أبي مشوار للمطار',ar:'أبي مشوار للمطار'},lang:'ar',a:'أبشر! رحلة رفيق جو إلى مطار الملك خالد الدولي، حوالي 35 دقيقة. السائق يبعد 4 دقائق.',d:1,t:'go'},
+   {q:{en:'مجھے ریاض پارک جانا ہے',ar:'مجھے ریاض پارک جانا ہے'},lang:'ur',a:'جی ضرور! ریاض پارک کے لیے رفیق گو تیار ہے، تقریباً 18 منٹ۔ ڈرائیور 4 منٹ میں پہنچ جائے گا۔',d:2,t:'go'},
+   {q:{en:'Woman driver to Boulevard City, please',ar:'سائقة إلى بوليفارد سيتي من فضلك'},lang:'x',a:{en:'Of course. Rafeeqa with Noura to Boulevard City, about 24 minutes.',ar:'بكل سرور. رحلة رفيقة مع نورة إلى بوليفارد سيتي، حوالي 24 دقيقة.'},d:3,t:'women'}
+  ]},
+ sindh:{cur:{en:v=>'Rs '+v,ar:v=>v+' روبية'}, base:120, perKm:42, phone:'+92 3•• ••• 4821', idName:'CNIC', city:{en:'Hyderabad',ar:'حيدر آباد'},
+  pickup:{en:'Latifabad Unit 7, Hyderabad',ar:'لطيف آباد، حيدر آباد'},
+  places:[{en:'Rani Bagh',ar:'راني باغ',km:4},{en:'Hyderabad Railway Station',ar:'محطة قطار حيدر آباد',km:6},{en:'Qasimabad',ar:'قاسم آباد',km:7},{en:'Liaquat University Hospital',ar:'مستشفى جامعة لياقت',km:5}],
+  drv:{n:{en:'Imran S.',ar:'عمران س.'},i:'ع',car:{en:'Suzuki Cultus 2021 · White',ar:'سوزوكي كلتس 2021 · أبيض'},plate:'HDA-4821',rating:'4.88'},
+  drvW:{n:{en:'Sana M.',ar:'ثناء م.'},i:'ث',car:{en:'Toyota Yaris 2022 · Grey',ar:'تويوتا ياريس 2022 · رمادي'},plate:'HDB-1907',rating:'4.95'},
+  officer:{en:'Ayesha (safety officer)',ar:'عائشة (موظفة السلامة)'}, pay:{en:'JazzCash',ar:'JazzCash'},
+  checks:[{en:'CNIC photo and selfie match',ar:'مطابقة البطاقة والصورة الشخصية',s:{en:'Face matches CNIC photo',ar:'الوجه يطابق صورة البطاقة'}},{en:'SIM linked to CNIC',ar:'الشريحة مرتبطة بالبطاقة',s:{en:'Biometric SIM confirmed',ar:'تم تأكيد الشريحة البيومترية'}},{en:'Driving licence',ar:'رخصة القيادة',s:{en:'Sindh licence valid',ar:'رخصة السند سارية'}},{en:'Vehicle registration',ar:'تسجيل المركبة',s:{en:'Excise record matches',ar:'السجل مطابق'}},{en:'Police character certificate',ar:'شهادة حسن السيرة',s:{en:'Uploaded and checked',ar:'تم الرفع والتحقق'}}],
+  sugg:[
+   {q:{en:'Take me to Rani Bagh',ar:'Take me to Rani Bagh'},lang:'en',a:'Done. Rafeeq Go to Rani Bagh, about 12 minutes. Imran is 3 minutes away.',d:0,t:'go'},
+   {q:{en:'مجھے ریلوے اسٹیشن جانا ہے',ar:'مجھے ریلوے اسٹیشن جانا ہے'},lang:'ur',a:'جی ضرور! ریلوے اسٹیشن کے لیے سواری تیار ہے، تقریباً 15 منٹ۔ ڈرائیور 3 منٹ میں پہنچ جائے گا۔',d:1,t:'go'},
+   {q:{en:'مون کي قاسم آباد وڃڻو آهي',ar:'مون کي قاسم آباد وڃڻو آهي'},lang:'sd',a:'ٺيڪ آهي! قاسم آباد لاءِ سواري تيار آهي، لڳ ڀڳ 16 منٽ. ڊرائيور 3 منٽن ۾ پهچندو.',d:2,t:'go'},
+   {q:{en:'Woman driver to the hospital',ar:'سائقة إلى المستشفى'},lang:'x',a:{en:'Of course. Rafeeqa with Sana to Liaquat University Hospital, about 13 minutes.',ar:'بكل سرور. رحلة رفيقة مع ثناء إلى مستشفى جامعة لياقت، حوالي 13 دقيقة.'},d:3,t:'women'}
+  ]}
+};
+
+const TYPES=[{k:'go',m:1,eta:4},{k:'comfort',m:1.35,eta:6},{k:'women',m:1.1,eta:7},{k:'pilgrim',m:1.15,eta:8,ksaOnly:true},{k:'robo',m:1,eta:0,soon:true}];
+
+const S={lang:'en',region:'ksa',view:'welcome',dest:null,type:'go',pin:'',chat:[],rating:5,devState:null,shared:false};
+const t=k=>(I[S.lang][k]??I.en[k]??k);
+const mins=n=>S.lang!=='ar'?n+' min':(n===1?'دقيقة':n===2?'دقيقتان':(n>=3&&n<=10)?n+' دقائق':n+' دقيقة');
+const km=n=>S.lang==='ar'?n+' كم':n+' km';
+const R=()=>REG[S.region];
+const L=o=>typeof o==='string'?o:(o[S.lang]??o.en);
+const money=v=>R().cur[S.lang](v);
+const fare=(km,m)=>{const v=(R().base+R().perKm*km)*m;return S.region==='ksa'?Math.round(v):Math.round(v/10)*10};
+const now=()=>{const d=new Date();return d.toTimeString().slice(0,8)};
+
+let timers=[],raf=null;
+const later=(f,ms)=>timers.push(setTimeout(f,ms));
+const every=(f,ms)=>timers.push(setInterval(f,ms));
+function clearAll(){timers.forEach(x=>{clearTimeout(x);clearInterval(x)});timers=[];if(raf)cancelAnimationFrame(raf);raf=null}
+function go(v){clearAll();S.view=v;render()}
+
+/* ---------- icons ---------- */
+const ic={
+ back:'<svg class="flip" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg>',
+ car:c=>`<svg class="car" viewBox="0 0 44 30"><rect x="3" y="11" width="38" height="11" rx="5" fill="${c}"/><path d="M10 12l4-6h16l4 6" fill="${c}" opacity=".8"/><circle cx="12" cy="23" r="4" fill="#10201C"/><circle cx="32" cy="23" r="4" fill="#10201C"/><rect x="15" y="7.5" width="14" height="4" rx="1" fill="#fff" opacity=".7"/></svg>`,
+ user:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
+ wheel:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M3.5 10.5h6M14.5 10.5h6M12 14.5V21"/></svg>',
+ grid:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>',
+ shield:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+ check:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>',
+ spark:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#E9A23B"><path d="M12 2l2.2 6.3L20 10l-5.8 1.9L12 18l-2.2-6.1L4 10l5.8-1.7z"/><circle cx="19" cy="19" r="2"/></svg>',
+ pin:'<svg width="18" height="18" viewBox="0 0 24 24" fill="#0B6B57"><path d="M12 2a7 7 0 00-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>',
+ flag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="#C8372D"><path d="M5 21V4h11l-1.5 3.5L16 11H7v10z"/></svg>',
+ shareI:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>',
+ phoneI:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2"/></svg>',
+ sosI:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>',
+ send:'<svg class="flip" width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg>',
+ face:'<svg width="110" height="140" viewBox="0 0 110 140" fill="#B9CCC5"><ellipse cx="55" cy="52" rx="30" ry="36"/><path d="M8 140c4-30 24-44 47-44s43 14 47 44z"/></svg>',
+ chip:'<svg width="120" height="90" viewBox="0 0 120 90"><rect x="4" y="4" width="112" height="82" rx="8" fill="#0B6B57"/><rect x="16" y="22" width="30" height="24" rx="4" fill="#E9A23B"/><rect x="56" y="22" width="48" height="6" rx="3" fill="#CFE3DC"/><rect x="56" y="34" width="36" height="6" rx="3" fill="#CFE3DC"/><rect x="16" y="58" width="88" height="6" rx="3" fill="#CFE3DC" opacity=".6"/></svg>'
+};
+
+/* ---------- map ---------- */
+const ROUTE='M70 420 L70 330 L190 330 L190 210 L300 210 L300 110';
+const DETOUR='M190 300 L250 300 L300 360';
+function mapSVG(o={}){
+ const blocks=[];const pal=['#DCE6E1','#D5E0DA','#E1E9E5'];
+ for(let y=0;y<11;y++)for(let x=0;x<8;x++){blocks.push(`<rect x="${x*52+4}" y="${y*52+4}" width="44" height="44" rx="6" fill="${pal[(x*7+y*3)%3]}"/>`)}
+ return `<svg viewBox="0 0 390 560" preserveAspectRatio="xMidYMid slice" aria-label="Map">
+  <rect width="390" height="560" fill="#EEF3F0"/>${blocks.join('')}
+  <rect x="212" y="420" width="96" height="96" rx="10" fill="#CFE5D3"/>
+  <path d="M0 160 C120 140 220 190 390 150" stroke="#C7DCEB" stroke-width="16" fill="none"/>
+  <g stroke="#fff" stroke-width="8" fill="none"><path d="M0 52H390M0 156H390M0 260H390M0 364H390M0 468H390M52 0V560M156 0V560M260 0V560M364 0V560"/></g>
+  <path d="M0 330 H390" stroke="#F6E3BE" stroke-width="10"/><path d="M190 0 V560" stroke="#F6E3BE" stroke-width="10"/>
+  ${o.nearby?`<g class="nearby">${[[110,250],[250,140],[320,300],[60,180],[230,420]].map(([x,y],i)=>`<g transform="translate(${x} ${y}) rotate(${i*40})"><rect x="-9" y="-5" width="18" height="10" rx="3" fill="#073B31"/></g>`).join('')}</g>`:''}
+  ${o.route?`<path id="route" d="${ROUTE}" stroke="#0B6B57" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`:''}
+  ${o.detour?`<path id="detour" d="${DETOUR}" stroke="#C8372D" stroke-width="5" stroke-dasharray="8 7" fill="none"/>`:''}
+  <circle cx="70" cy="420" r="11" fill="#0B6B57" opacity=".18"/><circle cx="70" cy="420" r="6" fill="#0B6B57" stroke="#fff" stroke-width="2.5"/>
+  ${o.route?`<g transform="translate(300 110)"><circle r="9" fill="#C8372D" stroke="#fff" stroke-width="3"/></g>`:''}
+  ${o.car?`<g id="carIcon"><circle r="15" fill="#E9A23B" opacity=".25"/><rect x="-10" y="-6" width="20" height="12" rx="4" fill="#073B31" stroke="#fff" stroke-width="2"/></g>`:''}
+ </svg>`}
+function moveCar(from,to,ms,done,pathId='route'){
+ const p=document.getElementById(pathId),c=document.getElementById('carIcon');if(!p||!c)return;
+ const len=p.getTotalLength();const t0=performance.now();
+ const step=n=>{const k=Math.min(1,(n-t0)/ms);const d=len*(from+(to-from)*k);const pt=p.getPointAtLength(d);c.setAttribute('transform',`translate(${pt.x} ${pt.y})`);S.carPos=from+(to-from)*k;if(k<1)raf=requestAnimationFrame(step);else done&&done()};
+ raf=requestAnimationFrame(step)}
+
+/* ---------- shared bits ---------- */
+const topBar=(title,backTo)=>`<div class="top"><button class="icon-btn" data-act="go" data-v="${backTo}" aria-label="${t('back')}">${ic.back}</button><h2>${title}</h2></div>`;
+const driver=()=>S.type==='women'?R().drvW:R().drv;
+const idBadge=()=>S.region==='ksa'?t('nafathV'):t('cnicV');
+const licBadge=()=>S.region==='ksa'?t('lic'):t('licS');
+
+/* ---------- views ---------- */
+const V={};
+V.welcome=()=>`<div class="scroll">
+ <div class="hero"><canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="logo"><img class="logo-mark" src="data:image/png;base64,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" alt="" width="44" height="44" style="padding:0"><b>${S.lang==='ar'?'رفيق':'Rafeeq'}</b></div>
+  <h1>${t('tagline')}</h1><p>${t('heroP')}</p><p style="margin-top:6px;font-size:13px">${t('by')}</p>
+  <div style="margin-top:14px"><span class="chip warn">${t('demo')}</span></div>
+ </div>
+ <div class="pad stack">
+  <div class="row between"><span class="small muted" style="font-weight:600">${t('market')}</span>
+   <div class="seg" style="width:72%"><button class="${S.region==='ksa'?'on':''}" data-act="region" data-v="ksa">🇸🇦 ${t('ksaS')}</button><button class="${S.region==='sindh'?'on':''}" data-act="region" data-v="sindh">🇵🇰 ${t('sindhS')}</button></div></div>
+  <div class="row between"><span class="small muted" style="font-weight:600">${t('lang')}</span>
+   <div class="seg" style="width:72%"><button class="${S.lang==='en'?'on':''}" data-act="lang" data-v="en">English</button><button class="${S.lang==='ar'?'on':''}" data-act="lang" data-v="ar">العربية</button></div></div>
+  <div class="tiny muted">${S.region==='ksa'?t('ksa')+' · '+L(R().city):t('sindh')+' · '+L(R().city)}</div>
+  <button class="entry" data-act="go" data-v="signin"><span class="ic" style="background:#E2F4EA;color:var(--brand)">${ic.user}</span><span><b>${t('rider')}</b><span class="small muted">${t('riderSub')}</span></span></button>
+  <button class="entry" data-act="go" data-v="onboard"><span class="ic" style="background:#FCEFD9;color:#8a5a10">${ic.wheel}</span><span><b>${t('driver')}</b><span class="small muted">${t('driverSub')}</span></span></button>
+  <button class="entry" data-act="go" data-v="console"><span class="ic" style="background:#E3EDF9;color:var(--info)">${ic.grid}</span><span><b>${t('partner')}</b><span class="small muted">${t('partnerSub')}</span></span></button>
+  <details class="install"><summary>${t('installT')}</summary><ol><li>${t('installI')}</li><li>${t('installA')}</li></ol></details>
+ </div></div>`;
+
+V.signin=()=>`${topBar(t('signin'),'welcome')}<div class="scroll pad stack">
+ <label class="f" for="ph">${t('phone')}<span class="input"><span style="direction:ltr">${S.region==='ksa'?'🇸🇦 +966':'🇵🇰 +92'}</span><input id="ph" inputmode="tel" value="${S.region==='ksa'?'55 123 4821':'300 123 4821'}" style="direction:ltr"></span></label>
+ <button class="btn" data-act="go" data-v="otp">${t('sendCode')}</button></div>`;
+
+V.otp=()=>`${topBar(t('signin'),'signin')}<div class="scroll pad stack" style="text-align:center">
+ <p class="muted">${t('codeSent')} <span class="num" style="direction:ltr;display:inline-block">${R().phone}</span></p>
+ <div class="otp" id="otp">${'••••••'.split('').map(()=>'<span></span>').join('')}</div>
+ <button class="btn" id="otpBtn" data-act="go" data-v="${S.region==='ksa'?'nafath':'cnic'}" disabled>${t('verify')}</button></div>`;
+V.otp.after=()=>{const d='481920';document.querySelectorAll('#otp span').forEach((s,i)=>later(()=>{s.textContent=d[i];if(i===5)document.getElementById('otpBtn').disabled=false},300+i*180))};
+
+V.nafath=()=>{S.nnum=S.nnum||(10+Math.floor(Math.random()*89));return `${topBar(t('idStep'),'otp')}<div class="scroll pad stack" style="text-align:center">
+ <div class="row" style="justify-content:center"><span class="chip ok">${ic.shield} Nafath · نفاذ</span></div>
+ <p>${t('nafathOpen')}</p><div class="nafath-num num">${S.nnum}</div>
+ <p class="small muted" id="nstat">${t('waiting')}</p>
+ <button class="btn" data-act="nafathOk">${t('approveSim')}</button>
+ <p class="small muted">${t('nafathWhy')}</p>
+ <button class="btn ghost" data-act="go" data-v="passport">${t('visitor')}</button></div>`};
+
+V.passport=()=>`${topBar(t('passport'),'nafath')}<div class="scroll pad stack" style="text-align:center">
+ <div id="pstage"><p>${t('passportScan')}</p><div style="margin:10px auto">${ic.chip}</div></div>
+ <button class="btn" id="pbtn" data-act="passRun">${t('runCheck')}</button></div>`;
+
+V.cnic=()=>`${topBar(t('idStep'),'otp')}<div class="scroll pad stack" style="text-align:center">
+ <div class="row" style="justify-content:center"><span class="chip ok">${ic.shield} CNIC · NADRA</span></div>
+ <h3 style="font-size:18px">${t('cnicTitle')}</h3><p class="muted small">${t('cnicBody')}</p>
+ <div id="cstage" style="margin:6px auto">${ic.chip}</div>
+ <button class="btn" id="cbtn" data-act="cnicRun">${t('cnicSim')}</button></div>`;
+
+V.verified=()=>`<div class="scroll pad stack" style="text-align:center;justify-content:center;flex:1;display:flex">
+ <div style="width:84px;height:84px;border-radius:50%;background:#E2F4EA;display:grid;place-items:center;margin:0 auto;color:var(--ok)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></div>
+ <h2 style="font-size:22px">${t('verified')}</h2><p class="muted">${S.idUsed||R().idName}</p>
+ <button class="btn" data-act="go" data-v="home">${t('continue_')}</button></div>`;
+
+V.home=()=>{const opts=TYPES.filter(o=>!(o.ksaOnly&&S.region!=='ksa'));const d=S.dest!=null?R().places[S.dest]:null;
+ return `<div class="mapwrap">${mapSVG({nearby:true})}
+  <div class="floating"><button class="icon-btn" style="background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.1)" data-act="go" data-v="welcome" aria-label="${t('home')}">${ic.back}</button><div class="pill">${ic.pin}<span>${L(R().pickup)}</span></div></div></div>
+ <div class="sheet"><div class="grab"></div><div class="stack">
+  <button class="ai-btn" data-act="go" data-v="chat">${ic.spark}<span><b>${t('askAI')}</b><br><span class="small" style="color:#CFE3DC">${t('askAISub')}</span></span></button>
+  <h3 style="font-size:16px">${t('whereTo')}</h3>
+  <div>${R().places.map((p,i)=>`<button class="dest ${S.dest===i?'on':''}" data-act="dest" data-v="${i}">${ic.flag}<span style="flex:1">${L(p)}</span><span class="small muted num">${km(p.km)}</span></button>`).join('')}</div>
+  ${d?`<div class="stack" style="gap:8px">${opts.map(o=>`<button class="opt ${S.type===o.k?'on':''}" data-act="type" data-v="${o.k}" ${o.soon?'disabled':''}>${ic.car(o.k==='women'?'#B45A8A':o.k==='comfort'?'#2563A8':o.k==='pilgrim'?'#8a5a10':o.k==='robo'?'#5A6A65':'#0B6B57')}<span><b>${t(o.k==='go'?'go_':o.k)}</b><br><span class="small muted">${t(o.k+'S')}${o.soon?'':' · '+mins(o.eta)}</span></span><span class="price num">${o.soon?`<span class="chip">${t('soon')}</span>`:money(fare(d.km,o.m))}</span></button>`).join('')}</div>
+  <button class="btn" data-act="book">${t('book')} · ${t(S.type==='go'?'go_':S.type)}</button>`:`<p class="small muted">${t('pickDest')}</p>`}
+ </div></div>`};
+
+V.chat=()=>`${topBar(t('chatT'),'home')}<div class="scroll" id="chatScroll"><div class="chat" id="chat">
+ <div class="msg bot">${t('chatHi')}</div>${S.chat.join('')}</div></div>
+ <div class="sugg">${R().sugg.map((s,i)=>`<button data-act="ask" data-v="${i}" dir="auto">${L(s.q)}</button>`).join('')}</div>
+ <form class="composer" id="composer"><label class="input"><input id="msgIn" placeholder="${t('typeMsg')}" aria-label="${t('typeMsg')}" dir="auto"></label><button class="icon-btn" style="background:var(--brand)" aria-label="Send">${ic.send}</button></form>`;
+V.chat.after=()=>{const sc=document.getElementById('chatScroll');sc.scrollTop=sc.scrollHeight;
+ document.getElementById('composer').addEventListener('submit',e=>{e.preventDefault();const v=document.getElementById('msgIn').value.trim();if(!v)return;pushChat(`<div class="msg me" dir="auto">${v.replace(/</g,'&lt;')}</div>`);botSay(t('unknown'))})};
+function pushChat(h){S.chat.push(h);const c=document.getElementById('chat');if(c){c.insertAdjacentHTML('beforeend',h);const sc=document.getElementById('chatScroll');sc.scrollTop=sc.scrollHeight}}
+function botSay(text,extra=''){const c=document.getElementById('chat');c.insertAdjacentHTML('beforeend','<div class="msg bot" id="typing"><span class="typing"><i></i><i></i><i></i></span></div>');document.getElementById('chatScroll').scrollTop=1e5;
+ later(()=>{document.getElementById('typing')?.remove();pushChat(`<div class="msg bot" dir="auto">${text}${extra}</div>`)},1100)}
+
+V.matching=()=>`${topBar(t('matching'),'home')}<div class="scroll pad stack">
+ <div class="radar"><span></span><span></span><span></span><i></i></div>
+ <p class="muted small" style="text-align:center">${t('matchingS')}</p>
+ <div class="card"><div class="log" id="mlog"></div></div></div>`;
+V.matching.after=()=>{const ks=S.region==='ksa';const dn=L(driver().n);
+ const lines=S.lang==='ar'?[`فحص ${ks?14:11} سائقاً موثقاً ضمن 3 كم`,`استبعاد سائقَين: لم يجتازا تحقق الوجه اليوم`,`${dn}: اجتاز تحقق الوجه الساعة 06:12`,`التقييم ${driver().rating} · الوصول خلال 4 دقائق`,`تم الإسناد. إنشاء رمز الرحلة`]:[`Checked ${ks?14:11} verified drivers within 3 km`,`Skipped 2 drivers: no face check today`,`${dn}: passed face check at 06:12`,`Rating ${driver().rating} · pickup in 4 min`,`Assigned. Creating trip PIN`];
+ lines.forEach((l,i)=>later(()=>{document.getElementById('mlog').insertAdjacentHTML('beforeend',`<div><time>${now()}</time><span>${l}</span></div>`);if(i===lines.length-1)later(()=>go('assigned'),900)},500+i*750))};
+
+V.assigned=()=>{S.pin=S.pin||String(1000+Math.floor(Math.random()*9000));const d=driver();const p=R().places[S.dest];const o=TYPES.find(x=>x.k===S.type);
+ return `<div class="mapwrap" style="flex:.9">${mapSVG({route:true,car:true})}</div>
+ <div class="sheet" style="max-height:66%"><div class="grab"></div><div class="stack">
+  <div class="row between"><h3 style="font-size:17px">${t('found')}</h3><span class="chip info num">${mins(4)}</span></div>
+  <div class="drv"><div class="avatar">${S.lang==='ar'?d.i:L(d.n)[0]}</div><div style="flex:1"><b style="font-family:var(--display)">${L(d.n)}</b> <span class="small muted">★ ${d.rating}</span><br><span class="small muted">${L(d.car)}</span></div><span class="plate">${d.plate}</span></div>
+  <div class="row" style="flex-wrap:wrap;gap:6px"><span class="chip ok">${ic.shield} ${idBadge()}</span><span class="chip ok">${ic.check} ${t('faceToday')} 06:12</span><span class="chip ok">${ic.check} ${licBadge()}</span></div>
+  <div class="pinbox"><div><b style="font-family:var(--display)">${t('pin')}</b><br><span class="tiny" style="color:#CFE3DC">${t('pinS')}</span></div><span class="digits num">${S.pin}</span></div>
+  <div class="actions"><button data-act="share">${ic.shareI}${t('share')}</button><button data-act="call">${ic.phoneI}${t('call')}</button><button class="sos" data-act="sos">${ic.sosI}${t('sos')}</button></div>
+  <div id="toast"></div>
+  <div class="row between small"><span class="muted">${L(p)}</span><b class="num">${money(fare(p.km,o.m))}</b></div>
+  <button class="btn" data-act="go" data-v="trip">${t('start')}</button>
+ </div></div>`};
+V.assigned.after=()=>{const c=document.getElementById('carIcon');c.setAttribute('transform','translate(70 470)')};
+
+V.trip=()=>`<div class="mapwrap">${mapSVG({route:true,car:true,detour:S.devState!=null})}
+  <div class="floating"><div class="pill"><span class="chip ok"><span class="dot"></span>${t('live')}</span><span>${t('onWay')} · ${L(R().places[S.dest])}</span></div></div></div>
+ <div class="sheet"><div class="grab"></div><div class="stack" id="tripPanel">${tripPanel()}</div></div>`;
+function tripPanel(){
+ if(S.devState==='alert')return `<div class="card alert stack"><b style="font-family:var(--display);color:var(--danger)">${t('devT')}</b><span class="small">${t('devB')}</span><div class="row"><button class="btn ghost" data-act="devFine">${t('fine')}</button><button class="btn danger" data-act="devHelp">${t('help')}</button></div></div>`;
+ if(S.devState==='human')return `<div class="card alert stack"><div class="row"><div class="avatar" style="width:40px;height:40px;font-size:15px;background:#FBE4E2;color:var(--danger)">${S.region==='ksa'?(S.lang==='ar'?'ع':'A'):(S.lang==='ar'?'ع':'A')}</div><div><b style="font-family:var(--display)">${t('human')}</b><br><span class="tiny muted">${t('respTime')}</span></div></div><span class="small">${L(R().officer)} ${t('humanB')}</span></div>`;
+ if(S.devState==='resolved')return `<div class="card alert calm small">${t('resolved')}</div><button class="btn" data-act="arrive">${t('finish')}</button>`;
+ return `<div class="row"><span class="chip ok">${ic.shield} ${t('safetyOn')}</span></div>
+  <div class="card"><div class="log" id="tlog"></div></div>
+  <button class="btn amber" data-act="deviate">${t('simDev')}</button>
+  <button class="btn ghost" data-act="arrive">${t('finish')}</button>`}
+V.trip.after=()=>{S.devState=null;document.getElementById('detour')?.remove();moveCar(0,.45,4200);
+ const l=S.lang==='ar'?['بدأت الرحلة · تم التحقق من رمز الرحلة','المسار مطابق · السرعة طبيعية','تمت مشاركة الرحلة مع جهة الاتصال']:['Trip started · PIN confirmed','On planned route · normal speed','Trip shared with family contact'];
+ l.forEach((x,i)=>later(()=>{const g=document.getElementById('tlog');g&&g.insertAdjacentHTML('beforeend',`<div><time>${now()}</time><span>${x}</span></div>`)},300+i*1200))};
+
+V.done=()=>{const p=R().places[S.dest];const o=TYPES.find(x=>x.k===S.type);const f=fare(p.km,o.m);
+ return `<div class="scroll pad stack" style="text-align:center">
+ <div style="width:72px;height:72px;border-radius:50%;background:#E2F4EA;display:grid;place-items:center;margin:16px auto 0;color:var(--ok)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></div>
+ <h2 style="font-size:22px">${t('arrived')}</h2><p class="muted">${L(p)}</p>
+ <div class="card stack" style="text-align:start"><div class="row between"><span class="muted">${t('fare')} · ${t(S.type==='go'?'go_':S.type)}</span><span class="num">${money(f)}</span></div><div class="row between"><b>${t('total')}</b><b class="num">${money(f)}</b></div><div class="row between small muted"><span>${t('paid')}</span><span>${L(R().pay)}</span></div></div>
+ <p style="font-weight:600">${t('rate')}</p>
+ <div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=S.rating?'on':''}" data-act="star" data-v="${n}" aria-label="${n}">★</button>`).join('')}</div>
+ <button class="btn" data-act="reset">${t('done')}</button></div>`};
+
+/* driver */
+V.onboard=()=>`${topBar(t('onb'),'welcome')}<div class="scroll pad stack">
+ <p class="small muted">${t('onbS')}</p>
+ <div class="steps" id="steps">${R().checks.map((c,i)=>`<div class="step" id="st${i}"><span class="s-ic"></span><div><b style="font-family:var(--display);font-size:14.5px">${L(c)}</b><br><span class="small muted" id="sts${i}">…</span></div></div>`).join('')}</div>
+ <button class="btn" id="shiftBtn" data-act="go" data-v="face" disabled>${t('startShift')}</button></div>`;
+V.onboard.after=()=>{R().checks.forEach((c,i)=>{later(()=>document.getElementById('st'+i).classList.add('run'),i*900);later(()=>{const s=document.getElementById('st'+i);s.classList.remove('run');s.classList.add('done');s.querySelector('.s-ic').innerHTML=ic.check;document.getElementById('sts'+i).textContent=L(c.s);if(i===R().checks.length-1)document.getElementById('shiftBtn').disabled=false},i*900+800)})};
+
+V.face=()=>`${topBar(t('faceT'),'onboard')}<div class="scroll pad stack" style="text-align:center">
+ <p class="muted small">${t('faceS')}</p>
+ <div class="scanner">${ic.face}<div class="beam"></div></div>
+ <div class="bar" style="margin:6px 20px"><i id="fbar" style="width:0%;transition:width .2s"></i></div>
+ <p id="fstat" class="small muted num">0%</p>
+ <button class="btn" id="fbtn" data-act="go" data-v="online" disabled>${t('continue_')}</button></div>`;
+V.face.after=()=>{let p=0;every(()=>{p=Math.min(98.7,p+7.3);document.getElementById('fbar').style.width=p+'%';document.getElementById('fstat').textContent=p.toFixed(1)+'% '+t('matchPct');if(p>=98.7){clearAll();document.getElementById('fstat').innerHTML=`<span class="chip ok">${ic.check} ${t('faceOk')} · ${S.region==='ksa'?'Nafath':'NADRA'}</span>`;document.getElementById('fbtn').disabled=false}},180)};
+
+V.online=()=>{const r=R();const ks=S.region==='ksa';const earned=ks?412:5860;const p=r.places[2];
+ return `<div class="mapwrap" style="flex:.8">${mapSVG({nearby:true})}<div class="floating"><div class="pill"><span class="chip ok"><span class="dot"></span>${t('online')}</span><span>${L(r.city)}</span></div></div></div>
+ <div class="sheet" style="max-height:70%"><div class="grab"></div><div class="stack">
+  <div class="kpis"><div class="kpi"><span class="small muted">${t('today')} · ${t('earned')}</span><b class="num">${money(earned)}</b></div><div class="kpi"><span class="small muted">${t('commission')}</span><b class="num">4%</b></div></div>
+  <div class="small muted num">9 ${t('trips')} · 6.5 ${t('hrs')}</div>
+  <div id="reqBox"></div>
+  <button class="btn ghost" data-act="reset">${t('endShift')}</button>
+ </div></div>`};
+V.online.after=()=>later(()=>{const r=R();const p=r.places[2];document.getElementById('reqBox').innerHTML=`<div class="card stack" style="border:2px solid var(--accent)"><div class="row between"><b style="font-family:var(--display)">${t('req')}</b><span class="price num">${money(fare(p.km,1))}</span></div><div class="small">${ic.pin} ${L(r.pickup)}</div><div class="small">${ic.flag} ${L(p)} · ${km(p.km)}</div><div class="row" style="gap:6px"><span class="chip ok">${ic.shield} ${idBadge()}</span><span class="chip">★ 4.8</span></div><div class="countdown"><i></i></div><div class="row"><button class="btn ghost" data-act="decline">${t('decline')}</button><button class="btn" data-act="acceptReq">${t('accept')}</button></div></div>`},1500);
+
+/* console */
+const AGENTS=[{en:'Onboarding agent',ar:'وكيل التسجيل',r:42},{en:'Shift face check',ar:'تحقق الوجه للوردية',r:310},{en:'Dispatch and pricing',ar:'التوزيع والتسعير',r:2140},{en:'Safety monitor',ar:'مراقب السلامة',r:1880},{en:'Support (AR/EN/UR)',ar:'الدعم (عربي/إنجليزي/أردو)',r:265},{en:'Compliance and reporting',ar:'الامتثال والتقارير',r:18},{en:'Growth and marketing',ar:'النمو والتسويق',r:36}];
+const LOGS={en:['Dispatch matched trip in 9 s · pickup 3 min','Safety: route check OK on 312 live trips','Shift check passed · driver #2207','Support resolved lost item chat in Arabic','Pricing: demand up 18% near airport, more drivers notified','Onboarding: licence verified · driver #3391 approved','Safety: long stop flagged · rider confirmed OK','Shift check failed · driver #1874 blocked, sent to human review','Compliance: daily trip report queued','Support refund 14 approved automatically','Growth: referral campaign paused (low conversion)'],
+ ar:['التوزيع أسند رحلة خلال 9 ث · الوصول 3 د','السلامة: فحص المسار سليم لـ 312 رحلة','نجح تحقق الوجه · السائق 2207','الدعم حل محادثة مفقودات بالعربية','التسعير: الطلب +18% قرب المطار، تم إشعار السائقين','التسجيل: تم التحقق من الرخصة · قبول السائق 3391','السلامة: توقف طويل · الراكب أكد أنه بخير','فشل تحقق الوجه · إيقاف السائق 1874 وإحالته للمراجعة','الامتثال: تقرير الرحلات اليومي جاهز','الدعم: استرداد 14 تمت الموافقة عليه آلياً','النمو: إيقاف حملة الإحالة (تحويل منخفض)']};
+V.console=()=>{const ks=S.region==='ksa';return `${topBar(t('console'),'welcome')}<div class="scroll pad stack">
+ <div class="row between"><span class="small muted">${L(R().city)} · ${ks?t('ksaS'):t('sindhS')}</span><span class="chip ok"><span class="dot"></span>${t('live')}</span></div>
+ <div class="kpis"><div class="kpi"><span class="small muted">${t('kTrips')}</span><b class="num" id="kT">${ks?'3,482':'1,126'}</b></div><div class="kpi"><span class="small muted">${t('kPickup')}</span><b class="num">${S.lang==='ar'?(ks?'4.1':'5.3')+' دقيقة':(ks?'4.1':'5.3')+' min'}</b></div><div class="kpi"><span class="small muted">${t('kHuman')}</span><b class="num">0.6%</b></div><div class="kpi"><span class="small muted">${t('kAlerts')}</span><b class="num">${ks?'21':'9'}</b></div></div>
+ <div class="card"><div class="row between"><h3 style="font-size:15px">${t('agents')}</h3><span class="tiny muted">${t('autonomy')}</span></div>
+  ${AGENTS.map((a,i)=>`<div class="agent"><span class="a-ic">${ic.check}</span><div style="flex:1"><b style="font-size:14px">${L(a)}</b><br><span class="chip ok tiny">${t('running')}</span></div><b class="num" id="ag${i}">${a.r.toLocaleString()}</b></div>`).join('')}</div>
+ <div class="card stack"><div class="row between"><h3 style="font-size:15px">${t('desk')}</h3><span class="chip info">3 ${t('onDuty')}</span></div>
+  <div class="small row between"><span>${t('deskCase1')}</span><span class="chip ok">${t('reviewing')}</span></div>
+  <div class="small row between"><span>${t('deskCase2')}</span><span class="chip warn">${t('waitingS')}</span></div>
+  <div class="small row between"><span>${t('deskCase3')}</span><span class="chip warn">${t('waitingS')}</span></div></div>
+ <div class="card"><h3 style="font-size:15px;margin-bottom:8px">${t('log')}</h3><div class="log" id="clog"></div></div></div>`};
+V.console.after=()=>{let i=0;let trips=S.region==='ksa'?3482:1126;const add=()=>{const L2=LOGS[S.lang];const g=document.getElementById('clog');if(!g)return;g.insertAdjacentHTML('afterbegin',`<div><time>${now()}</time><span>${L2[i%L2.length]}</span></div>`);if(g.children.length>7)g.lastChild.remove();i++;trips+=Math.ceil(Math.random()*3);document.getElementById('kT').textContent=trips.toLocaleString();AGENTS.forEach((a,j)=>{const e=document.getElementById('ag'+j);e&&(e.textContent=Math.round(a.r*(0.95+Math.random()*0.1)).toLocaleString())})};add();add();add();every(add,1700)};
+
+/* ---------- actions ---------- */
+const A={
+ go:el=>go(el.dataset.v),
+ region:el=>{S.region=el.dataset.v;S.dest=null;S.type='go';S.chat=[];render()},
+ lang:el=>{S.lang=el.dataset.v;S.chat=[];render()},
+ nafathOk:()=>{document.getElementById('nstat').textContent='✓';S.idUsed='Nafath · نفاذ';later(()=>go('verified'),500)},
+ passRun:()=>{const st=document.getElementById('pstage');document.getElementById('pbtn').disabled=true;st.innerHTML=`<p>${t('selfie')}</p><div class="scanner">${ic.face}<div class="beam"></div></div>`;S.idUsed=S.lang==='ar'?'جواز السفر + صورة حية':'Passport chip + live selfie';later(()=>go('verified'),2200)},
+ cnicRun:()=>{const st=document.getElementById('cstage');document.getElementById('cbtn').disabled=true;st.innerHTML=`<div class="scanner">${ic.face}<div class="beam"></div></div>`;S.idUsed=S.lang==='ar'?'البطاقة الوطنية + صورة حية':'CNIC + live selfie';later(()=>go('verified'),2200)},
+ dest:el=>{S.dest=+el.dataset.v;render()},
+ type:el=>{S.type=el.dataset.v;render()},
+ book:()=>{S.pin='';go('matching')},
+ ask:el=>{const s=R().sugg[+el.dataset.v];pushChat(`<div class="msg me" dir="auto">${L(s.q)}</div>`);S.dest=s.d;S.type=s.t;const p=R().places[s.d];const o=TYPES.find(x=>x.k===s.t);
+  const card=`<div class="card" style="margin-top:8px;background:#fff"><div class="small"><b>${L(p)}</b></div><div class="row between small"><span>${t(s.t==='go'?'go_':s.t)}</span><b class="num">${money(fare(p.km,o.m))}</b></div><button class="btn" style="margin-top:8px;padding:10px" data-act="book">${t('confirm')}</button></div>`;
+  botSay(L(s.a),card)},
+ share:()=>{document.getElementById('toast').innerHTML=`<div class="card alert calm small">${t('shared')}</div>`},
+ call:()=>{document.getElementById('toast').innerHTML=`<div class="card small">${t('called')}</div>`},
+ sos:()=>{go('trip');later(()=>{S.devState='human';clearAll();document.getElementById('tripPanel').innerHTML=tripPanel();later(()=>{S.devState='resolved';document.getElementById('tripPanel').innerHTML=tripPanel()},3500)},300)},
+ deviate:()=>{if(raf)cancelAnimationFrame(raf);const svg=document.querySelector('.mapwrap svg');svg.insertAdjacentHTML('beforeend',`<path id="detour" d="${DETOUR}" stroke="#C8372D" stroke-width="5" stroke-dasharray="8 7" fill="none"/>`);svg.appendChild(document.getElementById('carIcon'));moveCar(0,.6,1500,()=>{S.devState='alert';document.getElementById('tripPanel').innerHTML=tripPanel()},'detour')},
+ devFine:()=>{S.carPos=.45;S.devState='resolved';document.getElementById('tripPanel').innerHTML=tripPanel()},
+ devHelp:()=>{S.carPos=.45;S.devState='human';document.getElementById('tripPanel').innerHTML=tripPanel();later(()=>{S.devState='resolved';const tp=document.getElementById('tripPanel');tp&&(tp.innerHTML=tripPanel())},4000)},
+ arrive:()=>{if(raf)cancelAnimationFrame(raf);document.getElementById('detour')?.remove();moveCar(S.carPos||0,1,1600,()=>later(()=>go('done'),400))},
+ star:el=>{S.rating=+el.dataset.v;document.querySelectorAll('.stars button').forEach((b,i)=>b.classList.toggle('on',i<S.rating))},
+ reset:()=>{S.dest=null;S.type='go';S.pin='';S.chat=[];S.nnum=null;go('welcome')},
+ decline:()=>{document.getElementById('reqBox').innerHTML='';later(()=>V.online.after(),10)},
+ acceptReq:()=>{document.getElementById('reqBox').innerHTML=`<div class="card alert calm stack"><b>${t('accept')} ✓</b><span class="small">${t('pin')}: ${S.lang==='ar'?'يطلبه السائق من الراكب قبل البدء':'ask the rider for it before starting'}</span><button class="btn">${t('goPickup')}</button></div>`}
+};
+document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el||el.disabled)return;e.preventDefault();A[el.dataset.act]?.(el)});
+
+/* hero canvas: faint route lines */
+function heroArt(){const c=document.getElementById('heroCanvas');if(!c)return;const r=c.getBoundingClientRect();c.width=r.width*2;c.height=r.height*2;const x=c.getContext('2d');x.scale(2,2);x.strokeStyle='rgba(233,162,59,.55)';x.lineWidth=1.2;
+ let seed=7;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+ for(let i=0;i<9;i++){x.beginPath();let px=rnd()*r.width,py=r.height;x.moveTo(px,py);for(let k=0;k<6;k++){rnd()>.5?px+=(rnd()-.3)*90:py-=rnd()*60;x.lineTo(px,py)}x.stroke();x.fillStyle='rgba(233,162,59,.8)';x.beginPath();x.arc(px,py,2.5,0,7);x.fill()}}
+
+function render(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ar'?'rtl':'ltr';
+ document.getElementById('demoTag').textContent=S.lang==='ar'?'عرض تجريبي':'DEMO';
+ const app=document.getElementById('app');app.innerHTML=V[S.view]();V[S.view].after&&V[S.view].after();if(S.view==='welcome')heroArt()}
+render();
+</script>
+</body>
+</html>
