@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>MRU Portal — Code Review &amp; Improvements</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1B2A; --ink-soft:#44586E; --paper:#F6F8FB; --paper-2:#ECF1F7;
+    --navy:#112236; --navy-2:#19314C; --line:#D4DEEA; --line-dark:#2B4663;
+    --cyan:#17A2B8; --violet:#7A5CD0; --amber:#D98A2B; --green:#1E8E5A; --mist:#C3D4E6;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ background:#0a1420; font-family:'Inter',Arial,sans-serif; }
+  /* each slide fills the viewport; scroll-snap for clean paging */
+  .deck{ scroll-snap-type:y mandatory; height:100vh; overflow-y:scroll; scroll-behavior:smooth; }
+  .slide{
+    scroll-snap-align:start; min-height:100vh; width:100%;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:6vh 7vw; position:relative; background:var(--paper); color:var(--ink);
+  }
+  @media(min-width:900px){ .slide{ padding:7vh 8vw; } }
+  h1,h2,h3{ font-family:'Space Grotesk',Georgia,serif; font-weight:700; line-height:1.05; }
+  h1{ font-size:clamp(44px,7vw,104px); letter-spacing:-2px; color:#fff; margin-bottom:12px; }
+  h2{ font-size:clamp(30px,4.2vw,60px); letter-spacing:-0.5px; margin-bottom:12px; }
+  h3{ font-size:clamp(19px,2vw,30px); margin-bottom:8px; }
+  p{ font-size:clamp(16px,1.9vw,30px); line-height:1.45; color:var(--ink-soft); }
+  .eyebrow{ font-family:'Space Grotesk',sans-serif; font-size:clamp(13px,1.3vw,24px); font-weight:500;
+    letter-spacing:2px; text-transform:uppercase; color:var(--cyan); margin-bottom:18px; }
+  .mono,.code{ font-family:'JetBrains Mono','Courier New',monospace; }
+  .code{ color:var(--violet); }
+  /* cover + dark */
+  .cover,.dark{ background:var(--navy); color:#fff; }
+  .cover .sub{ font-size:clamp(20px,2.4vw,34px); color:var(--mist); }
+  .cover .meta{ font-size:clamp(15px,1.6vw,25px); color:#8FA6BF; margin-top:9vh; }
+  .pill{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:clamp(14px,1.5vw,24px);
+    color:var(--navy); background:var(--cyan); padding:8px 18px; border-radius:999px; margin-top:4vh; }
+  .dark h2,.dark h3{ color:#fff; } .dark p{ color:var(--mist); }
+  .dark .card{ background:var(--navy-2); border-color:var(--line-dark); }
+  .dark .card h3{ color:#fff; } .dark .card p{ color:var(--mist); }
+  .dark .note{ color:var(--mist); } .dark .big{ color:#fff; }
+  /* cards */
+  .grid2,.grid3{ display:grid; gap:clamp(14px,1.6vw,28px); margin-top:3vh; }
+  .grid2{ grid-template-columns:1fr 1fr; } .grid3{ grid-template-columns:1fr 1fr 1fr; }
+  @media(max-width:760px){ .grid2,.grid3{ grid-template-columns:1fr; } }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:clamp(16px,2vw,30px); }
+  .card h3{ color:var(--ink); }
+  .card p{ font-size:clamp(15px,1.5vw,26px); }
+  .lead{ font-family:'JetBrains Mono',monospace; font-size:clamp(14px,1.3vw,23px); color:var(--cyan); font-weight:600; }
+  .tag{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:clamp(13px,1.2vw,21px);
+    padding:4px 12px; border-radius:8px; background:var(--paper-2); color:var(--ink-soft); }
+  /* table */
+  table{ width:100%; border-collapse:collapse; margin-top:2vh; font-size:clamp(14px,1.5vw,25px); }
+  th{ font-family:'Space Grotesk',sans-serif; text-align:left; color:var(--ink);
+    font-size:clamp(13px,1.3vw,23px); padding:10px 12px; border-bottom:2px solid var(--line); }
+  td{ padding:10px 12px; color:var(--ink-soft); }
+  tr.odd td{ background:var(--paper-2); }
+  .ok{ color:var(--green); font-weight:600; } .partial{ color:var(--amber); font-weight:600; }
+  /* improvement rows */
+  .imp{ display:flex; gap:clamp(12px,1.4vw,22px); align-items:flex-start; margin-top:clamp(14px,2vh,22px); }
+  .imp .num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(18px,2vw,30px);
+    color:#fff; background:var(--violet); min-width:clamp(38px,3.4vw,52px); height:clamp(38px,3.4vw,52px);
+    border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .num.c{ background:var(--cyan); } .num.a{ background:var(--amber); } .num.g{ background:var(--green); }
+  .imp .body p{ font-size:clamp(15px,1.5vw,25px); }
+  /* flow */
+  .flow{ display:flex; align-items:center; gap:10px; margin-top:3vh; flex-wrap:wrap; }
+  .node{ background:#fff; border:2px solid var(--line); border-radius:14px; padding:clamp(10px,1.4vw,20px); text-align:center; }
+  .node .t{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(16px,1.5vw,25px); color:var(--ink); }
+  .node .s{ font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.1vw,19px); color:var(--ink-soft); }
+  .node.router{ border-color:var(--cyan); } .node.logic{ border-color:var(--violet); } .node.store{ border-color:var(--amber); }
+  .arrow{ font-size:clamp(22px,2.4vw,34px); color:var(--cyan); font-weight:700; }
+  .note{ margin-top:2.4vh; font-size:clamp(15px,1.5vw,24px); color:var(--ink-soft); }
+  .big{ font-size:clamp(18px,2vw,34px); color:var(--ink); font-weight:600; }
+  .footer{ position:absolute; left:7vw; bottom:3vh; font-family:'JetBrains Mono',monospace;
+    font-size:clamp(12px,1.1vw,22px); color:#90A4BC; }
+  .dark .footer,.cover .footer{ color:#6E88A4; }
+  /* nav hint + progress */
+  .hint{ position:fixed; right:18px; bottom:14px; z-index:20; font-family:'JetBrains Mono',monospace;
+    font-size:13px; color:#6E88A4; background:rgba(10,20,32,.7); padding:6px 12px; border-radius:8px; }
+  .bar{ position:fixed; top:0; left:0; height:4px; background:var(--cyan); width:0; z-index:30; transition:width .2s; }
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<div class="deck" id="deck">
+
+  <section class="slide cover">
+    <p class="eyebrow">Programming with C++ · Project Review</p>
+    <h1>MRU Portal</h1>
+    <p class="sub">Code review, UML alignment &amp; what to improve next</p>
+    <div><span class="pill">C++ · Boost.Beast · SQLite</span></div>
+    <p class="meta">Reviewed against the team's Class &amp; Sequence diagrams<br>Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">The Project at a Glance</p>
+    <h2>One C++ server, one web page</h2>
+    <p>A complete, self-contained university portal demo — no framework, no build system beyond a compiler.</p>
+    <div class="grid2">
+      <div class="card"><h3>Backend — <span class="lead">server.cpp</span></h3><p>Boost.Beast HTTP server + SQLite. Login, state, assignments, grading, schedule, attendance and file uploads. ~670 lines.</p></div>
+      <div class="card"><h3>Frontend — <span class="lead">index.html</span></h3><p>Single-page app (HTML + JS in one file). Teacher and student dashboards, served by the same server.</p></div>
+      <div class="card"><h3>Storage — <span class="lead">portal.db</span></h3><p>SQLite with 5 tables (tasks, materials, submissions, schedule, attendance) + an <span class="mono">uploads/</span> folder.</p></div>
+      <div class="card"><h3>Deploy — <span class="lead">Dockerfile</span></h3><p>Two-stage Debian build, runs on Render via <span class="mono">cloud-start.sh</span>. Reads <span class="mono">PORT</span> / <span class="mono">MRU_DATA_DIR</span>.</p></div>
+    </div>
+    <p class="footer">MRU Portal Review · 2 / 10</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Code ↔ UML Alignment</p>
+    <h2>The code matches your diagrams</h2>
+    <p>Every class and sequence step in the team's UML has a real counterpart in <span class="mono">server.cpp</span>.</p>
+    <table>
+      <tr><th style="width:30%">UML element</th><th style="width:42%">In the code</th><th style="width:28%">Status</th></tr>
+      <tr class="odd"><td>PortalAPI · router</td><td class="mono">handle() · routePath()</td><td class="ok">✓ Aligned</td></tr>
+      <tr><td>Session · Bearer token</td><td class="mono">sessions map · /api/login</td><td class="ok">✓ Aligned</td></tr>
+      <tr class="odd"><td>SQLiteStore</td><td class="mono">initializeDb/readDb/save/load</td><td class="ok">✓ Aligned</td></tr>
+      <tr><td>Assignment / Submission / Material</td><td class="mono">tasks · submissions · materials</td><td class="ok">✓ Aligned</td></tr>
+      <tr class="odd"><td>ScheduleEntry · AttendanceRecord</td><td class="mono">schedule · attendance tables</td><td class="ok">✓ Aligned</td></tr>
+      <tr><td>FileAttachment · canDownload()</td><td class="mono">saveAttachment · canDownload</td><td class="ok">✓ Aligned</td></tr>
+      <tr class="odd"><td>Teacher / Student roles</td><td class="mono">role decided server-side at login</td><td class="ok">✓ Aligned</td></tr>
+      <tr><td>Sequence: grade / submit / schedule</td><td class="mono">mutate(action) → save()</td><td class="ok">✓ Aligned</td></tr>
+    </table>
+    <p class="note"><b>Verdict:</b> the implementation faithfully realises the designed model. The diagrams were used, not decoration.</p>
+    <p class="footer">MRU Portal Review · 3 / 10</p>
+  </section>
+
+  <section class="slide dark">
+    <p class="eyebrow">What's Done Well</p>
+    <h2>Genuinely solid engineering</h2>
+    <div class="grid3">
+      <div class="card"><h3>Server-side auth</h3><p>Role is decided from the demo account, never trusted from the browser. Textbook-correct.</p></div>
+      <div class="card"><h3>Safe SQL</h3><p>Prepared statements with bound parameters everywhere — no string-concatenated SQL, no injection.</p></div>
+      <div class="card"><h3>Atomic saves</h3><p>Writes run inside <span class="mono">BEGIN IMMEDIATE</span> … <span class="mono">COMMIT</span> with rollback on error.</p></div>
+      <div class="card"><h3>Careful uploads</h3><p>4&nbsp;MiB cap, extension allow-list, path-traversal checks, random stored filenames.</p></div>
+      <div class="card"><h3>Access control</h3><p><span class="mono">canDownload()</span> gates every file; students only see their own submissions.</p></div>
+      <div class="card"><h3>Real deployment</h3><p>Clean Docker multi-stage build, env-driven host/port/data dir, graceful disconnect handling.</p></div>
+    </div>
+    <p class="footer">MRU Portal Review · 4 / 10</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">How a Request Flows</p>
+    <h2>Your sequence diagram, in code</h2>
+    <div class="flow">
+      <div class="node"><div class="t">Browser</div><div class="s">index.html</div></div><div class="arrow">→</div>
+      <div class="node router"><div class="t">HTTP Router</div><div class="s">handle()</div></div><div class="arrow">→</div>
+      <div class="node logic"><div class="t">Portal Logic</div><div class="s">mutate(action)</div></div><div class="arrow">→</div>
+      <div class="node store"><div class="t">SQLite</div><div class="s">save()</div></div>
+    </div>
+    <div class="grid3" style="margin-top:4vh">
+      <div class="card"><h3>1 · Authenticate</h3><p><span class="mono">POST /api/login</span> validates the demo account, returns a Bearer token + role.</p></div>
+      <div class="card"><h3>2 · Act</h3><p><span class="mono">POST /api/grades</span> → <span class="mono">mutate("grade")</span> checks role &amp; range, updates memory.</p></div>
+      <div class="card"><h3>3 · Persist</h3><p><span class="mono">save()</span> writes all tables in one transaction; <span class="mono">readDb()</span> rebuilds state.</p></div>
+    </div>
+    <p class="note">The in-memory JSON mirrors SQLite so the browser API stays simple — a deliberate, well-documented trade-off.</p>
+    <p class="footer">MRU Portal Review · 5 / 10</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Improvement 1 · Data &amp; Multi-User</p>
+    <h2>From one demo student to a real class</h2>
+    <div class="imp"><div class="num c">A</div><div class="body"><h3>Real users instead of a hard-coded name</h3><p>Today every submission is <span class="code">"Laurynas K."</span> and there are two fixed accounts. Add a <span class="code">users</span> table (id, email, hashed password, role) so many students and teachers can log in.</p></div></div>
+    <div class="imp"><div class="num c">B</div><div class="body"><h3>Update changed rows, not the whole database</h3><p><span class="code">save()</span> deletes and re-inserts every table on each write. Switch to targeted <span class="code">UPDATE</span>/<span class="code">INSERT</span>/<span class="code">DELETE</span> — the design the code's own comment recommends.</p></div></div>
+    <div class="imp"><div class="num c">C</div><div class="body"><h3>Model courses as data</h3><p>Courses 1–6 and the <span class="code">validCourse(1..3)</span> rule are hard-coded. A <span class="code">courses</span> table with an owning teacher makes the portal configurable and matches the Course class in your diagram.</p></div></div>
+    <p class="footer">MRU Portal Review · 6 / 10</p>
+  </section>
+
+  <section class="slide dark">
+    <p class="eyebrow">Improvement 2 · Security &amp; Robustness</p>
+    <h2>Hardening for real use</h2>
+    <div class="imp"><div class="num a">A</div><div class="body"><h3>Persist &amp; expire sessions</h3><p>Tokens live in an in-memory map, so every restart logs everyone out and sessions never expire. Store them with an expiry, or use signed tokens.</p></div></div>
+    <div class="imp"><div class="num a">B</div><div class="body"><h3>Hash passwords</h3><p>Demo passwords are compared as plain text. Even for a demo, store a salted hash (argon2 / bcrypt) and compare against that.</p></div></div>
+    <div class="imp"><div class="num a">C</div><div class="body"><h3>One connection per request → a small pool</h3><p>A single global mutex serialises every request. A connection pool (or SQLite WAL readers) would let reads run concurrently under load.</p></div></div>
+    <div class="imp"><div class="num a">D</div><div class="body"><h3>Add rate limiting &amp; HTTPS</h3><p>Login has no throttling. Add basic rate limiting and serve behind TLS in deployment.</p></div></div>
+    <p class="footer">MRU Portal Review · 7 / 10</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Improvement 3 · Features</p>
+    <h2>Finish what the diagram promises</h2>
+    <p>The UML models more than the demo currently exposes. These additions make the portal feel complete.</p>
+    <div class="grid2">
+      <div class="card"><h3>Attendance UI for students</h3><p>Attendance is recorded and stored but hidden from students. Let each student see their own attendance record.</p></div>
+      <div class="card"><h3>Grade overview &amp; averages</h3><p>Add a teacher view that lists all grades per course with an average — reuse the loops &amp; conditionals from class.</p></div>
+      <div class="card"><h3>Deadline awareness</h3><p>Tasks have a <span class="mono">due</span> date but nothing uses it. Flag late submissions and show "due in N days".</p></div>
+      <div class="card"><h3>Edit, not just add/remove</h3><p>Assignments and materials can be created and deleted but not edited. Add an update action for each.</p></div>
+      <div class="card"><h3>Notifications</h3><p>Show students a badge when a new grade or assignment appears since their last visit.</p></div>
+      <div class="card"><h3>Search &amp; filter</h3><p>Filter assignments by course or status — a natural place to practise SQL <span class="mono">WHERE</span> clauses.</p></div>
+    </div>
+    <p class="footer">MRU Portal Review · 8 / 10</p>
+  </section>
+
+  <section class="slide dark">
+    <p class="eyebrow">Improvement 4 · Engineering Quality</p>
+    <h2>Make it easier to grow</h2>
+    <div class="grid2">
+      <div class="card"><h3>Split the one big file</h3><p>Separate <span class="mono">storage</span>, <span class="mono">auth</span>, <span class="mono">routing</span> and <span class="mono">handlers</span> into their own files — easier to read, test and share in a team.</p></div>
+      <div class="card"><h3>Add a README</h3><p>The repo has no README. Document how to build, run, log in, and what each endpoint does.</p></div>
+      <div class="card"><h3>Write a few tests</h3><p>Even simple tests for <span class="mono">decodeBase64</span>, <span class="mono">validCourse</span> and grading bounds would catch regressions.</p></div>
+      <div class="card"><h3>Use real C++ types</h3><p>The diagram shows classes; the code uses JSON maps. Small <span class="mono">struct</span>s (Task, Submission) would match the design and cut <span class="mono">str()/num()</span> lookups.</p></div>
+    </div>
+    <p class="big note">Together these turn a 670-line demo into a project a team can keep building on.</p>
+    <p class="footer">MRU Portal Review · 9 / 10</p>
+  </section>
+
+  <section class="slide">
+    <p class="eyebrow">Where to Start</p>
+    <h2>A suggested order</h2>
+    <div class="grid3">
+      <div class="card"><h3 style="color:var(--green)">Quick wins</h3><p style="margin-bottom:10px"><span class="tag">this week</span></p><p>• Add a README<br>• Hash the demo passwords<br>• Add "edit" for assignments<br>• Show due-date / late flags</p></div>
+      <div class="card"><h3 style="color:var(--amber)">Core upgrades</h3><p style="margin-bottom:10px"><span class="tag">next</span></p><p>• Real <span class="mono">users</span> table + login<br>• Row-level <span class="mono">save()</span><br>• Student attendance &amp; grades views<br>• Persist sessions with expiry</p></div>
+      <div class="card"><h3 style="color:var(--cyan)">Stretch goals</h3><p style="margin-bottom:10px"><span class="tag">later</span></p><p>• Courses as data + owners<br>• Split into modules + tests<br>• Connection pool / concurrency<br>• Notifications &amp; search</p></div>
+    </div>
+    <p class="big note">Strong foundation. Pick one item, build it fully, then the next.</p>
+    <p class="footer">MRU Portal Review · 10 / 10</p>
+  </section>
+
+</div>
+<div class="hint">↑ ↓ or scroll</div>
+<script>
+  var deck=document.getElementById('deck'), bar=document.getElementById('bar');
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  function cur(){ var i=Math.round(deck.scrollTop/window.innerHeight); return Math.max(0,Math.min(slides.length-1,i)); }
+  function go(i){ i=Math.max(0,Math.min(slides.length-1,i)); slides[i].scrollIntoView({behavior:'smooth'}); }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(cur()+1); }
+    else if(e.key==='ArrowUp'||e.key==='PageUp'){ e.preventDefault(); go(cur()-1); }
+    else if(e.key==='Home'){ e.preventDefault(); go(0); }
+    else if(e.key==='End'){ e.preventDefault(); go(slides.length-1); }
+  });
+  deck.addEventListener('scroll',function(){
+    bar.style.width=(deck.scrollTop/(deck.scrollHeight-window.innerHeight)*100)+'%';
+  });
+</script>
+</body>
+</html>
