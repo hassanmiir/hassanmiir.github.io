@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lecture 6 — Functions</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css?v=10">
+<link rel="stylesheet" href="../assets/css/live-code.css?v=10">
+<link rel="stylesheet" href="../assets/css/animations.css?v=10">
+<link rel="stylesheet" href="../assets/css/timer.css?v=10">
+<link rel="stylesheet" href="../assets/css/gate.css?v=10">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=10">
+<link rel="stylesheet" href="../assets/css/explain.css?v=10">
+<link rel="stylesheet" href="../assets/css/loopviz.css?v=10">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js?v=10"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === String(lec.password).trim().toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=10"></script>
+</head>
+<body data-lecture="lecture6">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture6-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 6</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ OPENER ============ -->
+
+<!-- 0 QR / SCAN-IN (all visible, no clicks) -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 6</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox">hassanmiir.github.io/cpp-course/lecture6/</div>
+        <div class="presenter">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap"><img src="lecture6-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter" data-lecture="lecture6"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students scan in. Password for this lecture is cpp-L6.</aside>
+</section>
+
+<!-- 1 HOOK -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 6 · Functions</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">Write it once.<br>Use it <span class="shimmer">forever</span></h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:18px;max-width:730px">Copy-paste the same ten lines everywhere you need them, then fix the bug in all ten places? Never.<br>Wrap them in a <strong>function</strong> — <strong>name it once</strong>, call it by that name anywhere, fix it in one spot.</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:24px">A 2-hour hands-on session · you'll build your own reusable tools</p>
+  </div>
+  <aside class="notes">Hook: a function is a NAME for a block of code. Like 'cout' and 'sqrt' already are — today they write their own. The payoff: write/fix in one place, reuse everywhere.</aside>
+</section>
+
+<!-- 2 BRIDGE from L5 -->
+<section>
+  <span class="kicker">Where We Left Off</span>
+  <h2>Loops repeat lines <em>in one place</em></h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">A loop runs the same lines again and again — but only right there, where you wrote them. What if you need that same job in <strong>five different places</strong>?</p>
+      <p class="fragment fade-in" style="font-size:.82em;margin-top:8px">Give the job a <strong>name</strong>. Then you can run it from anywhere just by writing the name. That named block is a <span class="kw">function</span>.</p>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/function_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.66em">name it → call it → reuse it</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 already using them -->
+<section>
+  <span class="kicker">You've Used These Since Day One</span>
+  <h2>Functions aren't new — you just never wrote one</h2>
+  <div class="cards three">
+    <div class="card fragment fade-up"><h3><span class="kw">main()</span></h3><p>Every program is one big function. The computer <em>calls</em> it to start.</p></div>
+    <div class="card fragment fade-up"><h3><span class="kw">sqrt(16)</span></h3><p>You hand it 16, it hands back 4. You never see <em>how</em> — you just use the name.</p></div>
+    <div class="card fragment fade-up"><h3><span class="kw">getline(...)</span></h3><p>Someone wrote it once. Millions of programs call it. That's the whole point.</p></div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.62em;margin-top:14px"><span class="lead">The mental model</span>A function is a <strong>machine</strong>: something goes <em>in</em>, a result comes <em>out</em>, and you don't need to see the gears to use it.</div>
+</section>
+
+<!-- ============ PART 1 — ANATOMY OF A FUNCTION ============ -->
+
+<!-- 4 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>The <span class="shimmer">machine</span></h2>
+      <p class="ph-sub">What goes in, what comes out, and how to build one.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/arrowRight_FFFFFF.png"></span> Inputs (parameters)</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span> Output (return value)</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Build & call one — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/function_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 5 the shape -->
+<section>
+  <span class="kicker">The Shape</span>
+  <h2>Four parts — name, inputs, body, result</h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre style="font-size:.52em"><code class="language-cpp" data-trim>int square(int n) {     // name: square, input: one int
+    return n * n;       // hand the result back
+}
+
+int main() {
+    cout &lt;&lt; square(5);  // call it → prints 25
+}</code></pre>
+      <p class="fragment fade-in" style="font-size:.68em;color:var(--grey);margin-top:8px"><span class="kw">square(5)</span> <em>becomes</em> 25 — the call is replaced by whatever it returns.</p>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/tag_FFFFFF.png"></span><div class="txt"><h3><span class="kw">int square</span> — return type + name</h3><p><span class="kw">int</span> = the kind of answer it gives back. <span class="kw">square</span> = how you call it.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/arrowRight_FFFFFF.png"></span><div class="txt"><h3><span class="kw">(int n)</span> — parameter</h3><p>The input slot. When called with 5, <span class="kw">n</span> becomes 5 inside.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3><span class="kw">return n * n</span> — the result</h3><p>Computes the answer and sends it back to whoever called.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5b ANIMATED VISUALIZER — function call & return -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#8FD0FF">Watch It Run <span class="badge green">Plays automatically</span></span>
+  <h2 style="color:#fff">See a function <span class="kw">call</span> and <span class="kw">return</span></h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">Watch control <strong>jump up</strong> into <span class="kw">square</span>, the parameter receive a copy of 5, the result come back as 25 — and <span class="kw">main</span> carry on.</p>
+  <div class="loopviz-widget" data-kind="function"></div>
+  <aside class="notes">The big idea to narrate: control LEAVES main, runs the function, then RETURNS to exactly where it left off, carrying a value. Pause on 'return a value' — that 25 flows back into the call site. Students replay on their screens.</aside>
+</section>
+
+<!-- 6 *** YOU BE THE COMPUTER — trace (paper) *** -->
+<section>
+  <span class="kicker orange">You Be the Computer <span class="badge">On paper · 3 min</span></span>
+  <h2>Trace it — what does <span class="kw">main</span> print?</h2>
+  <p style="font-size:.72em;color:var(--grey)">Follow the calls <strong>by hand</strong>. Each call becomes its returned value. Write the final line of output.</p>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>int twice(int x) {
+    return x + x;
+}
+int main() {
+    int a = twice(3);
+    int b = twice(a);
+    cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b;
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="worksheet">
+        <div class="ws-rows">
+          <div class="ws-row fragment fade-up"><span>twice(3) =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>a =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>twice(a) =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>Output:</span> <span class="blank" style="min-width:120px">? ?</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px"><span class="penpill fragment fade-in">Do the first call, write down <span class="kw">a</span>, THEN feed <span class="kw">a</span> into the second call.</span></div>
+    </div>
+  </div>
+  <aside class="notes">Silence, pens moving. twice(3)=6 so a=6. twice(a)=twice(6)=12 so b=12. Output: 6 12. The trap: students try to feed 3 into the second call — no, it's 'a', which is already 6. Reveal next.</aside>
+</section>
+
+<!-- 6b ANSWER -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Output: <span class="kw">6 12</span></h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ticker">
+      <span class="tk">twice(3) → 3+3 = 6</span>
+      <span class="tk">a = 6</span>
+      <span class="tk">twice(6) → 6+6 = 12</span>
+      <span class="tk last">prints 6 12</span>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em;margin-top:14px"><span class="lead">The trick</span>The second call uses <span class="kw">a</span>, not 3. By then <span class="kw">a</span> is already 6, so you're really calling <span class="kw">twice(6)</span>. A function always works on the value it's actually given — right now.</div>
+</section>
+
+<!-- 7 *** LIVE CODE #1 — build & call *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Your first function</h2>
+  <p style="font-size:.64em" class="muted">Run it. Then change <span class="kw">greet("Vilnius")</span> to your own name — call it a second time too. One definition, many calls. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+void greet(string name) {        // void = gives nothing back, just acts
+    cout << "Hello, " << name << "!" << endl;
+}
+
+int main() {
+    greet("Vilnius");
+    greet("class");              // call it again — zero extra code
+    return 0;
+}
+  </div>
+  <aside class="notes">Introduce 'void': a function that DOES something (prints) but returns nothing. Two calls, one definition — the reuse payoff made concrete. Ask them to add a third call with their name.</aside>
+</section>
+
+<!-- ============ PART 2 — PARAMETERS & RETURN ============ -->
+
+<!-- 8 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2><span class="shimmer">return</span> vs <span class="shimmer">void</span></h2>
+      <p class="ph-sub">Some functions hand back a value. Some just do a job.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span> return — give an answer</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/bolt_FFFFFF.png"></span> void — just do it</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> many parameters</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/trophy_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 9 return vs void -->
+<section>
+  <span class="kicker">Two Kinds of Function</span>
+  <h2><span class="kw">return</span> gives an answer · <span class="kw">void</span> does a job</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>int add(int a, int b) {     // two parameters
+    return a + b;           // gives a number back
+}
+
+void banner(string t) {     // returns nothing
+    cout &lt;&lt; "=== " &lt;&lt; t &lt;&lt; " ===";
+}
+
+int main() {
+    int s = add(4, 9);      // s = 13  (capture the answer)
+    banner("Report");       // just prints — nothing to capture
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3>Returns a value</h3><p>Use it like a number: store it, print it, add it. <span class="kw">int s = add(4,9)</span>.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/bolt_FFFFFF.png"></span><div class="txt"><h3><span class="kw">void</span> — no value</h3><p>It acts (prints, saves) but there's nothing to catch. Just call it.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span><div class="txt"><h3>Many inputs</h3><p>Separate parameters with commas: <span class="kw">add(int a, int b)</span>. Order matters.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 *** QUIZ — return type *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What's wrong with this function?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.48em"><code class="language-cpp" data-trim>int biggest(int a, int b) {
+    if (a &gt; b)
+        cout &lt;&lt; a;
+}</code></pre>
+      <p style="font-size:.6em;color:var(--grey)">It says it returns an <span class="kw">int</span>…</p>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="0" data-msg="The name is fine — the problem is behaviour, not spelling."><span class="key">A</span> The name is too long</div>
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Right! It PRINTS instead of RETURNING, and returns nothing when a≤b. It should 'return' the bigger value, for every case."><span class="key">B</span> It prints instead of returning — and misses a case</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="Two parameters is perfectly fine. The issue is it never uses 'return'."><span class="key">C</span> It can't take two inputs</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Two bugs: (1) it promises 'int' but never returns anything; (2) even the logic only handles a>b. A function that declares a return type MUST return a value on every path. Fix: return a; else return b;.</aside>
+</section>
+
+<!-- 11 *** LIVE CODE #2 — a returning function *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Reuse one function many times</h2>
+  <p style="font-size:.62em" class="muted">One <span class="kw">maxOf</span> function, called three times on different numbers. Change the numbers and run again. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int maxOf(int a, int b) {
+    if (a > b) return a;
+    return b;                 // reached only when a is not bigger
+}
+
+int main() {
+    cout << maxOf(3, 9) << endl;
+    cout << maxOf(20, 7) << endl;
+    cout << maxOf(5, 5) << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">Note how 'return a' ends the function immediately — if it runs, 'return b' never does. Three calls, one definition. 9, 20, 5. This is the pattern they'll extend in the challenge.</aside>
+</section>
+
+<!-- ============ PART 3 — SCOPE: THE TRICKY BIT ============ -->
+
+<!-- 12 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 3</span>
+      <h2>Scope &amp; the <span class="shimmer">copy</span> trap</h2>
+      <p class="ph-sub">Why the variable inside a function is in its own little world.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/cube_FFFFFF.png"></span> Local variables</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/exchange_FFFFFF.png"></span> Arguments are copies</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#E8B98A"><img src="../assets/icons/cube_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 13 the copy trap -->
+<section data-background-color="#2a1416">
+  <span class="kicker" style="color:#FF9B8A">The Classic Trap</span>
+  <h2 style="color:#fff">Changing a parameter doesn't change the original</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.46em"><code class="language-cpp" data-trim>void tryToChange(int x) {
+    x = 999;            // changes only the COPY inside
+}
+
+int main() {
+    int score = 10;
+    tryToChange(score);
+    cout &lt;&lt; score;      // still 10 — not 999!
+}</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/exchange_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">It's a copy</h3><p style="color:#F0C9C2">When you call <span class="kw">tryToChange(score)</span>, <span class="kw">x</span> gets a <strong>copy</strong> of 10. Changing <span class="kw">x</span> never touches <span class="kw">score</span>.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">The fix</h3><p style="color:#F0C9C2">Want the new value? <strong>Return it</strong> and assign: <span class="kw">score = bump(score);</span></p></div></div>
+    </div>
+  </div>
+  <div class="note warn fragment fade-in" style="font-size:.6em;margin-top:10px"><span class="lead">Remember from the animation</span>The parameter <span class="kw">n</span> received a <em>copy</em> of 5. Same rule here — inside a function you work on copies, and send results back with <span class="kw">return</span>.</div>
+</section>
+
+<!-- 14 *** YOU BE THE COMPUTER — scope trace *** -->
+<section>
+  <span class="kicker orange">You Be the Computer <span class="badge">On paper · 3 min</span></span>
+  <h2>Predict the output</h2>
+  <p style="font-size:.72em;color:var(--grey)">Two variables are both called <span class="kw">n</span> — one inside, one in main. They are <strong>not</strong> the same box.</p>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>int addTen(int n) {
+    n = n + 10;
+    return n;
+}
+int main() {
+    int n = 5;
+    int r = addTen(n);
+    cout &lt;&lt; n &lt;&lt; " " &lt;&lt; r;
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="worksheet">
+        <div class="ws-rows">
+          <div class="ws-row fragment fade-up"><span>n inside addTen becomes</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>r =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>n in main is still</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>Output:</span> <span class="blank" style="min-width:120px">? ?</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px"><span class="penpill fragment fade-in">The <span class="kw">n</span> inside is a copy. main's <span class="kw">n</span> never changes — only <span class="kw">r</span> catches the result.</span></div>
+    </div>
+  </div>
+  <aside class="notes">Inside: n becomes 15, returned. r = 15. main's own n is still 5 (it was only copied in). Output: 5 15. The trap: students expect '15 15'. Drive home local scope. Reveal next.</aside>
+</section>
+
+<!-- 14b ANSWER -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2>Output: <span class="kw">5 15</span></h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ticker">
+      <span class="tk">copy 5 into addTen's n</span>
+      <span class="tk">n → 15, returned</span>
+      <span class="tk">r = 15</span>
+      <span class="tk last">main's n untouched → 5</span>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em;margin-top:14px"><span class="lead">Local means local</span>A variable born inside a function lives and dies there. The only thing that escapes is what you <span class="kw">return</span>. That's why we captured it in <span class="kw">r</span>.</div>
+</section>
+
+<!-- ============ PART 4 — HANDS-ON ============ -->
+
+<!-- 15 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 4</span>
+      <h2>Build your toolbox</h2>
+      <p class="ph-sub">Turn repeated code into named, reusable functions.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span> A grade function</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/star_FFFFFF.png"></span> Reuse it in a loop</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 16 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>A grading tool</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Build <strong>one function</strong>, then lean on it:</p>
+        <ol style="font-size:.9em">
+          <li><span style="color:#E8B98A">Write</span> <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">char grade(int score)</span> — returns 'A' for 90+, 'B' for 80+, 'C' for 70+, else 'F'.</li>
+          <li><span style="color:#E8B98A">Call it</span> on three different scores and print each grade.</li>
+          <li><span style="color:#E8B98A">Stretch:</span> write <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">bool passed(int score)</span> that returns <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">true</span> when the grade isn't 'F' — reuse <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">grade</span> inside it!</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">The design win</span>Write the rule <strong>once</strong> inside <span class="kw">grade</span>. Everywhere else just calls it. Change the cut-offs later → you edit one function, not ten places.</div>
+</section>
+
+<!-- 17 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your grading tool</h2>
+  <p style="font-size:.58em" class="muted">Starter gives you the skeleton of <span class="kw">grade</span>. <strong>You finish</strong> the B / C / F branches and add more calls. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+char grade(int score) {
+    if (score >= 90) return 'A';
+    // TODO: add B (>=80), C (>=70), else 'F'
+    return 'F';
+}
+
+int main() {
+    cout << grade(95) << endl;   // A
+    cout << grade(72) << endl;   // make this print C
+    // TODO: call grade on one more score
+    return 0;
+}
+  </div>
+  <aside class="notes">The 'A' branch is worked for them; they fill B/C and see 'return' end the function early. 95→A, 72 should→C once they add the branch. Pairs then attempt 'passed' reusing grade. Solution next.</aside>
+</section>
+
+<!-- 18 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How it works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.42em"><code class="language-cpp" data-trim>char grade(int score) {
+    if (score &gt;= 90) return 'A';
+    if (score &gt;= 80) return 'B';   // checked only if not 90+
+    if (score &gt;= 70) return 'C';
+    return 'F';                    // the catch-all
+}
+
+bool passed(int score) {
+    return grade(score) != 'F';    // reuse grade — don't repeat the rule!
+}</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3>return ends it</h3><p>The first true <span class="kw">if</span> returns and stops — so order matters: highest first.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/sync_FFFFFF.png"></span><div class="txt"><h3>Functions call functions</h3><p><span class="kw">passed</span> leans on <span class="kw">grade</span> — the rule lives in one place only.</p></div></div>
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3><span class="kw">bool</span> result</h3><p>A function can return a yes/no (<span class="kw">true</span>/<span class="kw">false</span>) just as easily as a number.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP UP ============ -->
+
+<!-- 19 recap -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you can do now</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/function_FFFFFF.png"></span><h3>Name &amp; reuse</h3><p>Wrap any job in a function, give it inputs, and call it anywhere — write once, fix once.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span><h3>Return &amp; scope</h3><p><span class="kw">return</span> hands a value back; variables inside live in their own world — arguments come in as copies.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Your programs are no longer one long list of steps — they're a set of named tools you can combine. That's how real software is built.</div>
+</section>
+
+<!-- 20 vocabulary (click to reveal) -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's keywords <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any one for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A function is a named block of code you can call (run) from anywhere, as many times as you like.">function</span></h3><p>Named code</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A parameter is the input slot in the function's (...). When you call the function, the argument you pass fills it.">parameter</span></h3><p>Input slot</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="An argument is the actual value you pass when calling, e.g. the 5 in square(5). It is copied into the parameter.">argument</span></h3><p>Value passed in</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="return sends a value back to the caller and ends the function immediately. The call becomes that value.">return</span></h3><p>Hand back a result</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="void is the return type for a function that gives nothing back — it just performs an action, like printing.">void</span></h3><p>Returns nothing</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="Scope is where a variable exists. A variable declared inside a function is 'local' — invisible outside it.">scope</span></h3><p>Where a variable lives</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="Pass by value means the function gets a COPY of the argument. Changing it inside does not change the original.">pass by value</span></h3><p>It gets a copy</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="The call is the act of running a function by name, e.g. grade(95). Control jumps in, then returns.">call</span></h3><p>Run it by name</p></div>
+  </div>
+</section>
+
+<!-- 21 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>isEven</h3><p>Write <span class="kw">bool isEven(int n)</span> returning <span class="kw">true</span> when n is even. Call it in a loop over 1…10.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/star_FFFFFF.png"></span><div class="txt"><h3>Reuse your loop work</h3><p>Turn last lecture's sum-1-to-N into a function <span class="kw">int sumTo(int n)</span> and call it three times.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/folder_FFFFFF.png"></span><div class="txt"><h3>A tiny menu</h3><p>Write a <span class="kw">void</span> function that prints a menu, and call it from <span class="kw">main</span>. Notice how main stays short and readable.</p></div></div>
+</section>
+
+<!-- 22 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 7 — Arrays &amp; Vectors</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">So far one variable holds one value. Next: hold <strong>a whole list</strong> in one name — 30 scores, 100 names — and loop through them.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up">Store many values in one array</li>
+        <li class="fragment fade-up">Reach any item by its index</li>
+        <li class="fragment fade-up">Pair functions + loops to process whole lists</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/cube_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 23 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/function_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">Write it once. Use it forever.</h1>
+    <p class="fragment fade-in" style="max-width:660px;margin:10px auto 0">A function is a name for an idea. Name your ideas well and your programs read like sentences. Next: give one name to a whole list.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js?v=10"></script>
+<script src="../assets/js/live-code.js?v=10"></script>
+<script src="../assets/js/activities.js?v=10"></script>
+<script src="../assets/js/counter.js?v=10"></script>
+<script src="../assets/js/timer.js?v=10"></script>
+<script src="../assets/js/presenter.js?v=10"></script>
+<script src="../assets/js/explain.js?v=10"></script>
+<script src="../assets/js/loopviz.js?v=10"></script>
+</body>
+</html>

@@ -112,19 +112,61 @@
           note: "i++ → " + (m + 1) + ", loop back." });
         m = m + 1;
       }
+    } else if (kind === "function") {
+      // int square(int n){ return n*n; }  ...  cout << square(5);
+      steps.push({ line: 4, vars: "—", cond: null, action: "init", out: null,
+        note: "main starts. We are about to call square(5)." });
+      steps.push({ line: 4, vars: "arg: 5", cond: null, action: "call", out: null,
+        note: "CALL: the value 5 is passed in. Control jumps up to the function." });
+      steps.push({ line: 0, vars: "n = 5", cond: null, action: "body", out: null,
+        note: "Inside square: the parameter n receives a COPY of 5." });
+      steps.push({ line: 1, vars: "n*n = 25", cond: "true", action: "return", out: null,
+        note: "return n*n → the function computes 25 and hands it back." });
+      steps.push({ line: 4, vars: "square(5) = 25", cond: null, action: "back", out: "25",
+        note: "Control returns to main. The call square(5) became the value 25." });
+      steps.push({ line: 5, vars: "result = 25", cond: null, action: "exit", out: "25",
+        note: "main prints 25. One function, reusable for any number." });
+    } else if (kind === "array") {
+      // int s[5] = {90,72,55,88,63}; indexing + a loop sum
+      var arr = [90, 72, 55, 88, 63];
+      steps.push({ line: 0, vars: "size = 5", cond: null, action: "init", out: null,
+        note: "An array holds 5 scores in a row. Boxes are numbered from 0." });
+      steps.push({ line: 1, vars: "s[0] = 90", cond: null, action: "index0", out: null,
+        note: "s[0] is the FIRST box — index 0, not 1. This is the #1 beginner trap." });
+      steps.push({ line: 1, vars: "s[4] = 63", cond: null, action: "index4", out: null,
+        note: "s[4] is the LAST box. 5 items → valid indexes 0,1,2,3,4." });
+      var total = 0;
+      for (var a = 0; a < arr.length; a++) {
+        total += arr[a];
+        steps.push({ line: 3, vars: "i=" + a + ", total=" + total, cond: null, action: "idx" + a, out: String(total),
+          note: "Loop reads s[" + a + "] = " + arr[a] + ", adds it → total = " + total + "." });
+      }
+      steps.push({ line: 5, vars: "total = " + total, cond: "true", action: "exit", out: String(total),
+        note: "The loop visited every box. Sum = " + total + ". (Average = " + Math.round(total/arr.length*10)/10 + ".)" });
     }
     return steps;
   }
+
+  // Arrays the array-kind visual draws as a row of indexed cells.
+  var ARRAY_CELLS = [90, 72, 55, 88, 63];
 
   var CODE = {
     while: ["int i = 1;", "while (i <= 3) {", "    cout << i;", "    i = i + 1;", "}"],
     for:   ["for (int i = 1; i <= 4; i++)", "    cout << i;", "// loop ends"],
     break: ["for (int i = 1; i <= 6; i++) {", "    if (i == 4) break;", "    cout << i;", "}", "// after the loop"],
-    continue: ["for (int i = 1; i <= 5; i++) {", "    if (i == 3) continue;", "    cout << i;", "}", "// after the loop"]
+    continue: ["for (int i = 1; i <= 5; i++) {", "    if (i == 3) continue;", "    cout << i;", "}", "// after the loop"],
+    function: ["int square(int n) {", "    return n * n;", "}", "", "int main() {", "    cout << square(5);", "}"],
+    array: ["int s[5] = {90,72,55,88,63};", "// s[0] .. s[4]", "int total = 0;", "for (int i=0;i<5;i++) total += s[i];", "", "cout << total;"]
   };
 
   var TITLE = {
-    while: "while loop", for: "for loop", break: "break", continue: "continue"
+    while: "while loop", for: "for loop", break: "break", continue: "continue",
+    function: "function call & return", array: "array: index & sum"
+  };
+  // Label on the state box, per kind.
+  var VARLABEL = {
+    while: "counter", for: "counter", break: "counter", continue: "counter",
+    function: "state", array: "state"
   };
 
   function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
@@ -151,13 +193,17 @@
           }).join("\n") + '</pre>' +
         '</div>' +
         '<div class="lvz-right">' +
-          '<div class="lvz-counter"><span class="lvz-clabel">counter</span><span class="lvz-cval">i = 1</span></div>' +
-          '<div class="lvz-cond lvz-cond-idle"><span class="lvz-condtxt">condition</span></div>' +
+          (kind === "array" ?
+            '<div class="lvz-cells">' + ARRAY_CELLS.map(function(v,ci){
+              return '<div class="lvz-cell" data-ci="'+ci+'"><span class="lvz-cv">'+v+'</span><span class="lvz-ci">['+ci+']</span></div>';
+            }).join("") + '</div>' : "") +
+          '<div class="lvz-counter"><span class="lvz-clabel">' + (VARLABEL[kind]||"counter") + '</span><span class="lvz-cval">—</span></div>' +
+          '<div class="lvz-cond lvz-cond-idle"><span class="lvz-condtxt">' + (kind==="function"?"returning":kind==="array"?"status":"condition") + '</span></div>' +
           '<div class="lvz-flowtag"></div>' +
-          '<div class="lvz-outwrap"><span class="lvz-olabel">output</span><div class="lvz-out"></div></div>' +
+          '<div class="lvz-outwrap"><span class="lvz-olabel">' + (kind==="function"?"result":kind==="array"?"running total":"output") + '</span><div class="lvz-out"></div></div>' +
         '</div>' +
       '</div>' +
-      '<div class="lvz-bubble">Press ▶ Play (or Step) to watch the loop run.</div>';
+      '<div class="lvz-bubble">Press ▶ Play (or Step) to watch it run.</div>';
 
     var lines = widget.querySelectorAll(".lvz-line");
     var cval = widget.querySelector(".lvz-cval");
@@ -172,27 +218,42 @@
 
     var pos = -1, timer = null, playing = false;
 
+    var cells = widget.querySelectorAll(".lvz-cell");
+    var FLOWMAP = { back:"⟲ loop back", "break":"⮣ break out!", skip:"↷ skip this pass",
+                  exit:"↓ exit / done", step:"i++ step", body:"run body", init:"start",
+                  call:"→ call the function", "return":"⬅ return a value",
+                  index0:"point at s[0]", index4:"point at s[4]",
+                  idx0:"read s[0]", idx1:"read s[1]", idx2:"read s[2]", idx3:"read s[3]", idx4:"read s[4]" };
+    var CONDTXT = { def:"condition", function:"returning", array:"status" };
     function clearLines(){ lines.forEach(function(l){ l.classList.remove("on"); }); }
-    function render(s) {
+    function highlightCell(action){
+      if (!cells.length) return;
+      cells.forEach(function(c){ c.classList.remove("on"); });
+      var ci = null;
+      if (action === "index0") ci = 0; else if (action === "index4") ci = 4;
+      else if (/^idx(\d)$/.test(action)) ci = parseInt(action.slice(3),10);
+      if (ci !== null && cells[ci]) cells[ci].classList.add("on");
+    }
+    function applyStep(s){
       clearLines();
       var ln = widget.querySelector('.lvz-line[data-l="'+s.line+'"]');
       if (ln) ln.classList.add("on");
       cval.textContent = s.vars;
-      // condition box
       cond.className = "lvz-cond " + (s.cond === "true" ? "lvz-cond-true" : s.cond === "false" ? "lvz-cond-false" : "lvz-cond-idle");
-      condtxt.textContent = s.cond === "true" ? "TRUE ✓" : s.cond === "false" ? "FALSE ✗" : "condition";
-      // flow tag (loop back / break / skip / exit)
-      var map = { back:"⟲ loop back", "break":"⮣ break out!", skip:"↷ skip this pass",
-                  exit:"↓ exit loop", step:"i++ step", body:"run body", init:"start" };
-      flowtag.textContent = map[s.action] || "";
+      condtxt.textContent = s.cond === "true" ? (kind==="function"?"RETURN ✓":kind==="array"?"DONE ✓":"TRUE ✓")
+                          : s.cond === "false" ? "FALSE ✗" : (CONDTXT[kind]||CONDTXT.def);
+      flowtag.textContent = FLOWMAP[s.action] || "";
       flowtag.className = "lvz-flowtag" + (s.action ? (" act-" + s.action) : "");
-      // output
+      highlightCell(s.action);
+      bubble.textContent = s.note;
+    }
+    function render(s) {
+      applyStep(s);
       if (s.out !== null && s.out !== undefined) {
         var chip = document.createElement("span");
         chip.className = "lvz-chip"; chip.textContent = s.out;
         out.appendChild(chip);
       }
-      bubble.textContent = s.note;
     }
     function rebuildOutUpTo(n) {
       out.innerHTML = "";
@@ -206,20 +267,9 @@
     function step() {
       if (pos >= steps.length - 1) { stop(); return; }
       pos++;
-      // when stepping we only append the newest output; render handles that
-      // but to be safe on jumps, rebuild output deterministically:
       var s = steps[pos];
-      clearLines();
-      var ln = widget.querySelector('.lvz-line[data-l="'+s.line+'"]'); if (ln) ln.classList.add("on");
-      cval.textContent = s.vars;
-      cond.className = "lvz-cond " + (s.cond === "true" ? "lvz-cond-true" : s.cond === "false" ? "lvz-cond-false" : "lvz-cond-idle");
-      condtxt.textContent = s.cond === "true" ? "TRUE ✓" : s.cond === "false" ? "FALSE ✗" : "condition";
-      var map = { back:"⟲ loop back", "break":"⮣ break out!", skip:"↷ skip this pass",
-                  exit:"↓ exit loop", step:"i++ step", body:"run body", init:"start" };
-      flowtag.textContent = map[s.action] || "";
-      flowtag.className = "lvz-flowtag" + (s.action ? (" act-" + s.action) : "");
+      applyStep(s);
       rebuildOutUpTo(pos);
-      bubble.textContent = s.note;
       if (pos >= steps.length - 1) stop();
     }
     function play() {
@@ -238,10 +288,14 @@
     }
     function reset(msg) {
       stop(); pos = -1; clearLines(); out.innerHTML = "";
-      cval.textContent = steps.length ? steps[0].vars : "i = 1";
-      cond.className = "lvz-cond lvz-cond-idle"; condtxt.textContent = "condition";
+      if (cells.length) cells.forEach(function(c){ c.classList.remove("on"); });
+      cval.textContent = steps.length ? steps[0].vars : "—";
+      cond.className = "lvz-cond lvz-cond-idle"; condtxt.textContent = (CONDTXT[kind]||CONDTXT.def);
       flowtag.textContent = ""; flowtag.className = "lvz-flowtag";
-      bubble.textContent = msg || "The loop runs automatically — watch each step.";
+      var defMsg = kind==="function" ? "Watch the call hand over control — and the value come back."
+                 : kind==="array" ? "Watch each box get read, one index at a time."
+                 : "The loop runs automatically — watch each step.";
+      bubble.textContent = msg || defMsg;
     }
 
     playBtn.addEventListener("click", function(){ playing ? stop() : play(); });

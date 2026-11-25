@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Don't cache this page, so updates always show on the next visit -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Lecture 7 — Arrays &amp; Vectors</title>
+<link rel="stylesheet" href="../assets/vendor/reveal/reveal.css">
+<link rel="stylesheet" href="../assets/vendor/reveal/theme/white.css" id="theme">
+<link rel="stylesheet" href="../assets/vendor/reveal/plugin/highlight/monokai.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/theme.css?v=10">
+<link rel="stylesheet" href="../assets/css/live-code.css?v=10">
+<link rel="stylesheet" href="../assets/css/animations.css?v=10">
+<link rel="stylesheet" href="../assets/css/timer.css?v=10">
+<link rel="stylesheet" href="../assets/css/gate.css?v=10">
+<link rel="stylesheet" href="../assets/css/presenter.css?v=10">
+<link rel="stylesheet" href="../assets/css/explain.css?v=10">
+<link rel="stylesheet" href="../assets/css/loopviz.css?v=10">
+<!-- Password gate: must load before the deck so it covers the page immediately -->
+<script src="../assets/js/course-data.js?v=10"></script>
+<script>
+(function(){
+  try{
+    var C = window.COURSE || {}, a = C.access;
+    if(!(a && a.enabled!==false)) return;
+    var id = (location.pathname.match(/\/(lecture\d+)\/?/)||[])[1] || '';
+    if(sessionStorage.getItem('cpp_gate_ok_'+id)==='1') return;
+    var lec = (C.lectures||[]).filter(function(l){return l.id===id;})[0];
+    if(!(lec && lec.password)) return;
+    // Presenter link already carries the correct password → don't hide the deck.
+    var pm = /[?&]present=([^&]*)/.exec(location.search);
+    if(pm && decodeURIComponent(pm[1]).trim().toLowerCase() === String(lec.password).trim().toLowerCase()) return;
+    document.documentElement.classList.add('gate-pending');
+  }catch(e){}
+})();
+</script>
+<style>.gate-pending .reveal{ visibility:hidden; }</style>
+<script src="../assets/js/gate.js?v=10"></script>
+</head>
+<body data-lecture="lecture7">
+<div class="lang-tag">C++</div>
+<a class="pdf-btn" href="lecture7-slides.pdf" download title="Download these slides as PDF">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+  <span>Download PDF</span>
+</a>
+<div class="deck-footer">Programming with C++ · Lecture 7</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============ OPENER ============ -->
+
+<!-- 0 QR / SCAN-IN (all visible, no clicks) -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content">
+    <div class="row top" style="align-items:center">
+      <div class="col" style="flex:1.3">
+        <span class="kicker">Software Engineering · Lecture 7</span>
+        <h1 style="font-size:2.1em;line-height:1.05;margin-bottom:.1em">Scan to<br><span class="shimmer">follow along</span></h1>
+        <p style="color:#CADCEC;font-size:.82em;margin-top:14px">Open today's slides on your own phone or laptop —<br>then you can run real code yourself.</p>
+        <div class="urlbox">hassanmiir.github.io/cpp-course/lecture7/</div>
+        <div class="presenter">
+          <div class="presenter-name">Dr. Mir Hassan</div>
+          <div class="presenter-title">Associate Professor in Artificial Intelligence<br>and Trustworthy Digital Systems</div>
+        </div>
+      </div>
+      <div class="col center" style="flex:1">
+        <div class="qr-wrap"><img src="lecture7-qr.png" alt="Scan to open this lecture" style="width:224px;height:224px"></div>
+        <p class="muted" style="color:#8aa7c2;margin:20px 0 14px;font-size:.6em">📱 Point your camera here</p>
+        <span class="open-counter" data-lecture="lecture7"></span>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">Leave this up as students scan in. Password for this lecture is cpp-L7.</aside>
+</section>
+
+<!-- 1 HOOK -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="kicker" style="display:block">Lecture 7 · Arrays &amp; Vectors</span>
+    <h1 class="fragment fade-up" style="font-size:2.3em;line-height:1.04;margin:6px 0 2px">One name.<br>A <span class="shimmer">hundred</span> values</h1>
+    <p class="fragment fade-in" style="font-size:.95em;color:#CADCEC;margin-top:18px;max-width:740px">Thirty students, thirty variables — <span class="kw" style="background:rgba(255,255,255,.14);color:#fff">s1, s2, s3 … s30</span>? Never.<br>An <strong>array</strong> holds the whole list under one name, and a <strong>loop</strong> walks every item in three lines.</p>
+    <p class="muted fragment fade-in" style="color:#8aa7c2;margin-top:24px">A 2-hour hands-on session · you'll process a whole class of scores</p>
+  </div>
+  <aside class="notes">Hook: naming 30 separate variables is insane. An array is a row of numbered boxes under ONE name. Combined with last lecture's loops, you process any size list with the same code.</aside>
+</section>
+
+<!-- 2 BRIDGE -->
+<section>
+  <span class="kicker">Where We Left Off</span>
+  <h2>One variable held <em>one</em> value</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">A function can process a number. A loop can repeat. But to hold <strong>many</strong> values you'd need many variables — unmanageable past a handful.</p>
+      <p class="fragment fade-in" style="font-size:.82em;margin-top:8px">An <span class="kw">array</span> is a <strong>row of boxes</strong> under one name. Reach any box by its <strong>number</strong> — its index.</p>
+    </div>
+    <div class="col center"><span class="chip lg bob fragment zoom-in"><img src="../assets/icons/boxes_FFFFFF.png"></span>
+      <p class="muted fragment fade-in" style="color:var(--grey);margin-top:14px;font-size:.66em">s[0] · s[1] · s[2] · …</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1 — ARRAYS & INDEXING ============ -->
+
+<!-- 3 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big">PART 1</span>
+      <h2>The row of <span class="shimmer">boxes</span></h2>
+      <p class="ph-sub">Declare an array, and reach any value by its index.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/boxes_FFFFFF.png"></span> Declare &amp; fill</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/hashtag_FFFFFF.png"></span> Index from ZERO</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/flask_FFFFFF.png"></span> Read one — live</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob"><img src="../assets/icons/boxes_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 4 the shape + zero index -->
+<section>
+  <span class="kicker">The Shape</span>
+  <h2>Boxes are numbered from <span class="kw">0</span></h2>
+  <div class="row top">
+    <div class="col">
+      <div class="code-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>int s[5] = {90, 72, 55, 88, 63};  // 5 scores, one name
+
+cout &lt;&lt; s[0];   // 90  — the FIRST box
+cout &lt;&lt; s[4];   // 63  — the LAST box
+s[1] = 100;     // change one box</code></pre>
+      <p class="fragment fade-in" style="font-size:.66em;color:var(--grey);margin-top:8px">5 items → valid indexes are <span class="kw">0, 1, 2, 3, 4</span>. There is no <span class="kw">s[5]</span>.</p>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/hashtag_FFFFFF.png"></span><div class="txt"><h3>Zero-based</h3><p>The first box is <span class="kw">s[0]</span>, not <span class="kw">s[1]</span>. This trips up <strong>everyone</strong> at first.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/ruler_FFFFFF.png"></span><div class="txt"><h3>Fixed size</h3><p><span class="kw">s[5]</span> is 5 boxes — chosen when you write it, and it can't grow.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/exchange_FFFFFF.png"></span><div class="txt"><h3>Read &amp; write</h3><p>Use <span class="kw">s[i]</span> like any variable: print it, change it, add to it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4b ANIMATED VISUALIZER — array index & sum -->
+<section data-background-color="#071523">
+  <span class="kicker" style="color:#8FD0FF">Watch It Run <span class="badge green">Plays automatically</span></span>
+  <h2 style="color:#fff">See the boxes get <span class="kw">read</span>, one index at a time</h2>
+  <p style="font-size:.6em;color:#9FB6CC;margin-bottom:4px">Watch <span class="kw">s[0]</span> and <span class="kw">s[4]</span> light up — then a loop walks every box, adding each to a running total.</p>
+  <div class="loopviz-widget" data-kind="array"></div>
+  <aside class="notes">Pause on s[0] (index 0, the trap) and s[4] (the last). Then let the loop run: each cell highlights as it's read and the running total grows. This is EXACTLY the sum pattern they'll extend for average and highest. Students replay on their screens.</aside>
+</section>
+
+<!-- 5 *** LIVE CODE #1 — read & print *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Print every item with a loop</h2>
+  <p style="font-size:.64em" class="muted">The loop variable <span class="kw">i</span> becomes the index. Change a score, add a box (remember to bump the 5!), and run. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int s[5] = {90, 72, 55, 88, 63};
+
+    for (int i = 0; i < 5; i++) {        // i = 0,1,2,3,4
+        cout << "s[" << i << "] = " << s[i] << endl;
+    }
+    return 0;
+}
+  </div>
+  <aside class="notes">The pairing of array + loop is the heart of the lecture: 'i' IS the index. Note i starts at 0 and the test is i<5 (not <=5). Ask what i<=5 would do → reads s[5], which doesn't exist (out of bounds).</aside>
+</section>
+
+<!-- 6 *** YOU BE THE COMPUTER — index trace (paper) *** -->
+<section>
+  <span class="kicker orange">You Be the Computer <span class="badge">On paper · 3 min</span></span>
+  <h2>Which box, which value?</h2>
+  <p style="font-size:.72em;color:var(--grey)">Given <span class="kw">int a[4] = {10, 20, 30, 40};</span> — work out each line <strong>by hand</strong>.</p>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.52em"><code class="language-cpp" data-trim>int a[4] = {10, 20, 30, 40};
+
+cout &lt;&lt; a[2];
+cout &lt;&lt; a[0] + a[3];
+a[1] = a[1] + 5;
+cout &lt;&lt; a[1];</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="worksheet">
+        <div class="ws-rows">
+          <div class="ws-row fragment fade-up"><span>a[2] =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>a[0] + a[3] =</span> <span class="blank">?</span></div>
+          <div class="ws-row fragment fade-up"><span>after a[1] = a[1] + 5, a[1] =</span> <span class="blank">?</span></div>
+        </div>
+      </div>
+      <div style="margin-top:14px"><span class="penpill fragment fade-in">Count boxes from 0: a[0]=10, a[1]=20, a[2]=30, a[3]=40.</span></div>
+    </div>
+  </div>
+  <aside class="notes">Silence, pens moving. a[2]=30. a[0]+a[3]=10+40=50. a[1] was 20, +5 → 25. The trap: a[2] is the THIRD box (30), not the second. Reveal next.</aside>
+</section>
+
+<!-- 6b ANSWER -->
+<section>
+  <span class="kicker green">The Answer</span>
+  <h2><span class="kw">30</span>, then <span class="kw">50</span>, then <span class="kw">25</span></h2>
+  <div class="worksheet" style="border-left-color:var(--green)">
+    <div class="ticker">
+      <span class="tk">a[2] = 30 (3rd box)</span>
+      <span class="tk">a[0]+a[3] = 10+40 = 50</span>
+      <span class="tk">a[1]: 20 + 5</span>
+      <span class="tk last">a[1] = 25</span>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.64em;margin-top:14px"><span class="lead">Index ≠ position</span><span class="kw">a[2]</span> is the <em>third</em> box because counting starts at 0. Say it out loud: "index two is the third item." That habit kills the most common array bug.</div>
+</section>
+
+<!-- ============ PART 2 — LOOP THE LIST ============ -->
+
+<!-- 7 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#66D1A6">PART 2</span>
+      <h2>Walk the whole <span class="shimmer">list</span></h2>
+      <p class="ph-sub">Sum, average, and find the biggest — all with one loop.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span> Sum &amp; average</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/trophy_FFFFFF.png"></span> Track the maximum</div>
+        <div class="pp fragment fade-right"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span> The out-of-bounds trap</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg teal bob"><img src="../assets/icons/calculator_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 8 sum / average / max pattern -->
+<section>
+  <span class="kicker">The Three Patterns</span>
+  <h2>One loop, a running answer</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.44em"><code class="language-cpp" data-trim>int s[5] = {90, 72, 55, 88, 63};
+
+int total = 0;                 // running sum starts at 0
+int best  = s[0];              // assume first is biggest
+
+for (int i = 0; i &lt; 5; i++) {
+    total += s[i];             // add this box
+    if (s[i] &gt; best) best = s[i];   // beat the record?
+}
+double avg = total / 5.0;      // 5.0 → real division</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Running total</h3><p>Start at 0, add <span class="kw">s[i]</span> each pass — just like last lecture's sum.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3>Track the max</h3><p>Hold the best so far; replace it whenever you find bigger. Start it at <span class="kw">s[0]</span>.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Average</h3><p>Divide by <span class="kw">5.0</span> (not 5) so you get <span class="kw">73.6</span>, not a chopped <span class="kw">73</span>.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 out-of-bounds danger -->
+<section data-background-color="#2a1416">
+  <span class="kicker" style="color:#FF9B8A">Danger Zone</span>
+  <h2 style="color:#fff">Reaching past the last box</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.48em"><code class="language-cpp" data-trim>int s[5] = {90, 72, 55, 88, 63};
+
+for (int i = 0; i &lt;= 5; i++)   // BUG: &lt;= 5 reaches s[5]
+    cout &lt;&lt; s[i];              // s[5] doesn't exist!</code></pre>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm red"><img src="../assets/icons/warning_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">Out of bounds</h3><p style="color:#F0C9C2">C++ won't stop you reading <span class="kw">s[5]</span> — you get garbage, a crash, or worse. No safety net.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3 style="color:#fff">The rule</h3><p style="color:#F0C9C2">For size N, loop <span class="kw">i = 0</span> while <span class="kw">i &lt; N</span>. Last valid index is <span class="kw">N − 1</span>.</p></div></div>
+    </div>
+  </div>
+  <div class="note warn fragment fade-in" style="font-size:.6em;margin-top:10px"><span class="lead">Burn it in</span><span class="kw">&lt; size</span>, never <span class="kw">&lt;= size</span>. The off-by-one from loops is back — and with arrays it reads memory that isn't yours.</div>
+</section>
+
+<!-- 10 *** QUIZ — last index *** -->
+<section>
+  <span class="kicker orange">Quick Check <span class="badge">Think!</span></span>
+  <h2>What's the last valid index?</h2>
+  <div class="row top">
+    <div class="col" style="flex:1">
+      <pre style="font-size:.5em"><code class="language-cpp" data-trim>double temps[8];</code></pre>
+      <p style="font-size:.6em;color:var(--grey)">The array has 8 boxes.</p>
+    </div>
+    <div class="col" style="flex:1.1">
+      <div class="quiz">
+        <div class="opts">
+          <div class="opt fragment fade-up" data-correct="0" data-msg="8 would be the NINTH box — out of bounds. Count from 0."><span class="key">A</span> 8</div>
+          <div class="opt fragment fade-up" data-correct="1" data-msg="Right! 8 boxes, indexes 0..7. The last valid one is 7 — always size minus one."><span class="key">B</span> 7</div>
+          <div class="opt fragment fade-up" data-correct="0" data-msg="1 is just the second box. The LAST is size−1 = 7."><span class="key">C</span> 1</div>
+        </div>
+        <div class="verdict"></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">8 boxes → indexes 0 to 7. Last valid = size − 1 = 7. temps[8] is the out-of-bounds trap from the previous slide. Hammer 'size minus one'.</aside>
+</section>
+
+<!-- ============ PART 3 — VECTORS ============ -->
+
+<!-- 11 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8B98A">PART 3</span>
+      <h2>The <span class="shimmer">vector</span> upgrade</h2>
+      <p class="ph-sub">An array that can grow — and knows its own size.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/boxes_FFFFFF.png"></span> Grows with push_back</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/ruler_FFFFFF.png"></span> Knows its .size()</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#E8B98A"><img src="../assets/icons/boxes_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 12 vector basics -->
+<section>
+  <span class="kicker">Array vs Vector</span>
+  <h2><span class="kw">vector</span> — a list that grows</h2>
+  <div class="row top">
+    <div class="col">
+      <pre style="font-size:.44em"><code class="language-cpp" data-trim>#include &lt;vector&gt;
+
+vector&lt;int&gt; scores = {90, 72, 55};
+
+scores.push_back(88);       // add to the end — array can't!
+scores.push_back(63);
+
+for (int i = 0; i &lt; scores.size(); i++)   // it knows its size
+    cout &lt;&lt; scores[i] &lt;&lt; " ";</code></pre>
+      <p class="fragment fade-in" style="font-size:.64em;color:var(--grey);margin-top:6px">Indexing is identical: <span class="kw">scores[0]</span>, <span class="kw">scores[i]</span> — same zero-based rule.</p>
+    </div>
+    <div class="col">
+      <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/boxes_FFFFFF.png"></span><div class="txt"><h3><span class="kw">push_back</span></h3><p>Adds one item to the end. The vector resizes itself — no fixed limit.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/ruler_FFFFFF.png"></span><div class="txt"><h3><span class="kw">.size()</span></h3><p>Ask it how many items it holds. Loop <span class="kw">i &lt; scores.size()</span> — never guess the count.</p></div></div>
+      <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>Same indexing</h3><p>Everything you learned about <span class="kw">s[i]</span> works unchanged.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 *** LIVE CODE #2 — vector grow & sum *** -->
+<section>
+  <span class="kicker green">Your Turn · Live Code <span class="badge green">Run it!</span></span>
+  <h2>Grow a list, then total it</h2>
+  <p style="font-size:.62em" class="muted">Add another <span class="kw">push_back</span>, then watch <span class="kw">.size()</span> and the loop handle it automatically — no 5 to update. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector<int> v = {4, 8, 15};
+    v.push_back(16);
+    v.push_back(23);          // try adding one more line
+
+    int total = 0;
+    for (int i = 0; i < v.size(); i++)
+        total += v[i];
+
+    cout << "Items: " << v.size() << ", total: " << total << endl;
+    return 0;
+}
+  </div>
+  <aside class="notes">The win over arrays: the loop uses v.size(), so adding a push_back needs NO other change. Contrast with the array where you had to update '5' everywhere. 5 items, total 66.</aside>
+</section>
+
+<!-- ============ PART 4 — HANDS-ON ============ -->
+
+<!-- 14 divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#E8776B">PART 4</span>
+      <h2>Process a class of scores</h2>
+      <p class="ph-sub">Average and highest — the real gradebook job.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span> The class average</div>
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/trophy_FFFFFF.png"></span> The top score</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/users_FFFFFF.png"></span> Work with a partner</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg orange bob"><img src="../assets/icons/hammer_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 15 challenge brief + TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">15 min</span></span>
+  <h2>Average &amp; highest</h2>
+  <div class="row top" style="margin-top:8px">
+    <div class="col" style="flex:1.6">
+      <div class="handson-box">
+        <p style="margin-bottom:8px">Given a list of course scores, with <strong>one loop</strong>:</p>
+        <ol style="font-size:.9em">
+          <li><span style="color:#E8B98A">Average:</span> sum every score, divide by <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">size</span> (use <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">.0</span> for a real number).</li>
+          <li><span style="color:#E8B98A">Highest:</span> track the best score as you go, start it at the first item.</li>
+          <li><span style="color:#E8B98A">Stretch:</span> count how many scores are <strong>above</strong> the average (a second quick loop).</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="15"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:12px;font-size:.6em"><span class="lead">Two traps to dodge</span>Loop <span class="kw">i &lt; size</span> (not <span class="kw">&lt;=</span>). And start <span class="kw">best</span> at <span class="kw">s[0]</span>, never 0 — a 0 start breaks if all scores were negative.</div>
+</section>
+
+<!-- 16 build canvas -->
+<section>
+  <span class="kicker green">Pair Challenge · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Your gradebook</h2>
+  <p style="font-size:.58em" class="muted">Sum loop is worked for you. <strong>You add</strong> the "highest" tracking inside the same loop, then print it. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector<int> s = {90, 72, 55, 88, 63};
+
+    int total = 0;
+    int best = s[0];                  // assume first is the highest
+    for (int i = 0; i < s.size(); i++) {
+        total += s[i];
+        // TODO: if s[i] is bigger than best, update best
+    }
+
+    double avg = total / (double)s.size();
+    cout << "Average: " << avg << endl;
+    cout << "Highest: " << best << endl;   // make this correct
+    return 0;
+}
+  </div>
+  <aside class="notes">Sum + average are given; the 'best' update is theirs (if (s[i] > best) best = s[i];). Average = 73.6, Highest should become 90 once they add the line. Stretch: second loop counting > avg (here 90 and 88 → 2). Solution next.</aside>
+</section>
+
+<!-- 17 solution -->
+<section>
+  <span class="kicker green">One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How it works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.3">
+      <pre style="font-size:.42em"><code class="language-cpp" data-trim>int total = 0, best = s[0];
+for (int i = 0; i &lt; s.size(); i++) {
+    total += s[i];                     // running sum
+    if (s[i] &gt; best) best = s[i];       // new record?
+}
+double avg = total / (double)s.size(); // real division
+
+// stretch: how many beat the average?
+int above = 0;
+for (int i = 0; i &lt; s.size(); i++)
+    if (s[i] &gt; avg) above++;</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/percent_FFFFFF.png"></span><div class="txt"><h3>Average = 73.6</h3><p>368 ÷ 5. The <span class="kw">(double)</span> keeps the decimal.</p></div></div>
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3>Highest = 90</h3><p>Start at <span class="kw">s[0]</span>, replace whenever a bigger value appears.</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/check_FFFFFF.png"></span><div class="txt"><h3>Above = 2</h3><p>90 and 88 beat 73.6. Reusing the list for a second question — same pattern.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WRAP UP ============ -->
+
+<!-- 18 recap -->
+<section>
+  <span class="kicker">Recap</span>
+  <h2>What you can do now</h2>
+  <div class="cards two">
+    <div class="card fragment fade-up"><span class="chip sm"><img src="../assets/icons/boxes_FFFFFF.png"></span><h3>Store many</h3><p>An array or vector holds a whole list under one name; reach any item by its zero-based index.</p></div>
+    <div class="card fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><h3>Process all</h3><p>A loop over <span class="kw">i &lt; size</span> walks the list — sum, average, max — whatever the length.</p></div>
+  </div>
+  <div class="note ok fragment fade-in"><span class="lead">Milestone</span>Arrays + loops + functions together is real data processing. You can now handle a class of 5 or 5,000 with the same few lines.</div>
+</section>
+
+<!-- 19 vocabulary (click to reveal) -->
+<section>
+  <span class="kicker">Keep These Words</span>
+  <h2>Today's keywords <span style="font-size:.4em;font-weight:400;color:var(--grey)">— click any one for a reminder</span></h2>
+  <div class="cards four">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="An array is a fixed-size row of values of the same type, under one name: int s[5]. Reach items with s[i].">array</span></h3><p>Fixed row of boxes</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="The index is the box number. It starts at 0, so the first item is s[0] and the last is s[size-1].">index</span></h3><p>Box number (from 0)</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A vector is a resizable array from <vector>. Use push_back to add items and .size() to count them.">vector</span></h3><p>List that grows</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="push_back(x) adds x to the end of a vector, growing it by one. Arrays can't do this.">push_back</span></h3><p>Add to the end</p></div>
+  </div>
+  <div class="cards four" style="margin-top:14px">
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip=".size() returns how many items a vector holds. Loop with i < v.size() so it always fits.">.size()</span></h3><p>How many items</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="Out of bounds means using an index that doesn't exist, like s[5] in a 5-box array. C++ won't warn you — it's a serious bug.">out of bounds</span></h3><p>Past the last box</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="A running total is a variable you start at 0 and add to on every loop pass to accumulate a sum.">running total</span></h3><p>Build up a sum</p></div>
+    <div class="card center fragment fade-up"><h3><span class="kw xp" data-tip="Zero-based means counting starts at 0, not 1. The Nth item is at index N-1. The source of most array bugs.">zero-based</span></h3><p>Counting from 0</p></div>
+  </div>
+</section>
+
+<!-- 20 homework -->
+<section>
+  <span class="kicker orange">Before Next Time</span>
+  <h2>Practice (15–20 min)</h2>
+  <div class="iconrow fragment fade-up"><span class="chip sm teal"><img src="../assets/icons/calculator_FFFFFF.png"></span><div class="txt"><h3>Lowest score</h3><p>Copy your gradebook and find the <strong>minimum</strong> instead of the maximum (start <span class="kw">worst = s[0]</span>, keep the smaller).</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm"><img src="../assets/icons/exchange_FFFFFF.png"></span><div class="txt"><h3>Reverse it</h3><p>Print an array from last to first: loop <span class="kw">i</span> from <span class="kw">size−1</span> down to <span class="kw">0</span>.</p></div></div>
+  <div class="iconrow fragment fade-up"><span class="chip sm green"><img src="../assets/icons/function_FFFFFF.png"></span><div class="txt"><h3>Make it a function</h3><p>Combine with Lecture 6: write <span class="kw">double average(vector&lt;int&gt; v)</span> and call it on two different lists.</p></div></div>
+</section>
+
+<!-- 21 next lecture -->
+<section>
+  <span class="kicker">Next Lecture</span>
+  <h2>Lecture 8 — Strings &amp; Text</h2>
+  <div class="row top">
+    <div class="col">
+      <p class="fragment fade-up" style="font-size:.82em">A string is really a list of characters — so everything you just learned about indexing applies to <strong>text</strong> too.</p>
+      <ul style="font-size:.76em">
+        <li class="fragment fade-up">Read words and whole lines</li>
+        <li class="fragment fade-up">Reach any character by index</li>
+        <li class="fragment fade-up">Loop over text to search and transform it</li>
+      </ul>
+    </div>
+    <div class="col center"><span class="chip lg teal fragment zoom-in"><img src="../assets/icons/font_FFFFFF.png"></span></div>
+  </div>
+</section>
+
+<!-- 22 closing -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content center">
+    <span class="chip lg green fragment zoom-in" style="margin-bottom:18px"><img src="../assets/icons/boxes_FFFFFF.png"></span>
+    <h1 class="fragment fade-up" style="font-size:1.7em">One name. A hundred values.</h1>
+    <p class="fragment fade-in" style="max-width:660px;margin:10px auto 0">Lists are everywhere in real software — scores, prices, pixels, messages. You can now hold them and process them. Next: text is just a list too.</p>
+    <p class="muted fragment fade-in" style="color:#9FB4C7;margin-top:26px">Dr. Mir Hassan · Associate Professor in AI &amp; Trustworthy Digital Systems</p>
+  </div>
+</section>
+
+</div></div>
+
+<script src="../assets/vendor/jscpp/jscpp.browser.js"></script>
+<script src="../assets/vendor/reveal/reveal.js"></script>
+<script src="../assets/vendor/reveal/plugin/highlight/highlight.js"></script>
+<script src="../assets/vendor/reveal/plugin/notes/notes.js"></script>
+<script src="../assets/js/deck.js?v=10"></script>
+<script src="../assets/js/live-code.js?v=10"></script>
+<script src="../assets/js/activities.js?v=10"></script>
+<script src="../assets/js/counter.js?v=10"></script>
+<script src="../assets/js/timer.js?v=10"></script>
+<script src="../assets/js/presenter.js?v=10"></script>
+<script src="../assets/js/explain.js?v=10"></script>
+<script src="../assets/js/loopviz.js?v=10"></script>
+</body>
+</html>
