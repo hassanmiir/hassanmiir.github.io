@@ -220,6 +220,113 @@ cout &lt;&lt; a[1];</code></pre>
   <div class="note tip fragment fade-in" style="font-size:.64em;margin-top:14px"><span class="lead">Index ≠ position</span><span class="kw">a[2]</span> is the <em>third</em> box because counting starts at 0. Say it out loud: "index two is the third item." That habit kills the most common array bug.</div>
 </section>
 
+<!-- ============ BIG CHALLENGE (30 min) — THE PODIUM ============ -->
+
+<!-- 6c challenge divider -->
+<section class="slide-title hero-anim" data-background-color="#0F2A43">
+  <div class="floaty" data-floaty></div>
+  <div class="hero-content part-hero">
+    <div class="ph-left">
+      <span class="part-num-big" style="color:#F4C752">🏆 BIG CHALLENGE</span>
+      <h2>The <span class="shimmer">Podium</span></h2>
+      <p class="ph-sub">Find gold, silver &amp; bronze in a list of scores — the twist: some players didn't show up.</p>
+      <div class="part-preview">
+        <div class="pp fragment fade-right"><span class="chip sm"><img src="../assets/icons/hashtag_FFFFFF.png"></span> Recall: arrays &amp; index (today)</div>
+        <div class="pp fragment fade-right"><span class="chip sm teal"><img src="../assets/icons/sync_FFFFFF.png"></span> Recall: loops &amp; <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">continue</span> (Lecture 5)</div>
+        <div class="pp fragment fade-right"><span class="chip sm green"><img src="../assets/icons/function_FFFFFF.png"></span> Recall: functions (Lecture 6)</div>
+      </div>
+    </div>
+    <div class="ph-icon"><span class="chip lg bob" style="background:#F4C752"><img src="../assets/icons/trophy_FFFFFF.png"></span></div>
+  </div>
+  <aside class="notes">This is the 30-minute main challenge. It deliberately pulls together three lectures: arrays/indexing (today), loops + skipping with continue (L5), and writing a helper function (L6). The "didn't show up" sentinel is the novel twist that makes a plain max-finder tricky. Let pairs struggle productively; hints are on the next slides.</aside>
+</section>
+
+<!-- 6d challenge brief + 30-MIN TIMER -->
+<section class="slide-handson" data-background-color="#0F2A43">
+  <span class="kicker">Pair Challenge · Use Your Brain <span class="badge">30 min</span></span>
+  <h2>Build the podium 🥇🥈🥉</h2>
+  <div class="row top" style="margin-top:6px">
+    <div class="col" style="flex:1.7">
+      <div class="handson-box">
+        <p style="margin-bottom:6px">A round's scores are <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">{42, -1, 88, 71, -1, 95, 63, 88}</span>. A <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">-1</span> means that player <strong>didn't show up</strong> — it is NOT a real score.</p>
+        <ol style="font-size:.82em">
+          <li><span style="color:#E8B98A">Warm-up:</span> loop the array and <strong>skip</strong> every <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">-1</span> (remember <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">continue</span> from Lecture 5). Count how many actually played.</li>
+          <li><span style="color:#E8B98A">Gold:</span> find the highest real score, and remember <strong>which index</strong> it sat at.</li>
+          <li><span style="color:#E8B98A">Podium:</span> find gold, silver AND bronze (top three real scores).</li>
+          <li><span style="color:#E8B98A">Pro:</span> write a function <span class="kw" style="color:#fff;background:rgba(255,255,255,.12)">bool played(int s)</span> and use it so your loops read like English.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="col center" style="flex:1">
+      <div class="timer" data-minutes="30"></div>
+    </div>
+  </div>
+  <div class="note warn" style="margin-top:10px;font-size:.58em"><span class="lead">The traps</span>Don't let <span class="kw">-1</span> win the "lowest" by accident. Start <span class="kw">gold</span> at the first <em>real</em> score, not <span class="kw">s[0]</span>. For the podium, think: when a new score beats gold, the <em>old</em> gold slides down to silver…</div>
+  <aside class="notes">Four rising tiers so every pair finds their level. Tier 1-2 (skip + max) is reachable by all; tier 3 (podium) is the meaty, tricky part; tier 4 adds the L6 function. Key insight to coax out for the podium: when a value beats gold, gold→silver and silver→bronze cascade BEFORE setting the new gold. Walk the timer; drop the hint slide at ~10 min if pairs stall.</aside>
+</section>
+
+<!-- 6e build canvas -->
+<section>
+  <span class="kicker green">The Podium · Build Here <span class="badge green">Run it!</span></span>
+  <h2>Start from this skeleton</h2>
+  <p style="font-size:.54em" class="muted">Tiers 1–2 are wired up. <strong>You</strong> add silver &amp; bronze (tier 3), then the <span class="kw">played()</span> function (tier 4). Uses only arrays + ints, so it runs right here. (Input: none)</p>
+  <div class="live-code">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int s[8] = {42, -1, 88, 71, -1, 95, 63, 88};
+    int n = 8;
+
+    int players = 0;
+    int gold = -1;            // best real score so far (-1 = none yet)
+    for (int i = 0; i < n; i++) {
+        if (s[i] == -1) continue;   // skip no-shows (Lecture 5!)
+        players++;
+        if (s[i] > gold) gold = s[i];
+        // TODO tier 3: keep silver and bronze too
+    }
+
+    cout << "Players: " << players << endl;   // should be 6
+    cout << "Gold:    " << gold << endl;       // should be 95
+    // TODO: print Silver and Bronze
+    return 0;
+}
+  </div>
+  <aside class="notes">Runs in the in-slide interpreter (arrays + ints only). Expected after tier 3: Players 6, Gold 95, Silver 88, Bronze 88 (ties are allowed — two 88s). The cascade is the crux. Let them run the partial version first to see Players=6, Gold=95, then extend. Solution on the next slide.</aside>
+</section>
+
+<!-- 6f solution -->
+<section>
+  <span class="kicker green">The Podium · One Solution <span class="badge green">Compare yours</span></span>
+  <h2>How the cascade works</h2>
+  <div class="row top">
+    <div class="col" style="flex:1.35">
+      <pre style="font-size:.38em"><code class="language-cpp" data-trim>bool played(int s) { return s != -1; }   // tier 4: reads like English
+
+int gold=-1, silver=-1, bronze=-1, players=0;
+for (int i = 0; i &lt; n; i++) {
+    if (!played(s[i])) continue;         // skip no-shows
+    players++;
+    if (s[i] &gt; gold) {                    // new champion?
+        bronze = silver;  silver = gold;  gold = s[i];   // cascade down
+    } else if (s[i] &gt; silver) {
+        bronze = silver;  silver = s[i];
+    } else if (s[i] &gt; bronze) {
+        bronze = s[i];
+    }
+}
+// Players 6 · Gold 95 · Silver 88 · Bronze 88</code></pre>
+    </div>
+    <div class="col" style="flex:1">
+      <div class="iconrow"><span class="chip sm"><img src="../assets/icons/sync_FFFFFF.png"></span><div class="txt"><h3>Skip, don't break</h3><p><span class="kw">continue</span> jumps to the next player — the <span class="kw">-1</span> no-shows never pollute the podium.</p></div></div>
+      <div class="iconrow"><span class="chip sm teal"><img src="../assets/icons/trophy_FFFFFF.png"></span><div class="txt"><h3>The cascade</h3><p>Beat gold → old gold becomes silver, old silver becomes bronze. Order of the three lines matters!</p></div></div>
+      <div class="iconrow"><span class="chip sm green"><img src="../assets/icons/function_FFFFFF.png"></span><div class="txt"><h3>A tiny function</h3><p><span class="kw">played()</span> hides the <span class="kw">-1</span> rule in one place — change it once, every loop updates.</p></div></div>
+    </div>
+  </div>
+  <div class="note tip fragment fade-in" style="font-size:.58em;margin-top:8px"><span class="lead">Why it's tricky</span>Updating three records in the right order is the real puzzle — a single <span class="kw">max</span> is easy, a <em>podium</em> makes you think about what happens to the <em>previous</em> winners. That's the same idea behind leaderboards everywhere.</div>
+</section>
+
 <!-- ============ PART 2 — LOOP THE LIST ============ -->
 
 <!-- 7 divider -->
